@@ -114,6 +114,16 @@ class Admin extends BaseController
         $validation =  \Config\Services::validation();
 		$email = \Config\Services::email();
 
+        $config['SMTPCrypto'] 	= env('email.encrypt');
+		$config['protocol']     = env('email.protocol');
+		$config['SMTPHost'] 	= env('email.host');
+		$config['SMTPPort'] 	= env('email.port');
+		$config['SMTPUser'] 	= env('email.user');
+		$config['SMTPPass'] 	= env('email.password');
+		$config['mailType']		= 'html';
+
+		$email->initialize($config);
+
         //Check if request method is POST and if true validate data received
         if($this->request->getMethod() === 'post' && $this->validate('createUser'))
         {
@@ -134,14 +144,21 @@ class Admin extends BaseController
                 'group' => $this->request->getVar('group')
             ]);
 
-            // $email->setFrom(env('email.sender'), env('siteName').' - noreply');
-            // $email->setReplyTo(env('email.contact'), env('siteName').' - Kontakt');
-            // $email->setTo($this->request->getVar('email'));
+            $data['pwd'] = $pwd;
 
-            // $email->setSubject(env('siteName').' - Aktywacja Konta');
-            // $email->setMessage(view('templates/emails/users/newUser', $data));
+            $email->setFrom(env('email.sender'), env('siteName').' - noreply');
+            $email->setReplyTo(env('email.contact'), env('siteName').' - Kontakt');
+            $email->setTo($this->request->getVar('email'));
 
-            // $email->send();
+            $email->setSubject(env('siteName').' - Aktywacja Konta');
+            $email->setMessage(view('templates/emails/newUser', $data));
+
+            if(!$email->send())
+            {
+                $message['error'] = $email->printDebugger();
+
+                return json_encode(['status'=> 'failure', 'csrf' => csrf_hash(), 'message' => $message]);
+            }
 
             //If everything was successful send success message to user
             if($this->request->isAjax())
