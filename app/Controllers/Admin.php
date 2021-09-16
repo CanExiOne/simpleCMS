@@ -33,18 +33,17 @@ class Admin extends BaseController
 
 	public function view($page = 'pages')
 	{
-        $users = new UsersModel();
+        $usersModel = new UsersModel();
         $news = new NewsModel();
         $db = \Config\Database::connect();
         $session = session();
-
-        $userData = $users->find($_SESSION['userId']);
 
         if(!isset($_SESSION['logged_in']))
         {
             return redirect()->to(base_url('/admin/login'));
         }
 
+        $userData = $usersModel->find($_SESSION['userId']);
 
         if(!is_file(APPPATH.'Views/admin/pages/'.$page.'.php'))
         {
@@ -56,7 +55,7 @@ class Admin extends BaseController
         {
             if($userData['group'] == 1)
             {
-                $data['users'] = $users->findAll();
+                $data['users'] = $usersModel->findAll();
             } else 
             {
                 throw new \CodeIgniter\Exceptions\PageNotFoundException($page);
@@ -67,32 +66,28 @@ class Admin extends BaseController
         {
             if($userData['group'] == 1 || $userData['group'] == 2)
             {
-                $data['users'] = $users->findAll();
+                $data['newsList'] = $news->findAll();
+                $data['users'] = $usersModel->findAll();
             } else 
             {
                 throw new \CodeIgniter\Exceptions\PageNotFoundException($page);
             }
-
-            $data['newsList'] = $news->findAll();
-            $data['users'] = $users->findAll();
         }
 
         if($page === 'settings')
         {
             if($userData['group'] == 1)
             {
-                $data['users'] = $users->findAll();
+                $cfg = [
+                    'baseURL' => getenv('app.baseURL'),
+                    'siteName' => getenv('app.siteName'),
+                ];
+    
+                $data['cfg'] = $cfg;
             } else 
             {
                 throw new \CodeIgniter\Exceptions\PageNotFoundException($page);
             }
-
-            $cfg = [
-                'baseURL' => getenv('app.baseURL'),
-                'siteName' => getenv('app.siteName'),
-            ];
-
-            $data['cfg'] = $cfg;
 
         }
 
@@ -296,9 +291,13 @@ class Admin extends BaseController
 
     public function createNews()
     {
+        $usersModel = new UsersModel();
         $newsModel = new NewsModel();
         $session = session();
         $validation =  \Config\Services::validation();
+
+        $userData = $usersModel->find($_SESSION['userId']);
+
 
         /*
          * Check user session data
@@ -316,7 +315,7 @@ class Admin extends BaseController
                 'slug' => url_title($this->request->getVar('title'), '-', true),
                 'content' => $this->request->getVar('postBody'),
                 'delta' => $this->request->getVar('editorDelta'),
-                'authorID' => $this->request->getVar('authorID'),
+                'authorID' => $_SESSION['userId'],
             ]);
 
             //If everything was successful send success message to user

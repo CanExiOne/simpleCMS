@@ -83,12 +83,14 @@
                         extract($news);
 
                         //Get the name of the author
-                        $firstName = array_column($users, 'firstName');
-                        $lastName = array_column($users, 'lastName');
+                        $authorData = array_search($authorID, array_column($users, 'id'));
 
-                        //Substract 1 from the selected entry in array so it actually shows the correct name
-                        $authorName = $firstName[$authorID-1] . ' ' . $lastName[$authorID-1];
-
+                        if($authorData !== FALSE)
+                        {
+                          $authorName = $users[$authorData]['firstName'] . ' ' . $users[$authorData]['lastName'];
+                        } else {
+                          $authorName = 'System';
+                        }
                         $contentShort = word_limiter($content, 10);
 
                         echo(

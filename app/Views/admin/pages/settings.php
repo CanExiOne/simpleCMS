@@ -50,12 +50,12 @@
     <div class="col-md">
       <div class="card bg-dark text-white">
         <div class="card-header">
-          <h4 class="mt-1">Zarządzanie Aktualnościami/Ogłoszeniami</h4>
+          <h4 class="mt-1">Zarządzanie Ustawieniami</h4>
         </div>
         <div class="card-body" style="background-color:#24282d;">
           <div class="row pb-3 border-bottom border-secondary">
             <div class="col">
-            <strong>Tutaj możesz napisać nowe ogłoszenia lub edytować aktualnie udostępnione ogłoszenia.</strong>
+            <strong>Tutaj możesz zmienić ustawienia swojej strony.</strong>
             </br>
             <form id='updateSettings' name='updateSettings'>
               <label for="baseURL" class="form-label">Adres Strony</label>

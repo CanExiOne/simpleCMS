@@ -257,7 +257,7 @@ class App extends BaseConfig
 	 *
 	 * @deprecated use Config\Cookie::$domain property instead.
 	 */
-	public $cookieDomain = 'localhost';
+	public $cookieDomain = '';
 
 	/**
 	 * --------------------------------------------------------------------------
