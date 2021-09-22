@@ -9,9 +9,9 @@
       <div class="col-lg-3 col-md-6 footer-links">
         <h4>Przydatne Linki</h4>
         <ul>
-          <li><i class="bx bx-chevron-right"></i> <a href="<?=env('app.baseUrl')?>/">Home</a></li>
-          <li><i class="bx bx-chevron-right"></i> <a href="<?=env('app.baseUrl')?>/about-us">O Nas</a></li>
-          <li><i class="bx bx-chevron-right"></i> <a href="<?=env('app.baseUrl')?>/contact-us">Kontakt</a></li>
+          <li><i class="bx bx-chevron-right"></i> <a href="<?=env('app.baseURL')?>/">Home</a></li>
+          <li><i class="bx bx-chevron-right"></i> <a href="<?=env('app.baseURL')?>/about-us">O Nas</a></li>
+          <li><i class="bx bx-chevron-right"></i> <a href="<?=env('app.baseURL')?>/contact-us">Kontakt</a></li>
         </ul>
       </div>
 
@@ -63,17 +63,17 @@
 <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
 
 <!-- Vendor JS Files -->
-<script src="<?=env('app.baseUrl')?>/assets/vendor/aos/aos.js"></script>
-<script src="<?=env('app.baseUrl')?>/assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-<script src="<?=env('app.baseUrl')?>/assets/vendor/glightbox/js/glightbox.min.js"></script>
-<script src="<?=env('app.baseUrl')?>/assets/vendor/isotope-layout/isotope.pkgd.min.js"></script>
-<script src="<?=env('app.baseUrl')?>/assets/vendor/php-email-form/validate.js"></script>
-<script src="<?=env('app.baseUrl')?>/assets/vendor/purecounter/purecounter.js"></script>
-<script src="<?=env('app.baseUrl')?>/assets/vendor/swiper/swiper-bundle.min.js"></script>
-<script src="<?=env('app.baseUrl')?>/assets/vendor/waypoints/noframework.waypoints.js"></script>
+<script src="<?=env('app.baseURL')?>/assets/vendor/aos/aos.js"></script>
+<script src="<?=env('app.baseURL')?>/assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="<?=env('app.baseURL')?>/assets/vendor/glightbox/js/glightbox.min.js"></script>
+<script src="<?=env('app.baseURL')?>/assets/vendor/isotope-layout/isotope.pkgd.min.js"></script>
+<script src="<?=env('app.baseURL')?>/assets/vendor/php-email-form/validate.js"></script>
+<script src="<?=env('app.baseURL')?>/assets/vendor/purecounter/purecounter.js"></script>
+<script src="<?=env('app.baseURL')?>/assets/vendor/swiper/swiper-bundle.min.js"></script>
+<script src="<?=env('app.baseURL')?>/assets/vendor/waypoints/noframework.waypoints.js"></script>
 
 <!-- Template Main JS File -->
-<script src="<?=env('app.baseUrl')?>/assets/js/main.js"></script>
+<script src="<?=env('app.baseURL')?>/assets/js/main.js"></script>
 
 </body>
 
