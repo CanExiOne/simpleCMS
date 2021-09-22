@@ -35,9 +35,12 @@ $routes->setPrioritize();
 // route since we don't have to scan directories.
 
 $routes->get('/', 'Home::index');
+$routes->get('/(:any)', 'Pages::view/$1', ['priority' => 1]);
+
+// Admin Panel Routes
 $routes->get('/admin', 'Admin::index');
 $routes->get('/admin/login', 'Login::index');
-$routes->get('/admin/(:any)', 'Admin::view/$1', ['priority' => 1]);
+$routes->get('/admin/(:any)', 'Admin::view/$1', ['priority' => 2]);
 $routes->post('/admin/login/auth', 'Login::login');
 $routes->post('/admin/users/createUser', 'Admin::createUser');
 $routes->post('/admin/users/updateUser', 'Admin::updateUser');
