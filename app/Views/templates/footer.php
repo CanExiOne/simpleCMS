@@ -18,34 +18,28 @@
       <div class="col-lg-3 col-md-6 footer-links">
         <h4>Nasze Usługi</h4>
         <ul>
-          <li><i class="bx bx-chevron-right"></i> <a href="#">Web Design</a></li>
-          <li><i class="bx bx-chevron-right"></i> <a href="#">Web Development</a></li>
-          <li><i class="bx bx-chevron-right"></i> <a href="#">Product Management</a></li>
-          <li><i class="bx bx-chevron-right"></i> <a href="#">Marketing</a></li>
-          <li><i class="bx bx-chevron-right"></i> <a href="#">Graphic Design</a></li>
+          <li><i class="bx bx-chevron-right"></i> <a href="#">Docieplenia</a></li>
+          <li><i class="bx bx-chevron-right"></i> <a href="#">Wykonczenia wnetrz</a></li>
+          <li><i class="bx bx-chevron-right"></i> <a href="#">Flizowanie</a></li>
+          <li><i class="bx bx-chevron-right"></i> <a href="#">Lazienki od podstaw</a></li>
         </ul>
       </div>
 
       <div class="col-lg-3 col-md-6 footer-contact">
-        <h4>Contact Us</h4>
+        <h4>Kontakt</h4>
         <p>
-          A108 Adam Street <br>
-          New York, NY 535022<br>
-          United States <br><br>
-          <strong>Phone:</strong> +1 5589 55488 55<br>
-          <strong>Email:</strong> info@example.com<br>
+          <strong>Numer telefonu:</strong> 510 338 281 / <br>514 317 218  <br>
+          <strong>Email:</strong> biuro@kac-bud.pl / <br>slowkac@gmail.com
         </p>
 
       </div>
 
       <div class="col-lg-3 col-md-6 footer-info">
         <h3>Social Media</h3>
-        <p>Cras fermentum odio eu feugiat lide par naso tierra. Justo eget nada terra videa magna derita valies darta donna mare fermentum iaculis eu non diam phasellus.</p>
+        <p>Pracując z nami masz pewność otrzymania najwyżej jakości usług, dzięki wyszkolonemu i doświadczonemu zespołowi oraz wykorzystywaniu przez nas najnowszych i najlepszych rozwiązań i materiałów.</p>
         <div class="social-links mt-3">
-          <a href="#" class="twitter"><i class="bx bxl-twitter"></i></a>
           <a href="#" class="facebook"><i class="bx bxl-facebook"></i></a>
           <a href="#" class="instagram"><i class="bx bxl-instagram"></i></a>
-          <a href="#" class="linkedin"><i class="bx bxl-linkedin"></i></a>
         </div>
       </div>
 
@@ -55,7 +49,7 @@
 
 <div class="container">
   <div class="copyright">
-    &copy; Copyright <strong><span><?=env('app.siteName')?></span></strong>. All Rights Reserved
+    &copy; Copyright <strong><span><?=env('app.siteName')?></span></strong>. Wszelkie prawa zastrzezone
   </div>
 </div>
 </footer><!-- End Footer -->

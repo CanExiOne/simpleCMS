@@ -5,9 +5,9 @@
       <!-- Slide 1 -->
       <div class="carousel-item active">
         <div class="carousel-container">
-          <h2 class="animate__animated animate__fadeInDown">Witaj na <span>Twoja Strona</span></h2>
-          <p class="animate__animated animate__fadeInUp">Super stronka o super firmie budowlanej, woop woop</p>
-          <a href="" class="btn-get-started animate__animated animate__fadeInUp">O Nas</a>
+          <h2 class="animate__animated animate__fadeInDown">Witaj na <span>Kac-Bud.pl</span></h2>
+          <p class="animate__animated animate__fadeInUp">Jednej z najlepszych firm budowlanych w krakowie</p>
+          <a href="<?=env('app.baseURL')?>/about-us" class="btn-get-started animate__animated animate__fadeInUp">O Nas</a>
         </div>
       </div>
 
