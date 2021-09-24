@@ -43,10 +43,10 @@
 
       <nav id="navbar" class="navbar">
         <ul>
-          <li><a class="active " href="<?=env('app.baseURL')?>/">Home</a></li>
-          <li><a href="<?=env('app.baseURL')?>/about-us">O Nas</a></li>
-          <li><a href="<?=env('app.baseURL')?>/blog">Blog</a></li>
-          <li><a href="<?=env('app.baseURL')?>/contact-us">Kontakt</a></li>
+          <li><a id="home" href="<?=env('app.baseURL')?>/">Home</a></li>
+          <li><a id="about-us" href="<?=env('app.baseURL')?>/about-us">O Nas</a></li>
+          <li><a id="blog" href="<?=env('app.baseURL')?>/blog">Blog</a></li>
+          <li><a id="contact-us" href="<?=env('app.baseURL')?>/contact-us">Kontakt</a></li>
         </ul>
         <i class="bi bi-list mobile-nav-toggle"></i>
       </nav><!-- .navbar -->

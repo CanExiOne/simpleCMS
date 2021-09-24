@@ -6,7 +6,7 @@
       <div class="carousel-item active">
         <div class="carousel-container">
           <h2 class="animate__animated animate__fadeInDown">Witaj na <span>Kac-Bud.pl</span></h2>
-          <p class="animate__animated animate__fadeInUp">Jednej z najlepszych firm budowlanych w krakowie</p>
+          <p class="animate__animated animate__fadeInUp">Jedna z najlepszych firm budowlanych w Krakowie</p>
           <a href="<?=env('app.baseURL')?>/about-us" class="btn-get-started animate__animated animate__fadeInUp">O Nas</a>
         </div>
       </div>
@@ -24,47 +24,12 @@
 
   <main id="main">
 
-    <!-- ======= Why Us Section ======= -->
-    <section class="why-us section-bg" data-aos="fade-up" date-aos-delay="200">
-      <div class="container">
-        <div class="pt-5 section-title">
-          <h2>Dlaczego My</h2>
-          <p>Ja na przykład nie wiem, ale może super gejmer Kacper Słowiński wie, go musiscie pytać.</p>
-        </div>
-
-        <div class="row">
-          <div class="col-lg-6 video-box">
-            <img src="assets/img/why-us.jpg" class="img-fluid" alt="">
-            <a href="https://www.youtube.com/watch?v=jDDaplaOz7Q" class="venobox play-btn mb-4" data-vbtype="video" data-autoplay="true"></a>
-          </div>
-
-          <div class="col-lg-6 d-flex flex-column justify-content-center p-5">
-
-            <div class="icon-box">
-              <div class="icon"><i class="bi bi-hammer"></i></div>
-              <h4 class="title"><a href="">Lorem Ipsum</a></h4>
-              <p class="description">Voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident</p>
-            </div>
-
-            <div class="icon-box">
-              <div class="icon"><i class="bx bx-gift"></i></div>
-              <h4 class="title"><a href="">Nemo Enim</a></h4>
-              <p class="description">At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque</p>
-            </div>
-
-          </div>
-        </div>
-
-      </div>
-    </section><!-- End Why Us Section -->
-
     <!-- ======= Features Section ======= -->
     <section class="features">
       <div class="container">
 
         <div class="section-title">
-          <h2>Usługi(Też może być "Dlaczego My")</h2>
-          <p>Obrazki niżej są fajne, ale osobiście uważam, że nie pasujące do firmy budowlanej, więc ja bym to usunął lub właśnie użył jako "Dlaczego My". Niestety nie posiadam innych takich obrazków i nie posiadam umiejętności do zrobienia takich obrazków</p>
+          <h2>Dlaczego My</h2>
         </div>
 
         <div class="row" data-aos="fade-up">

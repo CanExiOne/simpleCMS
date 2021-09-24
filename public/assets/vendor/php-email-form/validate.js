@@ -72,7 +72,9 @@
       }
     })
     .catch((error) => {
-      displayError(thisForm, error);
+      error = error.message;
+      error = JSON.parse(error);
+      displayError(thisForm, error.message);
     });
   }
 

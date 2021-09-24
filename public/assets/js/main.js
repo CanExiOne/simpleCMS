@@ -4,6 +4,18 @@
 * Author: BootstrapMade.com
 * License: https://bootstrapmade.com/license/
 */
+
+// Set active page class depending on location
+currPage = window.location.pathname.substring(1);
+if(!currPage)
+{
+  document.getElementById('home').classList.add('active');
+} else if (currPage.match("[a-zA-Z0-9]+\/[a-zA-Z0-9]+")) {
+  document.getElementById('blog').classList.add('active');
+} else {
+  document.getElementById(currPage).classList.add('active');
+} 
+
 (function() {
   "use strict";
 

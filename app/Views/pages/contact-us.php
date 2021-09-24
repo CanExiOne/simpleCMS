@@ -7,7 +7,7 @@
         <div class="d-flex justify-content-between align-items-center">
           <h2>Kontakt</h2>
           <ol>
-            <li><a href="index.html">Home</a></li>
+            <li><a href="<?=env('app.baseURL')?>">Home</a></li>
             <li>Kontakt</li>
           </ol>
         </div>
@@ -43,27 +43,28 @@
           </div>
 
           <div class="col-lg-6">
-            <form action="forms/contact.php" method="post" role="form" class="php-email-form">
+            <form action="/contact-us/send" method="post" role="form" class="php-email-form">
               <div class="row">
                 <div class="col-md-6 form-group">
-                  <input type="text" name="name" class="form-control" id="name" placeholder="Twoje Imie" required>
+                  <input type="text" name="name" class="form-control" id="name" placeholder="Twoje Imię" required>
                 </div>
                 <div class="col-md-6 form-group mt-3 mt-md-0">
-                  <input type="email" class="form-control" name="email" id="email" placeholder="Twoj Email" required>
+                  <input type="email" class="form-control" name="email" id="email" placeholder="Twój Email" required>
                 </div>
               </div>
               <div class="form-group mt-3">
                 <input type="text" class="form-control" name="subject" id="subject" placeholder="Temat" required>
               </div>
               <div class="form-group mt-3">
-                <textarea class="form-control" name="message" rows="5" placeholder="Wiadomosc" required></textarea>
+                <textarea class="form-control" name="message" rows="5" placeholder="Wiadomość" required></textarea>
               </div>
               <div class="my-3">
-                <div class="loading">Laduje</div>
-                <div class="error-message"></div>
-                <div class="sent-message">Twoja wiadomosc zostala wyslana pomyslnie, oczekuj na odpowiedz</div>
+                <div class="loading">Wysyłam</div>
+                <div class="error-message response-message"></div>
+                <div class="sent-message response-message">Twoja wiadomosc zostala wyslana pomyślnie, odezwiemy się jak najszybciej!</div>
               </div>
-              <div class="text-center"><button type="submit">Wyslij wiadomosc</button></div>
+              <?=csrf_field()?>
+              <div class="text-center"><button type="submit">Wyślij wiadomość</button></div>
             </form>
           </div>
 

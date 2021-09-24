@@ -7,7 +7,7 @@
         <div class="d-flex justify-content-between align-items-center">
           <h2>O nas</h2>
           <ol>
-            <li><a href="index.html">Home</a></li>
+            <li><a href="<?=env('app.baseURL')?>">Home</a></li>
             <li>O nas</li>
           </ol>
         </div>
@@ -52,22 +52,22 @@
         <div class="row counters">
 
           <div class="col-lg-3 col-6 text-center">
-            <span data-purecounter-start="0" data-purecounter-end="436" data-purecounter-duration="1" class="purecounter"></span>
+            <span data-purecounter-start="0" data-purecounter-end="0" data-purecounter-duration="1" class="purecounter"></span>
             <p>Klienci</p>
           </div>
 
           <div class="col-lg-3 col-6 text-center">
-            <span data-purecounter-start="0" data-purecounter-end="521" data-purecounter-duration="1" class="purecounter"></span>
+            <span data-purecounter-start="0" data-purecounter-end="0" data-purecounter-duration="1" class="purecounter"></span>
             <p>Ukończone Projekty</p>
           </div>
 
           <div class="col-lg-3 col-6 text-center">
-            <span data-purecounter-start="0" data-purecounter-end="7" data-purecounter-duration="1" class="purecounter"></span>
+            <span data-purecounter-start="0" data-purecounter-end="0" data-purecounter-duration="1" class="purecounter"></span>
             <p>Aktualne Projekty</p>
           </div>
 
           <div class="col-lg-3 col-6 text-center">
-            <span data-purecounter-start="0" data-purecounter-end="27" data-purecounter-duration="1" class="purecounter"></span>
+            <span data-purecounter-start="0" data-purecounter-end="1" data-purecounter-duration="1" class="purecounter"></span>
             <p>Pracowników</p>
           </div>
 
@@ -77,7 +77,7 @@
     </section><!-- End Facts Section -->
 
     <!-- ======= Tetstimonials Section ======= -->
-    <section class="testimonials" data-aos="fade-up">
+    <!-- <section class="testimonials" data-aos="fade-up">
       <div class="container">
 
         <div class="section-title">
@@ -114,6 +114,6 @@
         </div>
 
       </div>
-    </section><!-- End Ttstimonials Section -->
+    </section>End Tetstimonials Section -->
 
   </main><!-- End #main -->

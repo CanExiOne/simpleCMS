@@ -18,10 +18,10 @@
       <div class="col-lg-3 col-md-6 footer-links">
         <h4>Nasze Usługi</h4>
         <ul>
-          <li><i class="bx bx-chevron-right"></i> <a href="#">Docieplenia</a></li>
-          <li><i class="bx bx-chevron-right"></i> <a href="#">Wykonczenia wnetrz</a></li>
-          <li><i class="bx bx-chevron-right"></i> <a href="#">Flizowanie</a></li>
-          <li><i class="bx bx-chevron-right"></i> <a href="#">Lazienki od podstaw</a></li>
+          <li><i class="bx bx-chevron-right"></i> Docieplenia</li>
+          <li><i class="bx bx-chevron-right"></i> Wykonczenia wnętrz</li>
+          <li><i class="bx bx-chevron-right"></i> Flizowanie</li>
+          <li><i class="bx bx-chevron-right"></i> Łazienki od podstaw</li>
         </ul>
       </div>
 
@@ -29,7 +29,7 @@
         <h4>Kontakt</h4>
         <p>
           <strong>Numer telefonu:</strong> 510 338 281 / <br>514 317 218  <br>
-          <strong>Email:</strong> biuro@kac-bud.pl / <br>slowkac@gmail.com
+          <strong>Email:</strong> <a href="mailto://biuro@kac-bud.pl">biuro@kac-bud.pl</a> / <a href="mailto://biuro@kac-bud.pl"><br>slowkac@gmail.com</a>
         </p>
 
       </div>
@@ -49,7 +49,7 @@
 
 <div class="container">
   <div class="copyright">
-    &copy; Copyright <strong><span><?=env('app.siteName')?></span></strong>. Wszelkie prawa zastrzezone
+    &copy; Copyright <strong><span><?=env('app.siteName')?></span></strong>. Wszystkie prawa zastrzeżone
   </div>
 </div>
 </footer><!-- End Footer -->

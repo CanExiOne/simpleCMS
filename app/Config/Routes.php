@@ -34,13 +34,13 @@ $routes->setPrioritize();
 // We get a performance increase by specifying the default
 // route since we don't have to scan directories.
 
+// Index Route
 $routes->get('/', 'Home::index');
-$routes->get('/(:any)', 'Pages::view/$1', ['priority' => 1]);
 
 // Admin Panel Routes
 $routes->get('/admin', 'Admin::index');
 $routes->get('/admin/login', 'Login::index');
-$routes->get('/admin/(:any)', 'Admin::view/$1', ['priority' => 2]);
+$routes->get('/admin/(:any)', 'Admin::view/$1', ['priority' => 1]);
 $routes->post('/admin/login/auth', 'Login::login');
 $routes->post('/admin/users/createUser', 'Admin::createUser');
 $routes->post('/admin/users/updateUser', 'Admin::updateUser');
@@ -49,6 +49,11 @@ $routes->post('/admin/updateSettings', 'Admin::updateSettings');
 $routes->post('/admin/news/createNews', 'Admin::createNews');
 $routes->post('/admin/news/editNews', 'Admin::editNews');
 $routes->post('/admin/news/deleteNews', 'Admin::deleteNews');
+
+// Contact Form
+$routes->post('/contact-us/send', 'Contact::Send');
+// Main sub-pages
+$routes->get('/(:any)', 'Pages::view/$1', ['priority' => 1]);
 
 /*
  * --------------------------------------------------------------------
