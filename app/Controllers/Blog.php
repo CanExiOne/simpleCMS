@@ -16,7 +16,7 @@ class Blog extends BaseController
 		$news = new NewsModel;
 		$users = new UsersModel;
 
-		$data['newsList'] = $news->findAll();
+		$data['newsList'] = $news->orderBy('created_at', 'desc')->findAll();
 		$data['users'] = $users->findAll();
 		echo view('templates/header', $data);
 		echo view('pages/blog', $data);
