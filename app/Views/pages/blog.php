@@ -24,34 +24,54 @@
 
           <div class="col-lg-8 entries">
 
-            <article class="entry">
+          <?php
+            helper('text');
+            foreach($newsList as $news):
+              if(!$news['deleted_at'])
+              {
+                extract($news);
 
-              <div class="entry-img">
-                <img src="assets/img/blog/blog-1.jpg" alt="" class="img-fluid">
-              </div>
+                //Get the name of the author
+                $authorData = array_search($authorID, array_column($users, 'id'));
 
-              <h2 class="entry-title">
-                <a href="blog-single.html">Dolorum optio tempore voluptas dignissimos cumque fuga qui quibusdam quia</a>
-              </h2>
+                if($authorData !== FALSE)
+                {
+                  $authorName = $users[$authorData]['firstName'] . ' ' . $users[$authorData]['lastName'];
+                } else {
+                  $authorName = 'System';
+                }
+                $contentShort = word_limiter($content, 20);
 
-              <div class="entry-meta">
-                <ul>
-                  <li class="d-flex align-items-center"><i class="bi bi-person"></i> <a href="blog-single.html">Kacper Slowinski</a></li>
-                  <li class="d-flex align-items-center"><i class="bi bi-clock"></i> <a href="blog-single.html"><time datetime="2020-01-01">Jan 1, 2020</time></a></li>
-                </ul>
-              </div>
+                echo(
+                  "<article class='entry'>
 
-              <div class="entry-content">
-                <p>
-                  Similique neque nam consequuntur ad non maxime aliquam quas. Quibusdam animi praesentium. Aliquam et laboriosam eius aut nostrum quidem aliquid dicta.
-                  Et eveniet enim. Qui velit est ea dolorem doloremque deleniti aperiam unde soluta. Est cum et quod quos aut ut et sit sunt. Voluptate porro consequatur assumenda perferendis dolore.
-                </p>
-                <div class="read-more">
-                  <a href="blog-single.html">Czytaj talej</a>
+                <h2 class='entry-title'>
+                  <a href='/blog/view/$slug'>$title</a>
+                </h2>
+  
+                <div class='entry-meta'>
+                  <ul>
+                    <li class='d-flex align-items-center'><i class='bi bi-person'></i> <a href='/blog/view/$slug'>$authorName</a></li>
+                    <li class='d-flex align-items-center'><i class='bi bi-clock'></i> <a href='/blog/view/$slug'><time datetime='$created_at'>$created_at</time></a></li>
+                  </ul>
                 </div>
-              </div>
+  
+                <div class='entry-content'>
+                  <p>
+                    $contentShort
+                  </p>
+                  <div class='read-more'>
+                    <a href='/blog/view/$slug'>Czytaj talej</a>
+                  </div>
+                </div>
+  
+              </article>"
+                );
+              }
 
-            </article><!-- End blog entry -->
+            endforeach;
+          ?>
+            <!-- End blog entry -->
 
             <div class="blog-pagination">
               <ul class="justify-content-center">

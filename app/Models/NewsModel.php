@@ -21,8 +21,7 @@ class NewsModel extends Model
             return $this->findAll();
         }
 
-        return $this->asArray()
-                    ->where(['slug', $slug])
+        return $this->where('slug', $slug)
                     ->first();
 
     }

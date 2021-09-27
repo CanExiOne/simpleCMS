@@ -53,6 +53,8 @@ $routes->post('/admin/news/deleteNews', 'Admin::deleteNews');
 // Contact Form
 $routes->post('/contact-us/send', 'Contact::Send');
 // Main sub-pages
+$routes->get('/blog', 'Blog::index');
+$routes->get('/blog/view/(:any)', 'Blog::view/$1');
 $routes->get('/(:any)', 'Pages::view/$1', ['priority' => 1]);
 
 /*
