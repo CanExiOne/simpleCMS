@@ -34,7 +34,7 @@ class Blog extends BaseController
 		$users = $users->findAll();
 		$news = $newsList->getNews($slug);
 
-		$authorData = array_search(1, array_column($users, 'id'));
+		$authorData = array_search($news['authorID'], array_column($users, 'id'));
 
 		if($authorData !== FALSE)
 		{
