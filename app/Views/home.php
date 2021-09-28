@@ -11,6 +11,38 @@
         </div>
       </div>
 
+      <!-- Slide 2 -->
+      <div class="carousel-item">
+        <div class="carousel-container">
+          <h2 class="animate__animated animate__fadeInDown">Docieplanie Budynków</h2>
+          <p class="animate__animated animate__fadeInUp">Profesjonalne docieplanie budynków przy wykorzystaniu najwyższej jakości materiałów, wykończenie powłoką tynkarską w cenie!</p>
+        </div>
+      </div>
+
+      <!-- Slide 3 -->
+      <div class="carousel-item">
+        <div class="carousel-container">
+          <h2 class="animate__animated animate__fadeInDown">Kompleksowe Remonty</h2>
+          <p class="animate__animated animate__fadeInUp">Z chęcia podejmujemy się kompleksowych remontów, może to być remont Twojej łazienki na taką z Twoich marzeń lub kuchni, która sprawi z Ciebie lepszego Mistrza Kuchni</p>
+        </div>
+      </div>
+
+      <!-- Slide 4 -->
+      <div class="carousel-item">
+        <div class="carousel-container">
+          <h2 class="animate__animated animate__fadeInDown">Flizowanie</h2>
+          <p class="animate__animated animate__fadeInUp">Z nami możesz mieć pewność, że nie będzie żadnych skaz czy wad po nałożeniu płytek.</p>
+        </div>
+      </div>
+
+      <!-- Slide 5 -->
+      <div class="carousel-item">
+        <div class="carousel-container">
+          <h2 class="animate__animated animate__fadeInDown">Wykonywanie Wnętrz</h2>
+          <p class="animate__animated animate__fadeInUp">Pomożemy Ci w wyborze mebli oraz dekoracji tak, aby kompletowały ze sobą wnętrze oraz dokładnie i ostrożnie je zamontujemy</p>
+        </div>
+      </div>
+
       <a class="carousel-control-prev" href="#heroCarousel" role="button" data-bs-slide="prev">
         <span class="carousel-control-prev-icon bx bx-chevron-left" aria-hidden="true"></span>
       </a>

@@ -14,7 +14,8 @@ class Pages extends BaseController
             throw new \CodeIgniter\Exceptions\PageNotFoundException($page);
         }
 
-        $siteDesc = 'test';
+        $data['siteTitle'] = env('app.siteName') . ' - ' . ucfirst($page);
+        $data['siteDesc'] = 'test';
         $data['year'] = date('Y');
 
         echo view('templates/header', $data);

@@ -23,53 +23,67 @@
         <div class="row">
 
           <div class="col-lg-8 entries">
-
           <?php
             helper('text');
-            foreach($newsList as $news):
-              if(!$news['deleted_at'])
-              {
-                extract($news);
+            if(empty($newsList)) {
+              echo(
+                "<article class='entry'>
 
-                //Get the name of the author
-                $authorData = array_search($authorID, array_column($users, 'id'));
+              <div class='entry-content'>
+                <p>
+                  Nie ma aktualnie żadnych ogłoszeń :)
+                </p>
+              </div>
 
-                if($authorData !== FALSE)
+            </article>");
+            }
+            else
+            {
+              foreach($newsList as $news):
+                if(!$news['deleted_at'])
                 {
-                  $authorName = $users[$authorData]['firstName'] . ' ' . $users[$authorData]['lastName'];
-                } else {
-                  $authorName = 'System';
-                }
-                $contentShort = word_limiter($content, 20);
-
-                echo(
-                  "<article class='entry'>
-
-                <h2 class='entry-title'>
-                  <a href='/blog/view/$slug'>$title</a>
-                </h2>
+                  extract($news);
   
-                <div class='entry-meta'>
-                  <ul>
-                    <li class='d-flex align-items-center'><i class='bi bi-person'></i> <a href='/blog/view/$slug'>$authorName</a></li>
-                    <li class='d-flex align-items-center'><i class='bi bi-clock'></i> <a href='/blog/view/$slug'><time datetime='$created_at'>$created_at</time></a></li>
-                  </ul>
-                </div>
+                  //Get the name of the author
+                  $authorData = array_search($authorID, array_column($users, 'id'));
   
-                <div class='entry-content'>
-                  <p>
-                    $contentShort
-                  </p>
-                  <div class='read-more'>
-                    <a href='/blog/view/$slug'>Czytaj talej</a>
+                  if($authorData !== FALSE)
+                  {
+                    $authorName = $users[$authorData]['firstName'] . ' ' . $users[$authorData]['lastName'];
+                  } else {
+                    $authorName = 'System';
+                  }
+                  $contentShort = word_limiter($content, 20);
+  
+                  echo(
+                    "<article class='entry'>
+  
+                  <h2 class='entry-title'>
+                    <a href='/blog/view/$slug'>$title</a>
+                  </h2>
+    
+                  <div class='entry-meta'>
+                    <ul>
+                      <li class='d-flex align-items-center'><i class='bi bi-person'></i> <a href='/blog/view/$slug'>$authorName</a></li>
+                      <li class='d-flex align-items-center'><i class='bi bi-clock'></i> <a href='/blog/view/$slug'><time datetime='$created_at'>$created_at</time></a></li>
+                    </ul>
                   </div>
-                </div>
+    
+                  <div class='entry-content'>
+                    <p>
+                      $contentShort
+                    </p>
+                    <div class='read-more'>
+                      <a href='/blog/view/$slug'>Czytaj talej</a>
+                    </div>
+                  </div>
+    
+                </article>"
+                  );
+                }
   
-              </article>"
-                );
-              }
-
-            endforeach;
+              endforeach;
+            }
           ?>
             <!-- End blog entry -->
 

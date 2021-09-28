@@ -1500,6 +1500,7 @@ section {
 .blog .entry .entry-content p {
   line-height: 24px;
   max-width: 100%;
+  word-break: break-word;
 }
 .blog .entry .entry-content img {
   max-width: 100%;

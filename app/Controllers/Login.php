@@ -82,5 +82,14 @@ class Login extends BaseController
             return json_encode(['status'=> 'failure', 'csrf' => csrf_hash(), 'message' => $message]);
         }
     }
+
+    public function logout()
+    {
+        $session = session();
+
+        $session->destroy();
+
+        return redirect()->to('/admin/login');
+    }
 }
 ?>

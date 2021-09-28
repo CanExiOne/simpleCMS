@@ -33,15 +33,11 @@
   <hr>
   <div class="dropdown">
     <a href="#" class="d-flex align-items-center text-white text-decoration-none dropdown-toggle" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
-      <img src="https://github.com/mdo.png" alt="" class="rounded-circle me-2" width="32" height="32">
-      <strong>mdo</strong>
+      <img src="/uploads/avatars/avatar_placeholder.png" alt="" class="rounded-circle me-2" width="32" height="32">
+      <strong><?php echo($_SESSION['username']); ?></strong>
     </a>
     <ul class="dropdown-menu dropdown-menu-dark text-small shadow" aria-labelledby="dropdownUser1">
-      <li><a class="dropdown-item" href="#">New project...</a></li>
-      <li><a class="dropdown-item" href="#">Settings</a></li>
-      <li><a class="dropdown-item" href="#">Profile</a></li>
-      <li><hr class="dropdown-divider"></li>
-      <li><a class="dropdown-item" href="#">Sign out</a></li>
+      <li><a class="dropdown-item" href="/admin/logout">Wyloguj się</a></li>
     </ul>
   </div>
 </div>
@@ -267,7 +263,7 @@ var quill = new Quill('#editor-container-create', options);
 
 var editQuill = new Quill('#editor-container-edit', options);
 
-//Open modal for editing the user with user data already in place
+//Open modal for editing the news with news data already in place
 var editNewsModal = document.getElementById('editNewsModal');
 
 editNewsModal.addEventListener('show.bs.modal', function (event) {
@@ -292,7 +288,7 @@ editNewsModal.addEventListener('show.bs.modal', function (event) {
   document.querySelector("#editNewsSubmit").setAttribute("data-postId", postId);
 });
 
-//Modal to delete user
+//Modal to delete news
 var deleteNewsModal = document.getElementById('deleteNewsModal');
 
 deleteNewsModal.addEventListener('show.bs.modal', function (event) {
@@ -309,17 +305,17 @@ deleteNewsModal.addEventListener('show.bs.modal', function (event) {
   document.querySelector("#deleteNewsSubmit").setAttribute("data-postId", postId);
 });
 
-//Clear user ID attribute from submit button
+//Clear news ID attribute from submit button
 deleteNewsModal.addEventListener('hide.bs.modal', function (event) {
   document.querySelector("#deleteNewsSubmit").removeAttribute("data-userId");
 });
 
-//Clear user ID attribute from submit button
+//Clear news ID attribute from submit button
 editNewsModal.addEventListener('hide.bs.modal', function (event) {
   document.querySelector("#editNewsSubmit").removeAttribute("data-userId");
 });
 
-//Create User and get response
+//Create News and get response
 document.getElementById("createNewsSubmit").addEventListener("click", function(event) {
   
   event.preventDefault();
@@ -381,7 +377,7 @@ document.getElementById("createNewsSubmit").addEventListener("click", function(e
       });
 });
 
-//Edit User and get response
+//Edit News and get response
 document.getElementById("editNewsSubmit").addEventListener("click", function(event) {
   
   event.preventDefault();
@@ -447,7 +443,7 @@ document.getElementById("editNewsSubmit").addEventListener("click", function(eve
       });
 });
 
-//Delete User and get response
+//Delete News and get response
 document.getElementById("deleteNewsSubmit").addEventListener("click", function(event) {
   
   event.preventDefault();

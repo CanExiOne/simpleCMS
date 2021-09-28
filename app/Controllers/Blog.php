@@ -16,6 +16,8 @@ class Blog extends BaseController
 		$news = new NewsModel;
 		$users = new UsersModel;
 
+		$data['siteTitle'] = env('app.siteName') . ' - Blog';
+
 		$data['newsList'] = $news->orderBy('created_at', 'desc')->findAll();
 		$data['users'] = $users->findAll();
 		echo view('templates/header', $data);
@@ -27,12 +29,12 @@ class Blog extends BaseController
 		$newsList = new NewsModel;
 		$users = new UsersModel;
 
-		if(!$slug) {
-			redirect('/blog', 'refresh');
-		}
-
 		$users = $users->findAll();
 		$news = $newsList->getNews($slug);
+
+		if(empty($news)) {
+			return redirect()->to('/blog');
+		}
 
 		$authorData = array_search($news['authorID'], array_column($users, 'id'));
 
@@ -42,6 +44,8 @@ class Blog extends BaseController
 		} else {
 			$authorName = 'System';
 		}
+
+		$data['siteTitle'] = ucfirst($news['title']);
 
 		$data['author'] = $authorName;
 		$data['news'] = $news;

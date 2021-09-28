@@ -40,6 +40,7 @@ $routes->get('/', 'Home::index');
 // Admin Panel Routes
 $routes->get('/admin', 'Admin::index');
 $routes->get('/admin/login', 'Login::index');
+$routes->get('/admin/logout', 'Login::logout');
 $routes->get('/admin/(:any)', 'Admin::view/$1', ['priority' => 1]);
 $routes->post('/admin/login/auth', 'Login::login');
 $routes->post('/admin/users/createUser', 'Admin::createUser');
@@ -55,6 +56,7 @@ $routes->post('/contact-us/send', 'Contact::Send');
 // Main sub-pages
 $routes->get('/blog', 'Blog::index');
 $routes->get('/blog/view/(:any)', 'Blog::view/$1');
+$routes->addRedirect('/blog/.*/', '/blog');
 $routes->get('/(:any)', 'Pages::view/$1', ['priority' => 1]);
 
 /*
