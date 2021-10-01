@@ -1,6 +1,6 @@
 -- MySQL dump 10.19  Distrib 10.3.31-MariaDB, for debian-linux-gnu (x86_64)
 --
--- Host: localhost    Database: jimmi
+-- Host: localhost    Database: simpleCMS
 -- ------------------------------------------------------
 -- Server version	10.3.31-MariaDB-1:10.3.31+maria~focal-log
 

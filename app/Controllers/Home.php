@@ -6,7 +6,8 @@ class Home extends BaseController
 {
 	public function index()
 	{
-		$data = [];
+		$data['siteTitle'] = env('app.siteName');
+
 		echo view('templates/header', $data);
 		echo view('home', $data);
         echo view('templates/footer', $data);

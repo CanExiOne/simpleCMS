@@ -230,4 +230,37 @@ class Validation
 			]
 		]
 	];
+
+	public $contactForm = [
+		'name' => [
+			'rules' => 'required|min_length[3]|max_length[255]',
+			'errors' => [
+				'required' => 'Musisz podać swoje imię, aby wysłać wiadomość!',
+				'min_length' => 'Pole z imieniem musi zawierać conajmniej 3 znaki!',
+				'max_length' => 'Pole z imieniem nie może być dłuższe niż 255 znaków!',
+			],
+		],
+		'email' => [
+			'rules' => 'valid_email',
+			'errors' => [
+				'valid_email' => 'Musisz podać poprawny adres e-mail!'
+			],
+		],
+		'subject' => [
+			'rules' => 'required|min_length[5]|max_length[255]',
+			'errors' => [
+				'required' => 'Musisz podać tytuł wiadomości!',
+				'min_length' => 'Tytuł musi zawierać conajmniej 5 znaków!',
+				'max_length' => 'Tytuł nie może być dłuższy niż 255 znaków!',
+			],
+		],
+		'message' => [
+			'rules' => 'required|min_length[20]|max_length[2000]',
+			'errors' => [
+				'required' => 'Musisz napisać wiadomość!',
+				'min_length' => 'Wiadomość musi składać się z conajmniej 20 znaków!',
+				'max_length' => 'Wiadomość nie może być dłuższa niż 2000 znaków!',
+			],
+		],
+	];
 }

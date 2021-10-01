@@ -269,7 +269,7 @@ class Admin extends BaseController
             //If everything was successful send success message to user
             if($this->request->isAjax())
             {
-                $message = 'Konto z numerem ID:' . $userId . ' zostało pomyślnie usunięte.';
+                $message['user-created'] = 'Konto z numerem ID:' . $userId . ' zostało pomyślnie usunięte.';
             
                 return json_encode(['status' => 'success', 'csrf' => csrf_hash(), 'message' => $message]);
             }
@@ -321,7 +321,8 @@ class Admin extends BaseController
             //If everything was successful send success message to user
             if($this->request->isAjax())
             {
-                $message = 'Post został pomyślnie utworzony!';
+                $message['news-posted'] = 'Post został pomyślnie utworzony!';
+
                 return json_encode(['status' => 'success', 'csrf' => csrf_hash(), 'message' => $message]);
             }
         } else if($validation->hasError('title')
@@ -333,7 +334,7 @@ class Admin extends BaseController
             return json_encode(['status'=> 'invalid', 'csrf' => csrf_hash(), 'message' => $errors ]);
 
         } else {
-            $message = 'Nieznany błąd!';
+            $message['unknown-error'] = 'Nieznany błąd!';
 
             return json_encode(['status'=> 'failure', 'csrf' => csrf_hash(), 'message' => $message]);
         }
@@ -372,7 +373,7 @@ class Admin extends BaseController
                 return json_encode(['status' => 'success', 'csrf' => csrf_hash(), 'message' => $message]);
             }
         } else if($validation->hasError('title')
-                    || $validation->hasError('content')) 
+                    || $validation->hasError('postBody')) 
         {
 
             $errors = $validation->getErrors();
@@ -380,7 +381,7 @@ class Admin extends BaseController
             return json_encode(['status'=> 'invalid', 'csrf' => csrf_hash(), 'message' => $errors ]);
 
         } else {
-            $message = 'Nieznany błąd!';
+            $message['unknown-error'] = 'Nieznany błąd!';
 
             return json_encode(['status'=> 'failure', 'csrf' => csrf_hash(), 'message' => $message]);
         }
