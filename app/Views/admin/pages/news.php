@@ -479,7 +479,12 @@ document.getElementById("deleteNewsSubmit").addEventListener("click", function(e
           {
             el = document.getElementById('modal-response-deleteNews');
 
-            el.insertAdjacentHTML('afterbegin', "<li class='response-message list-group-item list-group-item-success'>"+ data.message +"</li>");
+            messages = data.message;
+
+            for (const [key, value] of Object.entries(messages)) {
+              el.insertAdjacentHTML('afterbegin', "<li class='response-message list-group-item list-group-item-success'>"+ value +"</li>");
+            }
+
           } else 
           {
             //Create an element for the response
