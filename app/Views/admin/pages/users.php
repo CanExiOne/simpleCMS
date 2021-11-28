@@ -73,6 +73,10 @@
                 <tbody>
                   <!-- Create for each loop to display all users -->
                   <?php
+				  if (!$users) {
+					  echo('Zarejestruj się!');
+				  } else {
+				  
                     foreach($users as $user):
                       extract($user);
 
@@ -109,6 +113,7 @@
                       );
                     
                     endforeach;
+					}
 
                   ?>
                 </tbody>

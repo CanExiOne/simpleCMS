@@ -9,8 +9,10 @@
   <meta content="" name="description">
   <meta content="" name="keywords">
 
-  <!-- Favicons -->
-  <link href="<?=env('app.baseURL')?>/assets/img/favicon.png" rel="icon">
+  <!-- Favicons
+    <link href="<?=env('app.baseURL')?>/assets/img/favicon.png" rel="icon"> 
+  -->
+  <link href="https://imgur.com/a/5U0ReI3" rel="icon">
   <link href="<?=env('app.baseURL')?>/assets/img/apple-touch-icon.png" rel="apple-touch-icon">
 
   <!-- Google Fonts -->

@@ -53,7 +53,7 @@
             <div class="col">
             <strong>Tutaj możesz zmienić ustawienia swojej strony.</strong>
             </br>
-            <form id='updateSettings' name='updateSettings'>
+            <form id='updateSettings' name='updateSettings' autocomplete="off">
               <label for="baseURL" class="form-label">Adres Strony</label>
 
                 <input type="text" class="form-control" id="baseURL" name="baseURL" value="<?php echo($cfg['baseURL'])?>" aria-describedby="baseURLHelp">
@@ -76,7 +76,7 @@
 
               <label for="emailHost" class="form-label">Serwer E-mail</label>
 
-                <input type="text" class="form-control" id="emailHost" name="emailHost" value="<?= getenv('email.host') ?>" aria-describedby="emailHostHelp">
+                <input type="text" class="form-control" id="emailHost" name="emailHost" value="<?= getenv('email.host') ?>" aria-describedby="emailHostHelp" autocomplete="off">
 
               <div id="emailHostHelp" class="form-text">Podaj adres hosta konta pocztowego</div>
               

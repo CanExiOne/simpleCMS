@@ -28,14 +28,14 @@
                 <div class="info-box">
                   <i class="bx bx-envelope"></i>
                   <h3>Email</h3>
-                  <p>biuro@kac-bud.pl<br>slowkac@gmail.com</p>
+                  <p>biuro@kac-bud.pl</p>
                 </div>
               </div>
               <div class="col-md-12">
                 <div class="info-box">
                   <i class="bx bx-phone-call"></i>
                   <h3>Zadzwon do nas</h3>
-                  <p>510 338 281<br>514 317 218</p>
+                  <p>510 338 281</p>
                 </div>
               </div>
             </div>

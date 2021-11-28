@@ -23,23 +23,15 @@
       <div class="carousel-item">
         <div class="carousel-container">
           <h2 class="animate__animated animate__fadeInDown">Kompleksowe Remonty</h2>
-          <p class="animate__animated animate__fadeInUp">Z chęcia podejmujemy się kompleksowych remontów, może to być remont Twojej łazienki na taką z Twoich marzeń lub kuchni, która sprawi z Ciebie lepszego Mistrza Kuchni</p>
+          <p class="animate__animated animate__fadeInUp">Wykonujemy Kompleksowe remonty twojego domu i wnetrza, jestesmy w stanie wymienic lub naprawic wszystko w twoim domu</p>
         </div>
       </div>
 
       <!-- Slide 4 -->
       <div class="carousel-item">
         <div class="carousel-container">
-          <h2 class="animate__animated animate__fadeInDown">Flizowanie</h2>
-          <p class="animate__animated animate__fadeInUp">Z nami możesz mieć pewność, że nie będzie żadnych skaz czy wad po nałożeniu płytek.</p>
-        </div>
-      </div>
-
-      <!-- Slide 5 -->
-      <div class="carousel-item">
-        <div class="carousel-container">
-          <h2 class="animate__animated animate__fadeInDown">Wykonywanie Wnętrz</h2>
-          <p class="animate__animated animate__fadeInUp">Pomożemy Ci w wyborze mebli oraz dekoracji tak, aby kompletowały ze sobą wnętrze oraz dokładnie i ostrożnie je zamontujemy</p>
+          <h2 class="animate__animated animate__fadeInDown">Wykonczenia Wnętrz</h2>
+          <p class="animate__animated animate__fadeInUp">Pracujemy takze przy pracach wewnatz takich jak poddasza, podwieszane sufity, stawianie scian dzialowych z plyt g-k przy uzyciu najwyzszej jakosci produktow</p>
         </div>
       </div>
 

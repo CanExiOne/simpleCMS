@@ -18,18 +18,17 @@
       <div class="col-lg-3 col-md-6 footer-links">
         <h4>Nasze Usługi</h4>
         <ul>
-          <li><i class="bx bx-chevron-right"></i> Docieplenia</li>
-          <li><i class="bx bx-chevron-right"></i> Wykonczenia wnętrz</li>
-          <li><i class="bx bx-chevron-right"></i> Flizowanie</li>
-          <li><i class="bx bx-chevron-right"></i> Łazienki od podstaw</li>
+          <li><i class="bx bx-chevron-right"></i> Docieplenia Budynkow</li>
+          <li><i class="bx bx-chevron-right"></i> Wykonczenia Wnetrz </li>
+          <li><i class="bx bx-chevron-right"></i> Kompleksowe Remonty </li>
         </ul>
       </div>
 
       <div class="col-lg-3 col-md-6 footer-contact">
         <h4>Kontakt</h4>
         <p>
-          <strong>Numer telefonu:</strong> 510 338 281 / <br>514 317 218  <br>
-          <strong>Email:</strong> <a href="mailto://biuro@kac-bud.pl">biuro@kac-bud.pl</a> / <a href="mailto://biuro@kac-bud.pl"><br>slowkac@gmail.com</a>
+          <strong>Numer telefonu:</strong> 510 338 281<br>
+          <strong>Email:</strong> <a href="mailto://biuro@kac-bud.pl">biuro@kac-bud.pl</a>
         </p>
 
       </div>
@@ -38,8 +37,7 @@
         <h3>Social Media</h3>
         <p>Pracując z nami masz pewność otrzymania najwyżej jakości usług, dzięki wyszkolonemu i doświadczonemu zespołowi oraz wykorzystywaniu przez nas najnowszych i najlepszych rozwiązań i materiałów.</p>
         <div class="social-links mt-3">
-          <a href="#" class="facebook"><i class="bx bxl-facebook"></i></a>
-          <a href="#" class="instagram"><i class="bx bxl-instagram"></i></a>
+          <a target="_blank_"  href="https://facebook.com/kacbudpl" class="facebook"><i class="bx bxl-facebook"></i></a>
         </div>
       </div>
 
