@@ -50,6 +50,7 @@ $routes->post('/admin/updateSettings', 'Admin::updateSettings');
 $routes->post('/admin/news/createNews', 'Admin::createNews');
 $routes->post('/admin/news/editNews', 'Admin::editNews');
 $routes->post('/admin/news/deleteNews', 'Admin::deleteNews');
+$routes->post('/admin/gallery/createAlbum', 'Admin::createAlbum');
 
 // Contact Form
 $routes->post('/contact-us/send', 'Contact::Send');

@@ -38,9 +38,9 @@ class Login extends BaseController
 
             if(!$userData)
             {
-                $errors['invalid-password'] = 'Podano nieprawidłowe hasło lub adres e-mail!';
+                $error = 'Podano nieprawidłowe hasło lub adres e-mail!';
            
-               return json_encode(['status' => 'failure', 'csrf' => csrf_hash(), 'message' => $errors]);
+               return json_encode(['status' => 'invalid', 'csrf' => csrf_hash(), 'error' => $error]);
             }
 
            $pwd = $this->request->getVar('password');
@@ -50,9 +50,9 @@ class Login extends BaseController
            //Verify Admin password
            if(!password_verify($pwd_pepper, $pwd_hash))
            {
-               $errors['invalid-password'] = 'Podano nieprawidłowe hasło lub adres e-mail!';
+               $error = 'Podano nieprawidłowe hasło lub adres e-mail!';
            
-               return json_encode(['status' => 'failure', 'csrf' => csrf_hash(), 'message' => $errors]);
+               return json_encode(['status' => 'invalid', 'csrf' => csrf_hash(), 'error' => $error]);
            }
             
            //Set session data
@@ -66,15 +66,15 @@ class Login extends BaseController
            $session->set($sessionData);
 
            
-            return json_encode(['status' => 'success', 'csrf' => csrf_hash(), 'response' => base_url('/admin')]);
+            return json_encode(['status' => 'success', 'csrf' => csrf_hash(), 'redirect' => base_url('/admin')]);
 
         } else if($validation->hasError('email')
                 || $validation->hasError('password')) 
         {
 
-            $errors = $validation->getErrors();
+            $error = 'Podano nieprawidłowe hasło lub adres e-mail!';
 
-            return json_encode(['status'=> 'invalid', 'csrf' => csrf_hash(), 'message' => $errors ]);
+            return json_encode(['status'=> 'invalid', 'csrf' => csrf_hash(), 'error' => $error ]);
 
         } else {
             $message = 'Nieznany błąd!';

@@ -1,194 +1,284 @@
-<main>
-<div class="d-flex flex-column flex-shrink-0 p-3 text-white bg-dark" style="width: 280px;">
-  <a href="<?=env('app.baseURL')?>/admin" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none">
-    <span class="fs-4"><img src="<?= env('app.baseURL') ?>/theme/img/logo.png" alt="<?= env('app.siteName') ?>" width="120"></span>
-  </a>
-  <hr>
-  <ul class="nav nav-pills flex-column mb-auto">
-    <li class="nav-item">
-      <a href="<?=env('app.baseURL')?>/admin" class="nav-link text-white">
-        <i width="16" height="16" class="fas fa-home nav-icon"></i>
-        Home
-      </a>
-    </li>
-    <li>
-      <a href="<?=env('app.baseURL')?>/admin/news" class="nav-link text-white">
-        <i width="16" height="16" class="fas fa-newspaper nav-icon"></i>
-        Ogłoszenia
-      </a>
-    </li>
-    <li>
-      <a href="<?=env('app.baseURL')?>/admin/users" class="nav-link text-white">
-        <i width="16" height="16" class="fas fa-users-cog nav-icon"></i>
-        Użytkownicy
-      </a>
-    </li>
-    <li>
-      <a href="<?=env('app.baseURL')?>/admin/settings" class="nav-link text-white active">
-        <i width="16" height="16" class="fas fa-cog nav-icon"></i>
-        Ustawienia
-      </a>
-    </li>
-  </ul>
-  <hr>
-  <div class="dropdown">
-    <a href="#" class="d-flex align-items-center text-white text-decoration-none dropdown-toggle" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
-      <img src="/uploads/avatars/avatar_placeholder.png" alt="" class="rounded-circle me-2" width="32" height="32">
-      <strong><?php echo($_SESSION['username']); ?></strong>
-    </a>
-    <ul class="dropdown-menu dropdown-menu-dark text-small shadow" aria-labelledby="dropdownUser1">
-      <li><a class="dropdown-item" href="/admin/logout">Wyloguj się</a></li>
+<body class="hold-transition sidebar-mini">
+<div class="wrapper">
+
+  <!-- Navbar -->
+  <nav class="main-header navbar navbar-expand navbar-dark">
+    <!-- Left navbar links -->
+    <ul class="navbar-nav">
+      <li class="nav-item">
+        <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
+      </li>
     </ul>
-  </div>
-</div>
-<div style="overflow-y:scroll;" class="container mt-5">
-  <div class="row">
-    <div class="col-md">
-      <div class="card bg-dark text-white">
-        <div class="card-header">
-          <h4 class="mt-1">Zarządzanie Ustawieniami</h4>
+
+    <!-- Right navbar links -->
+    <ul class="navbar-nav ml-auto">
+      <li class="nav-item">
+        <a class="nav-link" data-widget="fullscreen" href="#" role="button">
+          <i class="fas fa-expand-arrows-alt"></i>
+        </a>
+      </li>
+    </ul>
+  </nav>
+  <!-- /.navbar -->
+
+  <!-- Main Sidebar Container -->
+  <aside class="main-sidebar sidebar-dark-primary elevation-4">
+    <!-- Brand Logo -->
+    <a href="<?=base_url('/admin')?>" class="brand-link">
+      <img src="/assets/img/logo.png" alt="Logo" class="brand-image style="opacity: .8">
+      <span class="brand-text font-weight-light"><?= env('app.siteName') ?></span>
+    </a>
+
+    <!-- Sidebar -->
+    <div class="sidebar">
+      <!-- Sidebar user panel-->
+      <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+        <div class="image">
+          <img src="/uploads/avatars/avatar_placeholder.png" class="img-circle elevation-2" alt="User Image">
         </div>
-        <div class="card-body" style="background-color:#24282d;">
-          <div class="row pb-3 border-bottom border-secondary">
-            <div class="col">
-            <strong>Tutaj możesz zmienić ustawienia swojej strony.</strong>
-            </br>
-            <form id='updateSettings' name='updateSettings'>
-              <label for="baseURL" class="form-label">Adres Strony</label>
+        <div class="info">
+          <a href="#" class="d-block"><?php echo($_SESSION['username']); ?></a>
+        </div>
+      </div>
 
-                <input type="text" class="form-control" id="baseURL" name="baseURL" value="<?php echo($cfg['baseURL'])?>" aria-describedby="baseURLHelp">
+      <!-- Sidebar Menu -->
+      <nav class="mt-2">
+        <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+          <li class="nav-item">
+            <a href="<?=base_url('/admin')?>" class="nav-link">
+              <i class="nav-icon fas fa-tachometer-alt"></i>
+              <p>
+                Panel Kontrolny
+              </p>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="<?=base_url('/admin/news')?>" class="nav-link">
+              <i class="nav-icon fas fa-newspaper"></i>
+              <p>
+                Ogłoszenia
+              </p>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="<?=base_url('/admin/gallery')?>" class="nav-link">
+              <i class="nav-icon fas fa-images"></i>
+              <p>
+                Galeria
+              </p>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="<?=base_url('/admin/users')?>" class="nav-link">
+              <i class="nav-icon fas fa-users-cog"></i>
+              <p>
+                Użytkownicy
+              </p>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="<?=base_url('/admin/settings')?>" class="nav-link active">
+              <i class="nav-icon fas fa-cog"></i>
+              <p>
+                Ustawienia
+              </p>
+            </a>
+          </li>
+        </ul>
+      </nav>
+      <!-- /.sidebar-menu -->
+    </div>
+    <!-- /.sidebar -->
+  </aside>
 
-              <div id="baseURLHelp" class="form-text">Podaj adres strony, jeśli posiadasz certyfikat ssl to skorzystaj z https://, przykład: https://domena.pl.</div>
-              
-              <label for="siteName" class="form-label">Nazwa Strony</label>
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <div class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+            <h1 class="m-0">Panel Kontrolny</h1>
+          </div><!-- /.col -->
+          <div class="col-sm-6">
+            <ol class="breadcrumb float-sm-right">
+            <li class="breadcrumb-item"><a href="<?=base_url('/admin')?>">Panel Kontrolny</a></li>
+              <li class="breadcrumb-item active">Ustawienia</li>
+            </ol>
+          </div><!-- /.col -->
+        </div><!-- /.row -->
+      </div><!-- /.container-fluid -->
+    </div>
+    <!-- /.content-header -->
 
-                <input type="text" class="form-control" id="siteName" name="siteName" value="<?php echo($cfg['siteName'])?>" aria-describedby="siteNameHelp">
-
-              <div id="siteNameHelp" class="form-text">Podaj nazwę strony</div>
-
-              <label for="siteLogo" class="form-label">Logo Strony</label>
-
-                <input type="file" class="form-control" id="siteLogo" name="siteLogo" aria-describedby="siteLogoHelp"/>
-
-              <div id="siteLogoHelp" class="form-text">Wyślij nowe logo strony</div>
-              
-              <h3 class='mt-3'>Ustawienia E-mail</h3>
-
-              <label for="emailHost" class="form-label">Serwer E-mail</label>
-
-                <input type="text" class="form-control" id="emailHost" name="emailHost" value="<?= getenv('email.host') ?>" aria-describedby="emailHostHelp">
-
-              <div id="emailHostHelp" class="form-text">Podaj adres hosta konta pocztowego</div>
-              
-              <label for="emailUsername" class="form-label">Login E-mail</label>
-
-                <input type="text" class="form-control" id="emailUsername" name="emailUsername" value="<?= getenv('email.user') ?>" aria-describedby="emailUsernameHelp">
-
-              <div id="emailUsernameHelp" class="form-text">Podaj nazwę użytkownila/login do konta pocztowego</div>
-              
-              <label for="emailPassword" class="form-label">Hasło E-mail</label>
-
-                <input type="password" class="form-control" id="emailPassword" name="emailPassword" value="<?= getenv('email.password') ?>" aria-describedby="emailPasswordHelp">
-
-              <div id="emailPasswordHelp" class="form-text">Podaj hasło do konta pocztowego</div>
-              
-              <label for="emailSender" class="form-label">Adres e-mail poczty wychodzącej</label>
-
-                <input type="text" class="form-control" id="emailSender" name="emailSender" value="<?= getenv('email.sender') ?>" aria-describedby="emailSenderHelp">
-
-              <div id="emailSenderHelp" class="form-text">Adres e-mail poczty wychodzącej, przykładowo: noreply@domain.com</div>
-              
-              <label for="emailContact" class="form-label">Adres e-mail poczty przychodzącej</label>
-
-                <input type="text" class="form-control" id="emailContact" name="emailContact" value="<?= getenv('email.contact') ?>" aria-describedby="emailContactHelp">
-
-              <div id="emailContactHelp" class="form-text">Adres e-mail poczty przychodzącej, na który przychodzą wiadomości z formularza kontaktowego oraz adres, który jest wyświetlany jako sposób kontaktu</div>
-              
-              <label for="emailPort" class="form-label">Port serwera pocztowego</label>
-
-                <input type="text" class="form-control" id="emailPort" name="emailPort" value="<?= getenv('email.port') ?>" aria-describedby="emailPortHelp">
-
-              <div id="emailPortHelp" class="form-text">Port serwera pocztowego SMTP, domyślnie 465</div>
-            </form>
-            <button id="updateSettingsSubmit" type="submit" class="mt-3 btn btn-success">Zapisz Ustawienia</button>
-            <div>
-              <ul id="request-response" class="list-group p-3">
-
-              </ul>
-            </div>
+    <!-- Main content -->
+    <div class="content">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col">
+            <div class="card card-info">
+              <div class="card-header d-flex">
+                <div id="settings" class="mt-auto mb-auto">
+                  Ustawienia Strony
+                </div>
+              </div>
+              <form action="<?=env('app.baseURL')?>/admin/updateSettings" method="post">
+                <div class="card-body">
+                  <div class="form-group">
+                    <label for="siteName">Nazwa Strony</label>
+                    <input id="siteName" type="text" class="form-control" name="siteName" value="<?= getenv('app.siteName') ?>" aria-describedby="siteNameHelp" autocomplete="off">
+                    <div id="siteNameHelp" class="form-text">Podaj nazwę strony</div>
+                  </div>
+                  <div class="form-group">
+                    <label for="siteLogo">Logo Strony</label>
+                    <div class="custom-file">
+                      <input type="file" class="custom-file-input" id="siteLogo">
+                      <label class="custom-file-label" for="siteLogo" aria-describedby="siteLogoHelp">Wyślij Plik</label>
+                    </div>                    
+                      <div id="siteLogoHelp" class="form-text">Wyślij logo strony</div>
+                  </div>
+                  <hr>
+                  <h4>E-mail</h4>
+                  <div class="form-group">
+                    <label for="emailHost">Serwer SMTP E-mail</label>
+                    <input id="emailHost" type="text" class="form-control" name="emailHost" value="<?= getenv('email.host') ?>" aria-describedby="emailHostHelp" autocomplete="off">
+                    <div id="emailHostHelp" class="form-text">Podaj adres serwera smtp dla swojego adresu e-mail</div>
+                  </div>
+                  <div class="form-group">
+                    <label for="emailUsername">Login SMTP E-mail</label>
+                    <input id="emailUsername" type="text" class="form-control" name="emailUsername" value="<?= getenv('email.user') ?>" aria-describedby="emailUsernameHelp" autocomplete="off">
+                    <div id="emailUsernameHelp" class="form-text">Podaj login do serwera SMTP</div>
+                  </div>
+                  <div class="form-group">
+                    <label for="emailPassword">Hasło SMTP E-mail</label>
+                    <input id="emailPassword" type="password" class="form-control" name="emailPassword"  value="<?= getenv('email.password') ?>" aria-describedby="emailPasswordHelp" autocomplete="off">
+                    <div id="emailPasswordHelp" class="form-text">Podaj hasło do serwera SMTP</div>
+                  </div>
+                  <div class="form-group">
+                    <label for="emailSender">Adres e-mail poczty wychodzącej</label>
+                    <input id="emailSender" type="email" class="form-control" name="emailSender" value="<?= getenv('email.sender') ?>" aria-describedby="emailSenderHelp" autocomplete="off">
+                    <div id="emailSenderHelp" class="form-text">Podaj adres e-mail do poczty wychodzącej</div>
+                  </div>
+                  <div class="form-group">
+                    <label for="emailContact">Adres e-mail poczty przychodzącej</label>
+                    <input id="emailContact" type="text" class="form-control" name="emailContact" value="<?= getenv('email.contact') ?>" aria-describedby="emailContactHelp" autocomplete="off">
+                    <div id="emailContactHelp" class="form-text">Podaj adres e-mail dla poczty przychodzącej</div>
+                  </div>
+                  <div class="form-group">
+                    <label for="emailPort">Port do serwera SMTP</label>
+                    <input id="emailPort" type="text" class="form-control" name="emailPort" value="<?= getenv('email.port') ?>" aria-describedby="emailPortHelp" autocomplete="off">
+                    <div id="emailPortHelp" class="form-text">Podaj adres serwera smtp dla swojego adresu e-mail</div>
+                  </div>
+                  <div id="otherErrors" class="form-group"></div>
+                </div>
+                <div class="card-footer">
+                  <button id="updateSettings" class="btn btn-success">Zapisz Ustawienia</button>
+                </div>
+              </form>
             </div>
           </div>
         </div>
-      </div>
+      </div><!-- /.container-fluid -->
     </div>
+    <!-- /.content -->
   </div>
+  <!-- /.content-wrapper -->
+
+  <!-- Main Footer -->
+  <footer class="main-footer">
+    <!-- To the right -->
+    <div class="float-right d-none d-sm-inline font-small">
+      Designed with <strong><a href="https://adminlte.io">AdminLTE.io</a></strong>
+       & 
+      Created by <strong>VGE Sites</strong>
+    </div>
+    <!-- Default to the left -->
+    <strong>Copyright &copy; 2021-<?= date('Y') ?> <a href="<?= base_url() ?>"><?=env('app.siteName')?></a>.</strong> All rights reserved.
+  </footer>
 </div>
-</main>
+<!-- ./wrapper -->
+</body>
 
 <script>
-document.getElementById("updateSettingsSubmit").addEventListener("click", function(event) {
-  
-  event.preventDefault();
+$(document).ready(function() {
 
-  document.querySelectorAll(".response-message").forEach(e => e.remove());
+  if(localStorage.getItem('reload-message'))
+  {
+    toastData = JSON.parse(localStorage.getItem('reload-message'))
 
-  document.getElementById('updateSettingsSubmit').disabled = true;
-
-  //Get form data
-  let formData = new FormData(updateSettings);
-
-  // var siteLogo = formData.get('siteLogo');
-
-  // siteLogo = {
-  //   'lastModified'     : siteLogo.lastModified,
-  //   'name'             : siteLogo.name,
-  //   'size'             : siteLogo.size,
-  //   'type'             : siteLogo.type 
-  // };
-
-  // formData.set('siteLogo', JSON.stringify(siteLogo))
-
-  console.log(Object.fromEntries(formData));
-
-  //Send the data
-  fetch('<?=env('app.baseURL')?>/admin/updateSettings', {
-      method: 'POST',
-      processData: false,
-      headers: {
-          //'Content-Type': 'application/json',
-          'X-Requested-With': 'XMLHttpRequest'
-      },
-      body: formData,
-      data: formData,
-      }).then(function (response) {
-          if (response.ok) {
-              return response.json();
-          }
-          return Promise.reject(response);
-      }).then(function (data) {
-          console.log(data);
-
-          if(data.status === 'success')
-          {
-            el = document.getElementById('request-response');
-
-            el.insertAdjacentHTML('afterbegin', "<li class='response-message list-group-item list-group-item-success'>"+ data.message +"</li>");
-          } else 
-          {
-            //Create an element for the response
-            el = document.getElementById('request-response');
-
-            errors = data.message;
-
-            for (const [key, value] of Object.entries(errors)) {
-              el.insertAdjacentHTML('afterbegin', "<li class='response-message list-group-item list-group-item-danger'>"+ value +"</li>");
-            }
-          }
-
-          //Enable button
-          document.getElementById('updateSettingsSubmit').disabled = false;
-      }).catch(function (error) {
-        console.log(error);
+    if(toastData.type === 'success')
+    {
+      $(document).Toasts('create', {
+      title: 'Sukces!',
+      body: toastData.message,
+      autohide: true,
+      delay: 5000,
+      class: 'bg-success',
       });
+    }
+  }
+
+  //Clear cookie reload-message
+  localStorage.removeItem('reload-message');
+
+});
+
+$(function() {
+  $('form').submit(function(event) {
+    event.preventDefault();
+
+    //Restore #titleHelp and #otherErrors state in case it was edited to show error before
+    $('.form-text').each(function() {
+      $(this).children().remove();
+    })
+
+    //Disable button
+      $('#updateSettings').attr('disabled', true);
+
+    //Get form and create FormData, using DOM because FormData() get's angry about jquery
+    var form = document.querySelector('form');
+
+    formData = new FormData(form);
+
+    $.ajax({
+      type: form.getAttribute('method'),
+      url: form.getAttribute('action'),
+      data: formData,
+      processData: false,
+      contentType: false,
+    }).done(function(data) {
+      //Parse data to json for easier response handling
+      var data = JSON.parse(data);
+
+      //Re-enable button
+      $('#updateSettings').attr('disabled', false);
+      
+      //Check if response was invalid and if true display errors
+      if(data.status === 'invalid')
+      {
+        for(error in data.errors) {
+          $(`#${error}Help`).append(`<div class='invalid-feedback d-block'>${data.errors[error]}</div>`);
+        }
+      } else if (data.status === 'success')
+      {
+        //Reload page and display success popup
+        reloadMessage = {
+          'message' : data.message,
+          'type' : 'success'
+        };
+
+        localStorage.setItem('reload-message', JSON.stringify(reloadMessage));
+        window.location.reload();
+      } else {
+        console.log(data);
+      }
+
+    }).fail(function(data) {
+      //Re-enable button
+      $('#updateSettings').attr('disabled', false);
+      
+      $('#otherErrors').addClass('invalid-feedback d-block').text('Wystąpił nieznany błąd! Skontaktuj się z Administratorem Serwera');
+    });
+  });
 });
 </script>

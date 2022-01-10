@@ -42,7 +42,7 @@ class Validation
 	//--------------------------------------------------------------------
 
 	public $createUser = [
-		'firstName' => [
+		'userFirstName' => [
 			'rules' => 'required|alpha_numeric_space|min_length[3]|max_length[60]',
 			'errors' => [
 				'required' => 'Nie podano imienia użytkownika!',
@@ -51,7 +51,7 @@ class Validation
 				'max_length' => 'Imię nie może składać się z więcej niż 60 znaków!'
 			]
 		],
-		'lastName' => [
+		'userLastName' => [
 			'rules' => 'required|alpha_numeric_space|min_length[3]|max_length[60]',
 			'errors' => [
 				'required' => 'Nie podano nazwiska użytkownika!',
@@ -60,14 +60,14 @@ class Validation
 				'max_length' => 'Nazwisko nie może się składać z więcej niż 60 znaków'
 			]
 		],
-		'email' => [
+		'userEmail' => [
 			'rules' => 'valid_email|is_unique[users.email]',
 			'errors' => [
 				'valid_email' => 'Podano niepoprawny adres e-mail!',
 				'is_unique' => 'Podany adres e-mail jest już używany przez inne konto!',
 			]
 		],
-		'group' => [
+		'userGroup' => [
 			'rules' => 'required|in_list[1,2,3]',
 			'errors' => [
 				'required' => 'Musisz wybrać grupę!',
@@ -77,7 +77,7 @@ class Validation
 	];
 
 	public $updateUser = [
-		'firstName' => [
+		'userFirstName' => [
 			'rules' => 'required|alpha_numeric_space|min_length[3]|max_length[60]',
 			'errors' => [
 				'required' => 'Nie podano imienia użytkownika!',
@@ -86,7 +86,7 @@ class Validation
 				'max_length' => 'Imię nie może składać się z więcej niż 60 znaków!'
 			]
 		],
-		'lastName' => [
+		'userLastName' => [
 			'rules' => 'required|alpha_numeric_space|min_length[3]|max_length[60]',
 			'errors' => [
 				'required' => 'Nie podano nazwiska użytkownika!',
@@ -95,14 +95,14 @@ class Validation
 				'max_length' => 'Nazwisko nie może się składać z więcej niż 60 znaków'
 			]
 		],
-		'email' => [
-			'rules' => 'valid_email|is_unique[users.email,id,{id}]',
+		'userEmail' => [
+			'rules' => 'valid_email|is_unique[users.email,id,{userId}]',
 			'errors' => [
 				'valid_email' => 'Podano niepoprawny adres e-mail!',
 				'is_unique' => 'Podany adres e-mail jest już używany przez inne konto!',
 			]
 		],
-		'group' => [
+		'userGroup' => [
 			'rules' => 'required|in_list[1,2,3]',
 			'errors' => [
 				'required' => 'Musisz wybrać grupę!',
@@ -112,28 +112,15 @@ class Validation
 	];
 
 	public $deleteUser = [
-		'password' => [
+		'confirmPassword' => [
 			'rules' => 'required',
 			'errors' => [
-				'required' => 'Musisz podać swoje hasło w celu potwierdzenia tej czynności!',
-			],
-		],
-		'password-confirm' => [
-			'rules' => 'required|matches[password]',
-			'errors' => [
-				'required' => 'Musisz potwierdzić swoje hasło!',
-				'matches' => 'Hasła się nie zgadzają!',
+				'required' => 'Musisz potwierdzić swoje hasło!'
 			],
 		],
 	];
 
 	public $updateSettings = [
-		'baseURL' => [
-			'rules' => 'regex_match[/^(https|http):\/\/[a-zA-z0-9+-.,_]+(\/|)$/]',
-			'errors' => [
-				'regex_match' => 'Adres strony musi być poprawnym adresem URL!'
-			]
-		],
 		'siteName' => [
 			'rules' => 'required',
 			'errors' => [
@@ -141,7 +128,7 @@ class Validation
 			]
 		],
 		'siteLogo' => [
-			'rules' => 'mime_in[siteLogo,image/jpeg,image/jpg,image/png]|max_size[siteLogo,2072]|max_dims[siteLogo,2000,2000]',
+			'rules' => 'mime_in[siteLogo,image/jpeg,image/jpg,image/png]|max_size[siteLogo,2072]|max_dims[siteLogo,2000,2000]|permit_empty',
 			'errors' => [
 				'mime_in' => 'Logo musi być plikiem w formacie PNG!',
 				'max_size' => 'Logo nie może być większe niż 2MB!',
@@ -171,7 +158,7 @@ class Validation
 				'is_unique' => 'Post z takim tytułem już istnieje'
 			]
 		],
-		'postBody' => [
+		'contents' => [
 			'rules' => 'required|min_length[50]',
 			'errors' => [
 				'required' => 'Ogłoszenie nie może być puste!',
@@ -190,7 +177,7 @@ class Validation
 				'is_unique' => 'Post z takim tytułem już istnieje'
 			]
 		],
-		'postBody' => [
+		'contents' => [
 			'rules' => 'required|min_length[50]',
 			'errors' => [
 				'required' => 'Ogłoszenie nie może być puste!',
@@ -260,6 +247,23 @@ class Validation
 				'required' => 'Musisz napisać wiadomość!',
 				'min_length' => 'Wiadomość musi składać się z conajmniej 20 znaków!',
 				'max_length' => 'Wiadomość nie może być dłuższa niż 2000 znaków!',
+			],
+		],
+	];
+
+	public $createAlbum = [
+		'albumTitle' => [
+			'rules' => 'required|max_length[120]',
+			'errors' => [
+				'required' => 'Album musi posiadać tytuł!',
+				'max_length' => 'Tytuł albumu nie może być dłuższy niż 120 znaków'
+			],
+		],
+		
+		'albumCategory' => [
+			'rules' => 'required',
+			'errors' => [
+				'required' => 'Musisz wybrać kategorię!',
 			],
 		],
 	];
