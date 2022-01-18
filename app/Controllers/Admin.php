@@ -542,7 +542,7 @@ class Admin extends BaseController
             {
                 if($file->isValid() && !$file->hasMoved())
                 {
-                    if(!$file->move(ROOTPATH.'public/theme/img/', 'logo.png'))
+                    if(!$file->move(ROOTPATH.'public/assets/img/', 'logo.png'))
                     {
                         throw new \RuntimeException($file->getErrorString().'('.$file->getError().')');
                     }

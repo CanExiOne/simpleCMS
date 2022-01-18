@@ -132,7 +132,7 @@
                   <div class="form-group">
                     <label for="siteLogo">Logo Strony</label>
                     <div class="custom-file">
-                      <input type="file" class="custom-file-input" id="siteLogo">
+                      <input type="file" class="custom-file-input" id="siteLogo" name="siteLogo">
                       <label class="custom-file-label" for="siteLogo" aria-describedby="siteLogoHelp">Wyślij Plik</label>
                     </div>                    
                       <div id="siteLogoHelp" class="form-text">Wyślij logo strony</div>
