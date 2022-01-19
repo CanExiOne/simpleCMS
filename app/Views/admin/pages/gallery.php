@@ -126,22 +126,40 @@
                 <div class="card-body">
                   <div class="form-row">
                     <div class="form-group col-md-5">
-                      <label for="albumTitle">Tytuł Albumu</label>
+                      <label for="title">Tytuł Albumu</label>
 
-                      <input id="albumTitle" type="text" class="form-control" name="albumTitle" aria-describedby="albumTitleHelp" autocomplete="off">
-                      <div id="albumTitleHelp" class="form-text">Podaj tytuł albumu</div>
+                      <input id="title" type="text" class="form-control" name="title" aria-describedby="titleHelp" autocomplete="off">
+                      <div id="titleHelp" class="form-text">Podaj tytuł albumu</div>
 
                     </div>
                     <div class="col-md-1"></div>
                     <div class="form-group col-md-6">
                     <label for="categories">Kategoria</label>
-                      <input list="categories-list" id="albumCategory" name="albumCategory" class="custom-select" autocomplete="off">
+                      <input list="categories-list" id="category" name="category" class="custom-select" autocomplete="off">
                         <datalist id="categories-list">
                           <option value="Test">Test</option>
                           <option value="Test1">Test1</option>
                           <option value="Test2">Test2</option>
                           <option value="Test3">Test3</option>
                         </datalist>
+                    </div>
+                  </div>
+                  <div class="form-row">
+                    <div class="form-group col-md-5">
+                      <label for="client">Klient</label>
+                      <input id="client" type="text" class="form-control" name="client" aria-describedby="clientHelp" autocomplete="off">
+                      <div id="clientHelp" class="form-text">Podaj nazwę klienta</div>
+                    </div>
+                    <div class="col-md-1"></div>
+                    <div class="form-group col-md-2">
+                      <label for="date">Data Projektu</label>
+                      <div class="input-group date">
+                        <input id="date" type="text" name="date" class="form-control" aria-describedby="date" autocomplete="off">
+                        <div class="input-group-append">
+                            <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                        </div>
+                      </div>
+                      <div id="dateHelp" class="form-text">Podaj datę zakończenia projektu</div>
                     </div>
                   </div>
                 </div>
@@ -174,6 +192,8 @@
 <!-- ./wrapper -->
 </body>
 <script>
+  //Allow to re-submit on error, it currently doesn't work
+  //It might be because no files are queued anymore
 document.addEventListener("DOMContentLoaded", function() {
   Dropzone.options.createAlbum = {
     autoProcessQueue : false,
@@ -183,14 +203,9 @@ document.addEventListener("DOMContentLoaded", function() {
     maxFiles: 100,
     init: function() {
       var myDropzone = this;
-    this.on("addedfile", file => {
-      console.log(file);
-      console.log(myDropzone.getQueuedFiles());
-    });
     
     this.element.querySelector("button[type=submit]").addEventListener("click", function(e) {
       e.preventDefault();
-      e.stopPropagation();
 
       myDropzone.processQueue();
     });
@@ -202,13 +217,25 @@ document.addEventListener("DOMContentLoaded", function() {
     this.on("successmultiple", function(files, response) {
       response = JSON.parse(response);
       console.log(response);
-      console.log(files);
     });
 
     this.on("errormultiple", function(files, response) {
-
+      response = JSON.parse(response);
+      console.log(response);
+      
+      $.each(files, function(i, file) {
+            file.status = Dropzone.QUEUED
+        });
     });
     }
   }
+});
+
+$(function () {
+  moment.locale('pl');
+  $('input[name="date"]').daterangepicker({
+    singleDatePicker: true,
+    showDropdowns: true,
+  });
 });
 </script>

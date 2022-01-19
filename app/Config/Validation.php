@@ -252,19 +252,42 @@ class Validation
 	];
 
 	public $createAlbum = [
-		'albumTitle' => [
+		'title' => [
 			'rules' => 'required|max_length[120]',
 			'errors' => [
 				'required' => 'Album musi posiadać tytuł!',
 				'max_length' => 'Tytuł albumu nie może być dłuższy niż 120 znaków'
-			],
+			]
 		],
 		
-		'albumCategory' => [
+		'category' => [
 			'rules' => 'required',
 			'errors' => [
 				'required' => 'Musisz wybrać kategorię!',
-			],
+			]
+		],
+
+		'client' => [
+			'rules' => 'max_length[80]',
+			'errors' => [
+				'max_length' => 'Nazwa klienta nie może być dłuższa niż 80 znaków'
+			]
+		],
+
+		'date' => [
+			'rules' => 'required',
+			'errors' => [
+				'required' => 'To pole jest wymagane!'
+			]
+		],
+
+		'file' => [
+			'rules' => 'uploaded[file]|mime_in[file,image/png,image/jpg,/image/jpeg,image/gif]|max_size[file,4096]',
+			'errors' => [
+				'uploaded' => 'Wystąpił błąd podczas wysyłania plików, spróbuj ponownie!',
+				'mime_in' => 'Wysłany plik posiada nieprawidłowe rozszerzenie! Dozwolone rozszerzenia to PNG, JPG, JPEG oraz GIF',
+				'max_size' => 'Wysłany plik jest zbyt duży! Maksymalna wielkość pliku to 4MB!'
+			]
 		],
 	];
 }

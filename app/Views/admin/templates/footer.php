@@ -5,6 +5,7 @@
 <script src="/assets/plugins/datatables/datatables.min.js"></script>
 <script src="/assets/plugins/bootstrap-slider/bootstrap-slider.min.js"></script>
 <script src="/assets/plugins/dropzone/min/dropzone.min.js"></script>
+<script src="/assets/plugins/daterangepicker/daterangepicker.js"></script>
 <!-- <script src="/assets/plugins/jquery-validation/jquery.validate.min.js"></script> -->
 
 <!-- AdminLTE -->

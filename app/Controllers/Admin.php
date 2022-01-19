@@ -592,10 +592,14 @@ class Admin extends BaseController
                     }
                 }
 
-                //Save data to database
-                //Check if files have been saved correctly
-                //Return success message
-                //Display errors in a more user friendly style
+                $data['pictures'] = $images;
+
+                //To-Do
+                //Requeue files on failure
+                //Display errors
+                //UX stuff
+                //Validate data before saving files and sending to database
+                //Do above
                 
             } else {
                 return json_encode(['status' => 'failure', 'csrf' => csrf_hash(), 'message' => 'Nie wysłano żadnych plików!']);
@@ -603,19 +607,18 @@ class Admin extends BaseController
 
             if($this->request->isAjax())
             {
-                $message = 'a message to be sent';
+                $message = $this->request->getPost();
                 return json_encode(['status' => 'success', 'csrf' => csrf_hash(), 'message' => $message]);
             }
             
-        } else if($validation->hasError('albumTitle') ||
-                    $validation->hasError('albumCategory'))
+        } else if($validation->getErrors())
         {
             $errors = $validation->getErrors();
 
             return json_encode(['status'=> 'invalid', 'csrf' => csrf_hash(), 'errors' => $errors, $message = "Musisz poprawić błędy w formularzu!"]);
         } else {
-
-            return json_encode(['status'=> 'failure', 'csrf' => csrf_hash(), 'message' => 'Wystąpił nieznany błąd!']);
+            $errors = $validation->getErrors();
+            return json_encode(['status'=> 'failure', 'csrf' => csrf_hash(), 'message' => 'Wystąpił nieznany błąd!', 'errors' => $errors]);
         }
     }
 }

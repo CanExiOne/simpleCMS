@@ -19,10 +19,13 @@
     <!-- JQuery -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     
+    <!-- Moment -->
+    <script src="/assets/plugins/moment/moment-with-locales.min.js"></script>
     <!-- Plugins CSS -->
     <link rel="stylesheet" href="/assets/plugins/datatables/datatables.min.css" type="text/css"/>
     <link rel="stylesheet" href="/assets/plugins/bootstrap-slider/css/bootstrap-slider.min.css" type="text/css"/>
     <link rel="stylesheet" href="/assets/plugins/dropzone/min/dropzone.min.css" type="text/css"/>
+    <link rel="stylesheet" href="/assets/plugins/daterangepicker/daterangepicker.css" type="text/css"/>
 
     <!-- Import Quill stylesheet -->
     <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">

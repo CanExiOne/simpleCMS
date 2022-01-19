@@ -8,7 +8,7 @@ class GalleryModel extends Model
 {
     protected $table = 'gallery';
 
-    protected $allowedFields = ['title', 'category', 'images'];
+    protected $allowedFields = ['category', 'title', 'details', 'date', 'description', 'pictures', 'show', 'author'];
 
     protected $useTimestamps = true;
     protected $createdField = 'created_at';
