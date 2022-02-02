@@ -65,8 +65,23 @@
               <i class="nav-icon fas fa-images"></i>
               <p>
                 Galeria
+                <i class="right fas fa-angle-left"></i>
               </p>
             </a>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a href="/admin/gallery" class="nav-link active">
+                  <i class="fas fa-circle nav-icon"></i>
+                  <p>Albumy</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="/admin/gallery/new" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Nowy Album</p>
+                </a>
+              </li>
+            </ul>
           </li>
           <li class="nav-item">
             <a href="<?=base_url('/admin/users')?>" class="nav-link">
@@ -102,7 +117,7 @@
           </div><!-- /.col -->
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
-            <li class="breadcrumb-item"><a href="<?=base_url('/admin')?>">Panel Kontrolny</a></li>
+              <li class="breadcrumb-item"><a href="<?=base_url('/admin')?>">Panel Kontrolny</a></li>
               <li class="breadcrumb-item active">Galeria</li>
             </ol>
           </div><!-- /.col -->
@@ -114,62 +129,44 @@
     <!-- Main content -->
     <div class="content">
       <div class="container-fluid">
-        <div class="row">
-          <div class="col-12">
-            <div class="card card-success">
-              <div class="card-header">
-                <div>
-                  Dodaj Nowy Album
-                </div>
-              </div>
-              <form id="createAlbum" class="dropzone" method="post" action="/admin/gallery/createAlbum">
-                <div class="card-body">
-                  <div class="form-row">
-                    <div class="form-group col-md-5">
-                      <label for="title">Tytuł Albumu</label>
+        <div>
+          <!-- <h2><span class="badge badge-primary">27.01.2022</span></h2> -->
+          <div class="row">
+            <?php
+            foreach($albums as $album)
+            {
+              extract($album);
+              $pictures = unserialize($pictures);
 
-                      <input id="title" type="text" class="form-control" name="title" aria-describedby="titleHelp" autocomplete="off">
-                      <div id="titleHelp" class="form-text">Podaj tytuł albumu</div>
+              $date = date('d-m-Y', strtotime($date));
 
-                    </div>
-                    <div class="col-md-1"></div>
-                    <div class="form-group col-md-6">
-                    <label for="categories">Kategoria</label>
-                      <input list="categories-list" id="category" name="category" class="custom-select" autocomplete="off">
-                        <datalist id="categories-list">
-                          <option value="Test">Test</option>
-                          <option value="Test1">Test1</option>
-                          <option value="Test2">Test2</option>
-                          <option value="Test3">Test3</option>
-                        </datalist>
-                    </div>
+              //Create empty array if no picture is in album
+              if(!$pictures)
+              {
+                $pictures[0] = 'gallery_placeholder.png';
+              }
+
+              echo(
+                "<div class='col-4'>
+                  <div class='card'>
+                  <div class='card-header bg-success'>
+                    <span class='h3'><strong>$title</strong></span><span class='float-sm-right badge badge-secondary'>$date</span>
+                    <p class='card-text'><small>$client</small></p>
                   </div>
-                  <div class="form-row">
-                    <div class="form-group col-md-5">
-                      <label for="client">Klient</label>
-                      <input id="client" type="text" class="form-control" name="client" aria-describedby="clientHelp" autocomplete="off">
-                      <div id="clientHelp" class="form-text">Podaj nazwę klienta</div>
-                    </div>
-                    <div class="col-md-1"></div>
-                    <div class="form-group col-md-2">
-                      <label for="date">Data Projektu</label>
-                      <div class="input-group date">
-                        <input id="date" type="text" name="date" class="form-control" aria-describedby="date" autocomplete="off">
-                        <div class="input-group-append">
-                            <div class="input-group-text"><i class="fa fa-calendar"></i></div>
-                        </div>
-                      </div>
-                      <div id="dateHelp" class="form-text">Podaj datę zakończenia projektu</div>
+                  <div class='gallery-item text-center'>
+                    <img class='img-fluid' style='filter: blur(3px); padding:0.1rem;' src='/uploads/$pictures[0]' alt='An Image'>
+                    <div class='gallery-item-overlay'>
+                      <a href='/admin/gallery/edit?albumid=$albumid'><button class='btn btn-warning'>Edytuj Album</button></a>
                     </div>
                   </div>
                 </div>
-                <div class="card-footer">
-                  <button type="submit" class="btn btn-success">Utwórz Album</button>
-                </div>
-              </form>
-            </div>
+                </div>"
+              );
+            }
+            ?>
           </div>
         </div>
+        
         <!-- /.row -->
       </div><!-- /.container-fluid -->
     </div>
@@ -192,50 +189,21 @@
 <!-- ./wrapper -->
 </body>
 <script>
-  //Allow to re-submit on error, it currently doesn't work
-  //It might be because no files are queued anymore
-document.addEventListener("DOMContentLoaded", function() {
-  Dropzone.options.createAlbum = {
-    autoProcessQueue : false,
-    addRemoveLinks: true,
-    uploadMultiple: true,
-    parallelUploads: 100,
-    maxFiles: 100,
-    init: function() {
-      var myDropzone = this;
-    
-    this.element.querySelector("button[type=submit]").addEventListener("click", function(e) {
-      e.preventDefault();
+$(document).ready(function() {
+  if(localStorage.getItem('reload-message'))
+  {
+    toastData = JSON.parse(localStorage.getItem('reload-message'))
 
-      myDropzone.processQueue();
-    });
-
-    this.on("sendingmultiple", function() {
-
-    });
-
-    this.on("successmultiple", function(files, response) {
-      response = JSON.parse(response);
-      console.log(response);
-    });
-
-    this.on("errormultiple", function(files, response) {
-      response = JSON.parse(response);
-      console.log(response);
-      
-      $.each(files, function(i, file) {
-            file.status = Dropzone.QUEUED
-        });
-    });
+    if(toastData.type === 'success')
+    {
+      $(document).Toasts('create', {
+      title: 'Sukces!',
+      body: toastData.message,
+      autohide: true,
+      delay: 8000,
+      class: 'bg-success',
+      });
     }
   }
-});
-
-$(function () {
-  moment.locale('pl');
-  $('input[name="date"]').daterangepicker({
-    singleDatePicker: true,
-    showDropdowns: true,
-  });
-});
+})
 </script>

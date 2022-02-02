@@ -36,7 +36,7 @@
     <script src="https://kit.fontawesome.com/c23f620e01.js" crossorigin="anonymous"></script>
 
     <!-- Main style CSS -->
-    <link rel="stylesheet" type="text/css" href="/assets/css/style.css">
+    <link rel="stylesheet" type="text/css" href="/assets/css/admin.css">
 
     <!-- Favicon -->
     <link rel="apple-touch-icon" sizes="180x180" href="/assets/img/favicons/apple-touch-icon.png">

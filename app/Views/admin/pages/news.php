@@ -65,8 +65,23 @@
               <i class="nav-icon fas fa-images"></i>
               <p>
                 Galeria
+                <i class="right fas fa-angle-left"></i>
               </p>
             </a>
+            <ul class="nav nav-treeview">\
+              <li class="nav-item">
+                <a href="/admin/gallery" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Albumy</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="/admin/gallery/new" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Nowy Album</p>
+                </a>
+              </li>
+            </ul>
           </li>
           <li class="nav-item">
             <a href="<?=base_url('/admin/users')?>" class="nav-link">

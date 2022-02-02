@@ -41,19 +41,37 @@ $routes->get('/', 'Home::index');
 $routes->get('/admin', 'Admin::index');
 $routes->get('/admin/login', 'Login::index');
 $routes->get('/admin/logout', 'Login::logout');
+
+// View pages in panel
 $routes->get('/admin/(:any)', 'Admin::view/$1', ['priority' => 1]);
+
+// User login authentication
 $routes->post('/admin/login/auth', 'Login::login');
+
+// User Management
 $routes->post('/admin/users/createUser', 'Admin::createUser');
 $routes->post('/admin/users/updateUser', 'Admin::updateUser');
 $routes->post('/admin/users/deleteUser', 'Admin::deleteUser');
+
+// Settings Management
 $routes->post('/admin/updateSettings', 'Admin::updateSettings');
+
+// News Management
 $routes->post('/admin/news/createNews', 'Admin::createNews');
 $routes->post('/admin/news/editNews', 'Admin::editNews');
 $routes->post('/admin/news/deleteNews', 'Admin::deleteNews');
-$routes->post('/admin/gallery/createAlbum', 'Admin::createAlbum');
+
+// Gallery Management
+$routes->get('/admin/gallery', 'Gallery::index');
+$routes->get('/admin/gallery/(:any)', 'Gallery::view/$1');
+$routes->post('/admin/gallery/createAlbum', 'Gallery::createAlbum');
+$routes->post('/admin/gallery/editAlbum', 'Gallery::editAlbum');
+$routes->post('/admin/gallery/deleteAlbum', 'Gallery::deleteAlbum');
+$routes->post('/admin/gallery/deletePicture', 'Gallery::deletePicture');
 
 // Contact Form
 $routes->post('/contact-us/send', 'Contact::Send');
+
 // Main sub-pages
 $routes->get('/blog', 'Blog::index');
 $routes->get('/blog/view/(:any)', 'Blog::view/$1');

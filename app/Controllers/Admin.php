@@ -3,7 +3,6 @@
 use App\Models\SettingsModel;
 use App\Models\UsersModel;
 use App\Models\NewsModel;
-use App\Models\GalleryModel;
 use CodeIgniter\Controller;
 
 use App\Controllers\BaseController;
@@ -35,7 +34,7 @@ class Admin extends BaseController
         echo view('admin/templates/footer', $data);
 	}
 
-	public function view($page = 'pages')
+	public function view($page)
 	{
         $usersModel = new UsersModel();
         $news = new NewsModel();
@@ -100,6 +99,7 @@ class Admin extends BaseController
         $data['title'] = $siteName;
         $data['siteDesc'] = $siteDesc;
         $data['year'] = date('Y');
+        $data['page'] = $page;
 
         echo view('admin/templates/header', $data);
 		echo view('admin/pages/'.$page, $data);
@@ -566,59 +566,6 @@ class Admin extends BaseController
             $message = 'Nieznany błąd!';
 
             return json_encode(['status'=> 'failure', 'csrf' => csrf_hash(), 'message' => $message]);
-        }
-    }
-
-    public function createAlbum()
-    {
-        $validation =  \Config\Services::validation();
-        $galleryModel = new GalleryModel();
-        if($this->request->getMethod() === 'post' && $this->validate('createAlbum'))
-        {
-            //Get files
-            if($files = $this->request->getFiles())
-            {
-                //Create array to temporary store names of files for database
-                $images = [];
-
-                foreach($files['file'] as $file){
-                    if($file->isValid() && !$file->hasMoved()) {
-                        //Generate new file name and move to uploads directory
-                        $newName = $file->getRandomName();
-                        $file->move(WRITEPATH . 'uploads', $newName);
-
-                        //Push new file name to array
-                        array_push($images, $newName);
-                    }
-                }
-
-                $data['pictures'] = $images;
-
-                //To-Do
-                //Requeue files on failure
-                //Display errors
-                //UX stuff
-                //Validate data before saving files and sending to database
-                //Do above
-                
-            } else {
-                return json_encode(['status' => 'failure', 'csrf' => csrf_hash(), 'message' => 'Nie wysłano żadnych plików!']);
-            }
-
-            if($this->request->isAjax())
-            {
-                $message = $this->request->getPost();
-                return json_encode(['status' => 'success', 'csrf' => csrf_hash(), 'message' => $message]);
-            }
-            
-        } else if($validation->getErrors())
-        {
-            $errors = $validation->getErrors();
-
-            return json_encode(['status'=> 'invalid', 'csrf' => csrf_hash(), 'errors' => $errors, $message = "Musisz poprawić błędy w formularzu!"]);
-        } else {
-            $errors = $validation->getErrors();
-            return json_encode(['status'=> 'failure', 'csrf' => csrf_hash(), 'message' => 'Wystąpił nieznany błąd!', 'errors' => $errors]);
         }
     }
 }

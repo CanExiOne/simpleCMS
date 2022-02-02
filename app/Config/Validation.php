@@ -281,8 +281,15 @@ class Validation
 			]
 		],
 
+		'description' => [
+			'rules' => 'max_length[1000]',
+			'errors' => [
+				'max_length' => 'Maksymalna dozwolona ilość znaków w opisie to 1000!'
+			]
+		],
+
 		'file' => [
-			'rules' => 'uploaded[file]|mime_in[file,image/png,image/jpg,/image/jpeg,image/gif]|max_size[file,4096]',
+			'rules' => 'uploaded[file]|mime_in[file,image/png,image/jpg,/image/jpeg,image/gif]|max_size[file,4096]|permit_empty',
 			'errors' => [
 				'uploaded' => 'Wystąpił błąd podczas wysyłania plików, spróbuj ponownie!',
 				'mime_in' => 'Wysłany plik posiada nieprawidłowe rozszerzenie! Dozwolone rozszerzenia to PNG, JPG, JPEG oraz GIF',
