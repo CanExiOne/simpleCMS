@@ -22,7 +22,7 @@ class Gallery extends BaseController
         $data['title'] = env('app.siteName').' | Galeria';
         $data['siteDesc'] = "Test";
 
-        $data['albums'] = $galleryModel->findAll();
+        $data['albums'] = $galleryModel->orderBy('created_at', 'desc')->findAll();
 
         echo view('admin/templates/header', $data);
 		echo view('admin/pages/gallery', $data);
@@ -61,6 +61,31 @@ class Gallery extends BaseController
 		echo view('admin/pages/gallery/'.$page, $data);
         echo view('admin/templates/footer', $data);
 	}
+
+    //Display portfolio on website
+    public function portfolio()
+    {
+        $model = new GalleryModel(); 
+
+        $data['siteTitle'] = env('app.siteName') . ' - Portfolio';
+        $data['siteDesc'] = 'Portfolio';
+        $data['year'] = date('Y');
+
+        if($this->request->getGet('albumid'))
+        {
+            $data['album'] = $model->find($this->request->getGet('albumid'));
+
+            echo view('templates/header', $data);
+            echo view('pages/portfolio-details', $data);
+            echo view('templates/footer', $data);
+        }
+
+        $data['albums'] = $model->findAll();
+
+        echo view('templates/header', $data);
+		echo view('pages/portfolio', $data);
+        echo view('templates/footer', $data);
+    }
 
     public function createAlbum()
     {
@@ -107,8 +132,8 @@ class Gallery extends BaseController
 
             if($this->request->isAjax())
             {
-                $message = 'Pomyślnie utworzono album!';
-                return json_encode(['status' => 'success', 'csrf' => csrf_hash(), 'message' => $message]);
+                $message = 'Pomyślnie utworzono album o tytule ' . $data['title'].'!';
+                return $this->response->setJSON(json_encode(['status' => 'success', 'csrf' => csrf_hash(), 'message' => $message]));
             }
             
         } else if($validation->getErrors())

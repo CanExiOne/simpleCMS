@@ -22,7 +22,7 @@ class Admin extends BaseController
         //Create User Management System
         //Create Content Management System
         //Create Configuration Management System
-        $siteName = 'test';
+        $siteName = 'Panel Administratora';
         $siteDesc = 'test';
         $data['title'] = $siteName;
         $data['siteDesc'] = $siteDesc;

@@ -53,6 +53,9 @@ $routes->post('/admin/users/createUser', 'Admin::createUser');
 $routes->post('/admin/users/updateUser', 'Admin::updateUser');
 $routes->post('/admin/users/deleteUser', 'Admin::deleteUser');
 
+//User Profile
+$routes->get('/admin/profile', 'Profile::index');
+
 // Settings Management
 $routes->post('/admin/updateSettings', 'Admin::updateSettings');
 
@@ -73,9 +76,15 @@ $routes->post('/admin/gallery/deletePicture', 'Gallery::deletePicture');
 $routes->post('/contact-us/send', 'Contact::Send');
 
 // Main sub-pages
+
+//Blog
 $routes->get('/blog', 'Blog::index');
 $routes->get('/blog/view/(:any)', 'Blog::view/$1');
 $routes->addRedirect('/blog/.*/', '/blog');
+
+//Gallery
+$routes->get('/portfolio', 'Gallery::portfolio');
+
 $routes->get('/(:any)', 'Pages::view/$1', ['priority' => 1]);
 
 /*

@@ -272,7 +272,15 @@ document.addEventListener("DOMContentLoaded",async function() {
     });
 
     this.on("successmultiple", function(files, response) {
-      console.log(response);
+      //Reload page and display success popup
+      reloadMessage = {
+        'title' : $('#title').val(),
+        'message' : response.message,
+        'type' : 'success'
+      };
+
+      localStorage.setItem('reload-message', JSON.stringify(reloadMessage));
+      window.location.href = '/admin/gallery';
 
       //Re-enable button
       $('button[type=submit]').attr('disabled', false);
