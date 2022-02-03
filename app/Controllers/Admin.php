@@ -510,6 +510,14 @@ class Admin extends BaseController
                 ));
 
                 file_put_contents($path, str_replace(
+                    "app.companyNip = '".getenv('app.companyNip')."'", "app.companyNip = '".$this->request->getVar('companyNip')."'", file_get_contents($path)
+                ));
+
+                file_put_contents($path, str_replace(
+                    "app.companyRegon = '".getenv('app.companyRegon')."'", "app.companyRegon = '".$this->request->getVar('companyRegon')."'", file_get_contents($path)
+                ));
+
+                file_put_contents($path, str_replace(
                     "email.host = '".getenv('email.host')."'", "email.host = '".$this->request->getVar('emailHost')."'", file_get_contents($path)
                 ));
 

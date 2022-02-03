@@ -55,6 +55,8 @@ $routes->post('/admin/users/deleteUser', 'Admin::deleteUser');
 
 //User Profile
 $routes->get('/admin/profile', 'Profile::index');
+$routes->post('/admin/profile/changepassword', 'Profile::changePassword');
+$routes->post('/admin/profile/update', 'Profile::updateProfile');
 
 // Settings Management
 $routes->post('/admin/updateSettings', 'Admin::updateSettings');

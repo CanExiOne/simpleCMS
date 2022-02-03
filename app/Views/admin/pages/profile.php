@@ -14,7 +14,7 @@
           <img src="/uploads/avatars/avatar_placeholder.png" class="img-circle elevation-2" alt="User Image">
         </div>
         <div class="info">
-          <a href="#" class="d-block"><?php echo($_SESSION['username']); ?></a>
+          <a href="/admin/profile" class="d-block"><?php echo($_SESSION['username']); ?></a>
         </div>
       </div>
 
@@ -22,7 +22,7 @@
       <nav class="mt-2">
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
           <li class="nav-item">
-            <a href="#" class="nav-link">
+            <a href="/admin" class="nav-link">
               <i class="nav-icon fas fa-tachometer-alt"></i>
               <p>
                 Panel Kontrolny
@@ -49,7 +49,7 @@
               <li class="nav-item">
                 <a href="/admin/gallery" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
-                  <p>Albumy <?php echo(uri_string())?></p>
+                  <p>Albumy</p>
                 </a>
               </li>
               <li class="nav-item">
@@ -121,7 +121,7 @@
                   </div>
                   <div class="vr"></div>
                   <div class="col">
-                    <form action="/admin/users/profile/update" method="post">
+                    <form action="/admin/profile/update" method="post">
                       <div class="form-row">
                         <div class="form-group col-md-6">
                           <label for="firstName">Nowe Imię</label>
@@ -135,17 +135,18 @@
                         </div>
                       </div>
                       <div class="form-group col-md-6">
-                        <label for="lastName">Nowy Adres E-mail</label>
-                        <input id="lastName" type="email" class="form-control" name="lastName" value="<?=esc($profile['email'])?>" aria-describedby="lastNameHelp" autocomplete="off">
-                        <div id="lastNameHelp" class="form-text">Podaj nowy adres e-mail</div>
+                        <label for="email">Nowy Adres E-mail</label>
+                        <input id="email" type="email" class="form-control" name="email" value="<?=esc($profile['email'])?>" aria-describedby="emailHelp" autocomplete="off">
+                        <div id="emailHelp" class="form-text">Podaj nowy adres e-mail</div>
                       </div>
+                      <div class="response"></div>
                       <button class="btn btn-success" type="submit">Edytuj Profil</button>
                     </form>
                     <hr>
                     <div class="card-header bg-warning">
                       Zmiana Hasła
                     </div>
-                      <form action="/admin/users/profile/changepassword" method="post">
+                      <form action="/admin/profile/changepassword" method="post">
                         <div class="form-group col-md-6">
                           <label for="newPassword">Nowe Hasło</label>
                           <input id="newPassword" type="password" class="form-control" name="newPassword" aria-describedby="newPasswordHelp" autocomplete="off">
@@ -156,7 +157,8 @@
                           <input id="currPassword" type="password" class="form-control" name="currPassword" aria-describedby="currPasswordHelp" autocomplete="off">
                           <div id="currPasswordHelp" class="form-text">Podaj swoje aktualne hasło</div>
                         </div>
-                        <button class="btn btn-warning">Zmień Hasło</button>
+                        <div class="response"></div>
+                        <button class="btn btn-warning" type="submit">Zmień Hasło</button>
                       </form>
                   </div>
                 </div>
@@ -186,5 +188,128 @@
 <!-- ./wrapper -->
 </body>
 <script>
-  
+function sleep(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+$(function() {
+  $('form').submit(async function(event) {
+    event.preventDefault();
+
+    form = $(this);
+
+    //Clear error messages
+    $('.form-text').each(function() {
+      $(this).children().remove();
+    })
+
+    $('.response').text('');
+
+    //Create clone of button
+    var btnClone = form.children('button[type=submit]').clone();
+
+    //Disable Button
+    $('button[type=submit]').attr('disabled', true);
+
+    //Make it go spinny
+    form.children('button[type=submit]').html("<span class='spinner-border spinner-border-sm' role='status' aria-hidden='true'></span> <span class=''>Wysyłanie...</span>");
+    await sleep(2500);
+
+    formData = new FormData(this);
+
+    formData.set('userId', <?php echo($_SESSION['userId'])?>)
+
+    $.ajax({
+      type: this.getAttribute('method'),
+      url: this.getAttribute('action'),
+      data: formData,
+      processData: false,
+      contentType: false,
+    }).done(function(response) {
+      //Re-enable button
+        $('button[type=submit]').attr('disabled', false);
+
+      //Restore button
+      form.children('button[type=submit]').replaceWith(btnClone);
+      
+      //Check if response was invalid and if true display errors
+      if(response.status === 'invalid')
+      {
+        console.log(response);
+        for(error in response.errors) {
+          $(`#${error}Help`).append(`<div class='invalid-feedback d-block'>${response.errors[error]}</div>`);
+        }
+
+        form.find('.response').addClass('invalid-feedback d-block').text(response.message);
+
+        $(document).Toasts('create', {
+          title: 'Uwaga!!!',
+          body: response.message,
+          autohide: true,
+          delay: 8000,
+          class: 'bg-warning',
+        });
+      } 
+      else if (response.status === 'success')
+      {
+        form.find('.response').addClass('valid-feedback d-block').text(response.message);
+
+        $(document).Toasts('create', {
+          title: 'Sukces!',
+          body: response.message,
+          autohide: true,
+          delay: 8000,
+          class: 'bg-success',
+        });
+      } 
+      else 
+      {
+        form.find('.response').addClass('invalid-feedback d-block').text(response.message);
+
+        $(document).Toasts('create', {
+          title: 'Wystąpił Błąd!',
+          body: response.message,
+          autohide: true,
+          delay: 8000,
+          class: 'bg-danger',
+        });
+      }
+    }).fail(function(response) {
+      //Re-enable button
+      $('button[type=submit]').attr('disabled', false);
+      //Restore button
+      form.find('button[type=submit]').replaceWith(btnClone);
+
+      console.log(response)
+
+      form.find('.response').addClass('invalid-feedback d-block').text(response.message);
+
+      if(response.status === 'invalid')
+      {
+        console.log(response);
+        for(error in response.errors) {
+          $(`#${error}Help`).append(`<div class='invalid-feedback d-block'>${response.errors[error]}</div>`);
+        }
+
+        form.find('.response').addClass('invalid-feedback d-block').text(response.message);
+
+        $(document).Toasts('create', {
+          title: 'Uwaga!!!',
+          body: response.message,
+          autohide: true,
+          delay: 8000,
+          class: 'bg-warning',
+        });
+      } else {
+        $(document).Toasts('create', {
+          title: 'Wystąpił Błąd!',
+          body: response.message,
+          autohide: true,
+          delay: 8000,
+          class: 'bg-danger',
+        });
+      }
+    });
+  })
+})
 </script>

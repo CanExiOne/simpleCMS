@@ -29,6 +29,8 @@
         <h4>Kontakt</h4>
         <p>
           <strong>Numer telefonu:</strong> 510 338 281 / <br>514 317 218  <br>
+          <strong>NIP:</strong> <?=env('app.companyNip')?> <br>
+          <strong>REGON:</strong> <?=env('app.companyRegon')?> <br>
           <strong>Email:</strong> <a href="mailto://biuro@kac-bud.pl">biuro@kac-bud.pl</a> / <a href="mailto://biuro@kac-bud.pl"><br>slowkac@gmail.com</a>
         </p>
 

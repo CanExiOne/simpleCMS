@@ -41,3 +41,16 @@ textarea {
   /* adjust 'height' to position overlay content vertically */
   height: 50%;
 }
+
+.vr {
+  display: inline-block;
+  align-self: stretch;
+  width: 1px;
+  min-height: 1em;
+  background-color: gray;
+  opacity: .25;
+}
+
+.img-profile {
+  max-width: 80%;
+}

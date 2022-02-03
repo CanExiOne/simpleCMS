@@ -297,4 +297,43 @@ class Validation
 			]
 		],
 	];
+
+	public $changePassword = [
+		'newPassword' => [
+			'rules' => 'required|min_length[8]|max_length[60]',
+			'errors' => [
+				'required' => 'To pole jest wymagane!',
+				'min_length' => 'Hasło nie może być krótsze niż 8 znaków!',
+				'max_length' => 'Hasło nie może być dłuższe niż 60 znaków!'
+			],
+		],
+	];
+
+	public $updateProfile = [
+		'firstName' => [
+			'rules' => 'required|alpha_numeric_space|min_length[3]|max_length[60]',
+			'errors' => [
+				'required' => 'Nie podano imienia!',
+				'alpha_numeric_space' => 'Imię zawiera niedozwolone znaki!',
+				'min_length' => 'Imię musi się składać z conajmniej 3 znaków!',
+				'max_length' => 'Imię nie może składać się z więcej niż 60 znaków!'
+			]
+		],
+		'lastName' => [
+			'rules' => 'required|alpha_numeric_space|min_length[3]|max_length[60]',
+			'errors' => [
+				'required' => 'Nie podano nazwiska!',
+				'alpha_numeric_space' => 'Nazwisko zawiera niedozwolone znaki!',
+				'min_length' => 'Nazwisko musi się składać z conajmniej 3 znaków!',
+				'max_length' => 'Nazwisko nie może się składać z więcej niż 60 znaków'
+			]
+		],
+		'email' => [
+			'rules' => 'valid_email|is_unique[users.email,id,{userId}]',
+			'errors' => [
+				'valid_email' => 'Podano niepoprawny adres e-mail!',
+				'is_unique' => 'Podany adres e-mail jest już używany przez inne konto!',
+			]
+		],
+	];
 }

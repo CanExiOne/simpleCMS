@@ -14,7 +14,7 @@
           <img src="/uploads/avatars/avatar_placeholder.png" class="img-circle elevation-2" alt="User Image">
         </div>
         <div class="info">
-          <a href="#" class="d-block"><?php echo($_SESSION['username']); ?></a>
+          <a href="/admin/profile" class="d-block"><?php echo($_SESSION['username']); ?></a>
         </div>
       </div>
 
@@ -128,6 +128,16 @@
                       <label class="custom-file-label" for="siteLogo" aria-describedby="siteLogoHelp">Wyślij Plik</label>
                     </div>                    
                       <div id="siteLogoHelp" class="form-text">Wyślij logo strony</div>
+                  </div>
+                  <div class="form-group">
+                    <label for="companyNip">NIP Firmy</label>
+                    <input id="companyNip" type="text" class="form-control" name="companyNip" value="<?= getenv('app.companyNip') ?>" aria-describedby="companyNipHelp" autocomplete="off">
+                    <div id="companyNipHelp" class="form-text">Podaj NIP firmy</div>
+                  </div>
+                  <div class="form-group">
+                    <label for="companyRegon">REGON Firmy</label>
+                    <input id="companyRegon" type="text" class="form-control" name="companyRegon" value="<?= getenv('app.companyRegon') ?>" aria-describedby="companyRegonHelp" autocomplete="off">
+                    <div id="companyRegonHelp" class="form-text">Podaj REGON firmy</div>
                   </div>
                   <hr>
                   <h4>E-mail</h4>
