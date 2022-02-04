@@ -53,10 +53,13 @@ class GalleryModel extends Model
         {
             foreach($pictures as $picture)
             {
-                if(!unlink(ROOTPATH.'/public/uploads/'.$picture))
+                if(file_exists(ROOTPATH.'/public/uploads/'.$picture))
                 {
-                    return 'Wystąpił błąd podczas usuwania pliku - '.$picture;
-                }
+                    if(!unlink(ROOTPATH.'/public/uploads/'.$picture))
+                    {
+                        return 'Wystąpił błąd podczas usuwania pliku - '.$picture;
+                    }
+                } 
             }
         }
 

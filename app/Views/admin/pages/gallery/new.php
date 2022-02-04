@@ -96,6 +96,7 @@
             <ol class="breadcrumb float-sm-right">
               <li class="breadcrumb-item"><a href="<?=base_url('/admin')?>">Panel Kontrolny</a></li>
               <li class="breadcrumb-item"><a href="<?=base_url('/admin/gallery')?>">Galeria</a></li>
+              <li class="breadcrumb-item active">Nowy Album</li>
             </ol>
           </div><!-- /.col -->
         </div><!-- /.row -->

@@ -1149,7 +1149,7 @@ section {
   color: #68A4C4;
 }
 .portfolio .portfolio-item {
-  background: #141414;
+  border: 1px rgba(220, 220, 220, 0.8) solid;
   overflow: hidden;
   min-height: 200px;
   position: relative;

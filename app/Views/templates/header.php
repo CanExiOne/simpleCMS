@@ -46,7 +46,7 @@
           <li><a id="home" href="<?=env('app.baseURL')?>/">Home</a></li>
           <li><a id="about-us" href="<?=env('app.baseURL')?>/about-us">O Nas</a></li>
           <li><a id="blog" href="<?=env('app.baseURL')?>/blog">Blog</a></li>
-          <li><a id="portfolio" href="<?=env('app.baseURL')?>/portfolio">Portfolio</a></li>
+          <li><a id="portfolio" href="<?=env('app.baseURL')?>/portfolio">Galeria</a></li>
           <li><a id="contact-us" href="<?=env('app.baseURL')?>/contact-us">Kontakt</a></li>
         </ul>
         <i class="bi bi-list mobile-nav-toggle"></i>

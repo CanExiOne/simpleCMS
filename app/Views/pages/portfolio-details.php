@@ -8,7 +8,7 @@
         <h2><?=esc($album['title'])?></h2>
         <ol>
           <li><a href="/">Home</a></li>
-          <li><a href="/portfolio">Portfolio</a></li>
+          <li><a href="/portfolio">Galeria</a></li>
           <li><?=esc($album['title'])?></li>
         </ol>
       </div>
@@ -29,9 +29,11 @@
               <?php if(!empty($album['pictures'])): ?>
                 <?php $pictures = unserialize($album['pictures']); ?>
                 <?php foreach($pictures as $picture): ?>
-                  <div class="swiper-slide">
-                    <img src="uploads/<?=esc($picture)?>" alt="">
-                  </div>
+                  <?php if(file_exists(ROOTPATH.'/public/uploads/'.$picture)): ?>
+                    <div class="swiper-slide">
+                      <img src="uploads/<?=esc($picture)?>" alt="">
+                    </div>
+                  <?php endif ?>
                 <?php endforeach ?>
               <?php else: ?>
 

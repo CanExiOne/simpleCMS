@@ -67,7 +67,7 @@ class Gallery extends BaseController
     {
         $model = new GalleryModel(); 
 
-        $data['siteTitle'] = env('app.siteName') . ' - Portfolio';
+        $data['siteTitle'] = env('app.siteName') . ' - Galeria';
         $data['siteDesc'] = 'Portfolio';
         $data['year'] = date('Y');
 
@@ -79,12 +79,14 @@ class Gallery extends BaseController
             echo view('pages/portfolio-details', $data);
             echo view('templates/footer', $data);
         }
+        else 
+        {
+            $data['albums'] = $model->findAll();
 
-        $data['albums'] = $model->findAll();
-
-        echo view('templates/header', $data);
-		echo view('pages/portfolio', $data);
-        echo view('templates/footer', $data);
+            echo view('templates/header', $data);
+            echo view('pages/portfolio', $data);
+            echo view('templates/footer', $data);
+        }
     }
 
     public function createAlbum()
@@ -266,12 +268,15 @@ class Gallery extends BaseController
 
             $data = (array) $data;
 
-            if(!unlink(ROOTPATH.'/public/uploads/'.$data['name']))
+            if(file_exists(ROOTPATH.'public/uploads/'.$data['name']))
             {
-                $message = 'Wystąpił błąd podczas usuwania pliku!';
-                $this->response->setStatusCode(400);
+                if(!unlink(ROOTPATH.'/public/uploads/'.$data['name']))
+                {
+                    $message = 'Wystąpił błąd podczas usuwania pliku!';
+                    $this->response->setStatusCode(400);
 
-                return json_encode(['status'=> 'failure', 'csrf' => csrf_hash(), 'message' => $message]);
+                    return $this->response->setJSON(json_encode(['status'=> 'failure', 'csrf' => csrf_hash(), 'message' => $message]));
+                }
             }
 
             $galleryModel->removePicture($data['name'], $data['albumid']);

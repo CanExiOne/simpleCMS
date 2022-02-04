@@ -5,10 +5,10 @@
     <div class="container">
 
       <div class="d-flex justify-content-between align-items-center">
-        <h2>Nasze Portfolio</h2>
+        <h2>Galeria</h2>
         <ol>
           <li><a href="/">Home</a></li>
-          <li>Nasze Portfolio</li>
+          <li>Galeria</li>
         </ol>
       </div>
 
@@ -25,18 +25,20 @@
         <?php foreach ($albums as $album_item): ?>
           <?php $pictures = unserialize($album_item['pictures']) ?>
             <?php foreach ($pictures as $picture): ?>
-              <div class="col-lg-4 col-md-6 portfolio-wrap">
-                <div class="portfolio-item">
-                  <img src="/uploads/<?=esc($picture)?>" class="img-fluid" alt="">
-                  <div class="portfolio-info">
-                    <h3><?=esc($album_item['title'])?></h3>
-                    <div>
-                      <a href="/uploads/<?=esc($picture)?>" data-gallery="portfolioGallery" class="portfolio-lightbox" title="<?=esc($album_item['title'])?>"><i class="bx bx-plus"></i></a>
-                      <a href="/portfolio?albumid=<?=esc($album_item['albumid'])?>" title="Sprawdź Cały Album"><i class="bx bx-link"></i></a>
+              <?php if(file_exists(ROOTPATH.'/public/uploads/'.$picture)): ?>
+                <div class="col-lg-4 col-md-6 portfolio-wrap">
+                  <div class="portfolio-item d-flex">
+                    <img src="/uploads/<?=esc($picture)?>" class="img-fluid justify-content-center align-self-center" alt="">
+                    <div class="portfolio-info">
+                      <h3><?=esc($album_item['title'])?></h3>
+                      <div>
+                        <a href="/uploads/<?=esc($picture)?>" data-gallery="portfolioGallery" class="portfolio-lightbox" title="<?=esc($album_item['title'])?>"><i class="bx bx-plus"></i></a>
+                        <a href="/portfolio?albumid=<?=esc($album_item['albumid'])?>" title="Sprawdź Cały Album"><i class="bx bx-link"></i></a>
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
+              <?php endif ?>
             <?php endforeach ?>
         <?php endforeach ?>
       <?php else: ?>
