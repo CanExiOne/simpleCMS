@@ -142,7 +142,7 @@
           <div class="col-md-6">
             <div class="small-box bg-gradient-warning">
                 <div class="inner">
-                    <h3>7</h3>
+                    <h3><?=esc($galleryCount)?></h3>
                     <p>Albumów</p>
                 </div>
                 <div class="icon">
@@ -157,7 +157,7 @@
           <div class="col-md-6">
             <div class="small-box bg-gradient-warning">
                 <div class="inner">
-                    <h3>54</h3>
+                    <h3><?=esc($picturesCount)?></h3>
                     <p>Zdjęć</p>
                 </div>
                 <div class="icon">

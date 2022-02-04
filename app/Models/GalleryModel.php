@@ -67,4 +67,22 @@ class GalleryModel extends Model
 
         return true;
     }
+
+    public function countPictures()
+    {
+        $pictures = $this->findColumn('pictures');
+
+        if($pictures)
+        {
+            foreach($pictures as $pictures_item)
+        {
+            $pictures_item = unserialize($pictures_item);
+
+            $numOfPictures =+ count($pictures_item);
+        }
+        return $numOfPictures;
+        } else {
+            return 0;
+        }
+    }
 }

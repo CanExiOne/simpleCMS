@@ -3,6 +3,7 @@
 use App\Models\SettingsModel;
 use App\Models\UsersModel;
 use App\Models\NewsModel;
+use App\Models\GalleryModel;
 use CodeIgniter\Controller;
 
 use App\Controllers\BaseController;
@@ -14,6 +15,7 @@ class Admin extends BaseController
         $session = session();
         $usersModel = new UsersModel();
         $newsModel = new NewsModel();
+        $galleryModel = new GalleryModel();
 
         if(!isset($_SESSION['logged_in']))
         {
@@ -28,6 +30,8 @@ class Admin extends BaseController
         $data['siteDesc'] = $siteDesc;
         $data['userCount'] = count($usersModel->findAll());
         $data['newsCount'] = count($newsModel->findAll());
+        $data['galleryCount'] = count($galleryModel->findAll());
+        $data['picturesCount'] = $galleryModel->countPictures(); 
 
         echo view('admin/templates/header', $data);
 		echo view('admin/home', $data);
