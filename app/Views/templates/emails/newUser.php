@@ -19,6 +19,6 @@
 </style>
 <body>
 <p style="font-size: 10pt; margin-bottom: 5pt; font-family: arial; margin-top: 0pt">
-  Twoje hasło to: <?=esc($pwd)?>
+  Twoje hasło to: <?=esc($data['pwd'])?>
 </p>
 </body>
