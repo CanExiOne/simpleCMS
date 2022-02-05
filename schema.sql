@@ -1,6 +1,4 @@
 -- MySQL dump 10.19  Distrib 10.3.32-MariaDB, for debian-linux-gnu (x86_64)
---
--- Host: localhost    Database: jimmi
 -- ------------------------------------------------------
 -- Server version	10.3.32-MariaDB-1:10.3.32+maria~focal-log
 
@@ -79,6 +77,32 @@ LOCK TABLES `news` WRITE;
 UNLOCK TABLES;
 
 --
+-- Table structure for table `settings`
+--
+
+DROP TABLE IF EXISTS `settings`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `settings` (
+  `idsettings` int(11) NOT NULL AUTO_INCREMENT,
+  `field` varchar(255) NOT NULL,
+  `value` longtext DEFAULT NULL,
+  `restricted` tinyint(4) DEFAULT 0,
+  PRIMARY KEY (`idsettings`)
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `settings`
+--
+
+LOCK TABLES `settings` WRITE;
+/*!40000 ALTER TABLE `settings` DISABLE KEYS */;
+INSERT INTO `settings` VALUES (1,'siteName','simpleCMS',0),(2,'companyNIP','1234567890',0),(3,'companyREGON','123456789',0),(4,'emailHost','smpt.yourhost.com',1),(5,'emailUser','username',1),(6,'emailPassword','password',1),(7,'emailSender','noreply@domain.com',1),(8,'emailContact','contact@domain.com',0),(9,'emailPort','465',1),(10,'statsClients','0',0),(11,'statsFinishedProjects','0',0),(12,'statsCurrentProjects','0',0),(13,'statsEmployees','0',0);
+/*!40000 ALTER TABLE `settings` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `users`
 --
 
@@ -120,4 +144,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-02-04 12:25:46
+-- Dump completed on 2022-02-05 19:11:40
