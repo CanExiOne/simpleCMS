@@ -3,7 +3,7 @@
     <!-- Brand Logo -->
     <a href="<?=base_url('/admin')?>" class="brand-link">
       <img src="/assets/img/logo.png" alt="Logo" class="brand-image style="opacity: .8">
-      <span class="brand-text font-weight-light"><?= env('app.siteName') ?></span>
+      <span class="brand-text font-weight-light"><?=esc($settings['siteName'])?></span>
     </a>
 
     <!-- Sidebar -->
@@ -191,7 +191,7 @@
       Created by <strong>VGE Sites</strong>
     </div>
     <!-- Default to the left -->
-    <strong>Copyright &copy; 2021-<?= date('Y') ?> <a href="<?= base_url() ?>"><?=env('app.siteName')?></a>.</strong> All rights reserved.
+    <strong>Copyright &copy; 2021-<?= date('Y') ?> <a href="<?= base_url() ?>"><?=esc($settings['siteName'])?></a>.</strong> All rights reserved.
   </footer>
 </div>
 <!-- ./wrapper -->

@@ -12,7 +12,6 @@ class Admin extends BaseController
 {
 	public function index()
 	{
-        $session = session();
         $usersModel = new UsersModel();
         $newsModel = new NewsModel();
         $galleryModel = new GalleryModel();
@@ -24,10 +23,11 @@ class Admin extends BaseController
         //Create User Management System
         //Create Content Management System
         //Create Configuration Management System
-        $siteName = 'Panel Administratora';
-        $siteDesc = 'test';
-        $data['title'] = $siteName;
-        $data['siteDesc'] = $siteDesc;
+        $data['siteTitle'] = 'Panel Administratora';
+        $data['siteDesc'] = 'test';
+
+        $data['settings'] = $this->cfg;
+
         $data['userCount'] = count($usersModel->findAll());
         $data['newsCount'] = count($newsModel->findAll());
         $data['galleryCount'] = count($galleryModel->findAll());
@@ -41,9 +41,11 @@ class Admin extends BaseController
 	public function view($page)
 	{
         $usersModel = new UsersModel();
+        $settingsModel = new SettingsModel();
         $news = new NewsModel();
         $db = \Config\Database::connect();
-        $session = session();
+
+        $data['settings'] = $this->cfg;
 
         if(!isset($_SESSION['logged_in']))
         {
@@ -85,12 +87,7 @@ class Admin extends BaseController
         {
             if($userData['group'] == 1)
             {
-                $cfg = [
-                    'baseURL' => getenv('app.baseURL'),
-                    'siteName' => getenv('app.siteName'),
-                ];
-    
-                $data['cfg'] = $cfg;
+                $data['serverCfg'] = $this->serverCfg;
             } else 
             {
                 throw new \CodeIgniter\Exceptions\PageNotFoundException($page);
@@ -98,10 +95,8 @@ class Admin extends BaseController
 
         }
 
-        $siteName = ucfirst($page);
-        $siteDesc = 'test';
-        $data['title'] = $siteName;
-        $data['siteDesc'] = $siteDesc;
+        $data['siteTitle'] = ucfirst($page);
+        $data['siteDesc'] = 'test';
         $data['year'] = date('Y');
         $data['page'] = $page;
 
@@ -113,16 +108,15 @@ class Admin extends BaseController
     public function createUser()
     {
         $userModel = new UsersModel();
-        $session = session();
         $validation =  \Config\Services::validation();
 		$email = \Config\Services::email();
 
         $config['SMTPCrypto'] 	= env('email.encrypt');
 		$config['protocol']     = env('email.protocol');
-		$config['SMTPHost'] 	= env('email.host');
-		$config['SMTPPort'] 	= env('email.port');
-		$config['SMTPUser'] 	= env('email.user');
-		$config['SMTPPass'] 	= env('email.password');
+		$config['SMTPHost'] 	= $this->serverCfg['emailHost'];
+		$config['SMTPPort'] 	= $this->serverCfg['emailPort'];
+		$config['SMTPUser'] 	= $this->serverCfg['emailUser'];
+		$config['SMTPPass'] 	= $this->serverCfg['emailPassword'];
 		$config['mailType']		= 'html';
 
 		$email->initialize($config);
@@ -317,7 +311,6 @@ class Admin extends BaseController
     {
         $usersModel = new UsersModel();
         $newsModel = new NewsModel();
-        $session = session();
         $validation =  \Config\Services::validation();
 
         $userData = $usersModel->find($_SESSION['userId']);
@@ -372,7 +365,6 @@ class Admin extends BaseController
     public function editNews()
     {
         $newsModel = new NewsModel();
-        $session = session();
         $validation =  \Config\Services::validation();
 
         /*
@@ -470,114 +462,66 @@ class Admin extends BaseController
         }
     }
 
-    public function uploadFile()
-    {
-        $validation =  \Config\Services::validation();
-        $file = $this->request->getFile('myImage');
-
-        return json_encode(['status' => 'failure', 'message' => $_FILES]);
-
-        if($this->request->getMethod() === 'post' && $this->validate('uploadFile'))
-        {
-            if($file->isValid() && ! $file->hasMoved())
-            {
-                $newName = $file->getRandomName();
-                $file->move(WRITEPATH.'uploads', $newName);
-
-                return json_encode(['status' => 'success', 'message' => 'success']);
-            } else {
-                return json_encode(['status' => 'failure', 'message' => 'Nie działa']);
-            }
-        } else if($validation->hasError('myImage'))
-        {
-            $errors = $validation->getErrors();
-
-            return json_encode(['status' => 'invalid', 'message' => $errors]);
-        }
-
-    }
-
     public function updateSettings()
     {
         $validation =  \Config\Services::validation();
+        $model = new SettingsModel();
         $file = $this->request->getFile('siteLogo');
         
         //Check if request method is POST and if true validate data received
         if($this->request->getMethod() === 'post' && $this->validate('updateSettings'))
         {
+            $data = $this->request->getPost();
 
-            $path = ROOTPATH.'.env';
+            if(!$model->updateSettings($data))
+            {
+                $message = 'Wystąpił błąd podczas aktualizacji ustawień!';
 
-            if (file_exists($path)) {          
-                file_put_contents($path, str_replace(
-                    "app.siteName = '".getenv('app.siteName')."'", "app.siteName = '".$this->request->getVar('siteName')."'", file_get_contents($path)
-                ));
-
-                file_put_contents($path, str_replace(
-                    "app.companyNip = '".getenv('app.companyNip')."'", "app.companyNip = '".$this->request->getVar('companyNip')."'", file_get_contents($path)
-                ));
-
-                file_put_contents($path, str_replace(
-                    "app.companyRegon = '".getenv('app.companyRegon')."'", "app.companyRegon = '".$this->request->getVar('companyRegon')."'", file_get_contents($path)
-                ));
-
-                file_put_contents($path, str_replace(
-                    "email.host = '".getenv('email.host')."'", "email.host = '".$this->request->getVar('emailHost')."'", file_get_contents($path)
-                ));
-
-                file_put_contents($path, str_replace(
-                    "email.user = '".getenv('email.user')."'", "email.user = '".$this->request->getVar('emailUsername')."'", file_get_contents($path)
-                ));
-
-                file_put_contents($path, str_replace(
-                    "email.password = '".getenv('email.password')."'", "email.password = '".$this->request->getVar('emailPassword')."'", file_get_contents($path)
-                ));
-
-                file_put_contents($path, str_replace(
-                    "email.sender = '".getenv('email.sender')."'", "email.sender = '".$this->request->getVar('emailSender')."'", file_get_contents($path)
-                ));
-
-                file_put_contents($path, str_replace(
-                    "email.contact = '".getenv('email.contact')."'", "email.contact = '".$this->request->getVar('emailContact')."'", file_get_contents($path)
-                ));
-
-                file_put_contents($path, str_replace(
-                    "email.port = '".getenv('email.port')."'", "email.port = '".$this->request->getVar('emailPort')."'", file_get_contents($path)
-                ));
-            } else {
-                $message = 'Wystąpił błąd!';
-            
-                return json_encode(['status' => 'failure', 'csrf' => csrf_hash(), 'message' => $message]);
+                return $this->response->setJSON(json_encode(['status' => 'failure', 'csrf' => csrf_hash(), 'message' => $message]));
             }
 
             if($file = $this->request->getFile('siteLogo'))
             {
                 if($file->isValid() && !$file->hasMoved())
                 {
+                   $currLogo = ROOTPATH.'public/assets/img/logo.png';
+                   rename($currLogo, $currLogo.'.old');
                     if(!$file->move(ROOTPATH.'public/assets/img/', 'logo.png'))
                     {
-                        throw new \RuntimeException($file->getErrorString().'('.$file->getError().')');
+                        $errors = '';
+
+                        if(!$_SERVER['CI_ENVIRONMENT'] === 'production')
+                        {
+                            $errors['unknown'] = $file->getError();
+                        }
+
+                        rename($currLogo.'.old', $currLogo);
+
+                        $message = 'Wystąpił błąd podczas aktualizacji logo!';
+
+                        return $this->response->setJSON(json_encode(['status' => 'failure', 'csrf' => csrf_hash(), 'message' => $message, 'errors' => $errors]));
                     }
+                    unlink(ROOTPATH.'/public/assets/img/logo.png.old');
                 }
             }
             //If everything was successful send success message to user
             if($this->request->isAjax())
             {
-                $message = 'Ustawienia zostały edytowane!';
+                $message = 'Pomyślnie edytowano ustawienia! W przypadku zmiany logo nie zapomnij odświeżyć strony!';
             
-                return json_encode(['status' => 'success', 'csrf' => csrf_hash(), 'message' => $message]);
+                return $this->response->setJSON(json_encode(['status' => 'success', 'csrf' => csrf_hash(), 'message' => $message]));
             }
-        } else if($validation->hasError('baseURL')
-                || $validation->hasError('siteName')
-                || $validation->hasError('siteLogo'))
+        } else if($validation->getErrors())
         {
             $errors = $validation->getErrors();
 
-            return json_encode(['status'=> 'invalid', 'csrf' => csrf_hash(), 'errors' => $errors]);
+            $message = 'Wykryto błędy formularzu! Musisz je poprawić';
+
+            return $this->response->setJSON(json_encode(['status'=> 'invalid', 'csrf' => csrf_hash(), 'message' => $message, 'errors' => $errors]));
         } else {
             $message = 'Nieznany błąd!';
 
-            return json_encode(['status'=> 'failure', 'csrf' => csrf_hash(), 'message' => $message]);
+            return $this->response->setJSON(json_encode(['status'=> 'failure', 'csrf' => csrf_hash(), 'message' => $message]));
         }
     }
 }

@@ -21,9 +21,6 @@
 #--------------------------------------------------------------------
 
 # app.baseURL = ''
-# app.siteName = ''
-# app.companyNip = ''
-# app.companyRegon = ''
 # app.forceGlobalSecureRequests = false
 
 # app.sessionDriver = 'CodeIgniter\Session\Handlers\FileHandler'

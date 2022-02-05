@@ -29,9 +29,9 @@
         <h4>Kontakt</h4>
         <p>
           <strong>Numer telefonu:</strong> 510 338 281 / <br>514 317 218  <br>
-          <strong>NIP:</strong> <?=env('app.companyNip')?> <br>
-          <strong>REGON:</strong> <?=env('app.companyRegon')?> <br>
-          <strong>Email:</strong> <a href="mailto://biuro@kac-bud.pl">biuro@kac-bud.pl</a> / <a href="mailto://biuro@kac-bud.pl"><br>slowkac@gmail.com</a>
+          <strong>NIP:</strong> <?=esc($settings['companyNIP'])?> <br>
+          <strong>REGON:</strong> <?=esc($settings['companyREGON'])?> <br>
+          <strong>Email:</strong> <a href="mailto://<?=esc($settings['emailContact'])?>"><?=esc($settings['emailContact'])?></a> / <a href="mailto://biuro@kac-bud.pl"><br>slowkac@gmail.com</a>
         </p>
 
       </div>
@@ -51,7 +51,7 @@
 
 <div class="container">
   <div class="copyright">
-    &copy; Copyright <strong><span><?=env('app.siteName')?></span></strong>. Wszystkie prawa zastrzeżone
+    &copy; Copyright <strong><span><?=esc($settings['siteName'])?></span></strong>. Wszystkie prawa zastrzeżone
   </div>
 </div>
 </footer><!-- End Footer -->

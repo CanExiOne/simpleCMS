@@ -13,7 +13,7 @@ class Testing extends BaseController
         //Create Configuration Management System
         $siteName = 'test';
         $siteDesc = 'test';
-        $data['title'] = $siteName;
+        $data['siteTitle'] = $siteName;
         $data['siteDesc'] = $siteDesc;
         $data['year'] = date('Y');
 

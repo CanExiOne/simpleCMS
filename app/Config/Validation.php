@@ -122,9 +122,9 @@ class Validation
 
 	public $updateSettings = [
 		'siteName' => [
-			'rules' => 'required',
+			'rules' => 'max_length[80]|permit_empty',
 			'errors' => [
-				'required' => 'Musisz podać nazwę strony!',
+				'max_length' => 'Nazwa strony nie może być dłuższa niż 80 znaków!',
 			]
 		],
 		'siteLogo' => [
@@ -133,6 +133,34 @@ class Validation
 				'mime_in' => 'Logo musi być plikiem w formacie PNG!',
 				'max_size' => 'Logo nie może być większe niż 2MB!',
 				'max_dims' => 'Logo nie może mieć większych rozmiarów niż 2000x2000!'
+			],
+		],
+		'statsClients' => [
+			'rules' => 'required|alpha_numeric',
+			'errors' => [
+				'required' => 'To pole jest wymagane!',
+				'alpha_numeric' => 'Musisz podać liczbę!',
+			],
+		],
+		'statsFinishedProjects' => [
+			'rules' => 'required|alpha_numeric',
+			'errors' => [
+				'required' => 'To pole jest wymagane!',
+				'alpha_numeric' => 'Musisz podać liczbę!',
+			],
+		],
+		'statsCurrentProjects' => [
+			'rules' => 'required|alpha_numeric',
+			'errors' => [
+				'required' => 'To pole jest wymagane!',
+				'alpha_numeric' => 'Musisz podać liczbę!',
+			],
+		],
+		'statsEmployees' => [
+			'rules' => 'required|alpha_numeric',
+			'errors' => [
+				'required' => 'To pole jest wymagane!',
+				'alpha_numeric' => 'Musisz podać liczbę!',
 			],
 		],
 	];

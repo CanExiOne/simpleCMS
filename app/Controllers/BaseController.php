@@ -9,6 +9,8 @@ use CodeIgniter\HTTP\RequestInterface;
 use CodeIgniter\HTTP\ResponseInterface;
 use Psr\Log\LoggerInterface;
 
+use App\Models\SettingsModel;
+
 /**
  * Class BaseController
  *
@@ -40,7 +42,7 @@ class BaseController extends Controller
 
 	public function __construct()
 	{
-		$session = session();
+		
 	}
 
 	/**
@@ -60,5 +62,12 @@ class BaseController extends Controller
 		// Preload any models, libraries, etc, here.
 		//--------------------------------------------------------------------
 		// E.g.: $this->session = \Config\Services::session();
+
+		$this->session = \Config\Services::session();
+
+		$settingsModel = new SettingsModel();
+
+		$this->cfg = $settingsModel->getSettings();
+		$this->serverCfg = $settingsModel->getSettings(true);
 	}
 }

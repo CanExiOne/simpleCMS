@@ -9,7 +9,6 @@ class Profile extends BaseController
 {
     public function index()
     {
-        $session = session();
         $model = new UsersModel();
 
         if(!isset($_SESSION['logged_in']))
@@ -17,7 +16,9 @@ class Profile extends BaseController
             return redirect()->to(base_url('/admin/login'));
         }
 
-        $data['title'] = env('app.siteName').' | Profil';
+        $data['settings'] = $this->cfg;
+
+        $data['siteTitle'] = $this->cfg['siteName'].' | Profil';
         $data['siteDesc'] = "Test";
 
         $profile = $model->find($_SESSION['userId']);
@@ -35,7 +36,6 @@ class Profile extends BaseController
 
     public function changePassword()
     {
-        $session = session();
         $validation =  \Config\Services::validation();
         $model = new UsersModel();
 
@@ -43,10 +43,10 @@ class Profile extends BaseController
 
         $config['SMTPCrypto'] 	= env('email.encrypt');
 		$config['protocol']     = env('email.protocol');
-		$config['SMTPHost'] 	= env('email.host');
-		$config['SMTPPort'] 	= env('email.port');
-		$config['SMTPUser'] 	= env('email.user');
-		$config['SMTPPass'] 	= env('email.password');
+		$config['SMTPHost'] 	= $this->serverCfg['emailHost'];
+		$config['SMTPPort'] 	= $this->serverCfg['emailPort'];
+		$config['SMTPUser'] 	= $this->serverCfg['emailUser'];
+		$config['SMTPPass'] 	= $this->serverCfg['emailPassword'];
 		$config['mailType']		= 'html';
 
 		$email->initialize($config);
@@ -140,7 +140,6 @@ class Profile extends BaseController
 
     public function updateProfile()
     {
-        $session = session();
         $validation =  \Config\Services::validation();
         $model = new UsersModel();
 
@@ -148,10 +147,10 @@ class Profile extends BaseController
 
         $config['SMTPCrypto'] 	= env('email.encrypt');
 		$config['protocol']     = env('email.protocol');
-		$config['SMTPHost'] 	= env('email.host');
-		$config['SMTPPort'] 	= env('email.port');
-		$config['SMTPUser'] 	= env('email.user');
-		$config['SMTPPass'] 	= env('email.password');
+		$config['SMTPHost'] 	= $this->serverCfg['emailHost'];
+		$config['SMTPPort'] 	= $this->serverCfg['emailPort'];
+		$config['SMTPUser'] 	= $this->serverCfg['emailUser'];
+		$config['SMTPPass'] 	= $this->serverCfg['emailPassword'];
 		$config['mailType']		= 'html';
 
 		$email->initialize($config);

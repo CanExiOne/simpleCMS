@@ -2,7 +2,6 @@
 
 namespace App\Controllers;
 
-use App\Models\SettingsModel;
 use App\Models\UsersModel;
 use App\Models\NewsModel;
 
@@ -16,7 +15,9 @@ class Blog extends BaseController
 		$news = new NewsModel;
 		$users = new UsersModel;
 
-		$data['siteTitle'] = env('app.siteName') . ' - Blog';
+		$data['settings'] = $this->cfg;
+
+		$data['siteTitle'] = $data['settings']['siteName'] . ' - Blog';
 
 		$data['newsList'] = $news->orderBy('created_at', 'desc')->findAll();
 		$data['users'] = $users->findAll();
@@ -46,6 +47,8 @@ class Blog extends BaseController
 		}
 
 		$data['siteTitle'] = ucfirst($news['title']);
+
+		$data['settings'] = $this->cfg;
 
 		$data['author'] = $authorName;
 		$data['news'] = $news;

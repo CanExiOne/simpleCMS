@@ -3,7 +3,7 @@
   <!-- /.login-logo -->
   <div class="card card-outline card-primary">
     <div class="card-header text-center">
-      <span class="h1"><img src="/assets/img/logo.png" width="150px" alt="<?= env('app.siteName') ?>"></span>
+      <span class="h1"><img src="/assets/img/logo.png" width="150px" alt="<?=esc($settings['siteName'])?>"></span>
     </div>
     <div class="card-body">
       <p class="login-box-msg">Zaloguj się do panelu</p>

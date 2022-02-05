@@ -8,7 +8,7 @@
 
 	<meta property="og:description" content="<?=esc($siteDesc)?>">
 
-	<meta property="og:title" content="<?=esc($title)?>">
+	<meta property="og:title" content="<?=esc($siteTitle)?>">
 
     <!-- Bootstrap -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css" integrity="sha384-zCbKRCUGaJDkqS1kPbPd7TveP5iyJE0EjAuZQTgFLD2ylzuqKfdKlfG/eSrtxUkn" crossorigin="anonymous">
@@ -38,6 +38,9 @@
     <!-- Main style CSS -->
     <link rel="stylesheet" type="text/css" href="/assets/css/admin.css">
 
+    <!-- Main Javascript -->
+    <script src="/assets/js/admin.js"></script>
+
     <!-- Favicon -->
     <link rel="apple-touch-icon" sizes="180x180" href="/assets/img/favicons/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="/assets/img/favicons/favicon-32x32.png">
@@ -47,7 +50,7 @@
     <link rel="shortcut icon" href="/assets/img/favicons/favicon.ico">
     <meta name="msapplication-TileColor" content="#9f00a7">
     <meta name="msapplication-config" content="/assets/img/favicons/browserconfig.xml">
-    <title><?=esc($title)?></title>
+    <title><?=esc($siteTitle)?></title>
 </head>
 
 <?php if(uri_string() != 'admin/login') :?>

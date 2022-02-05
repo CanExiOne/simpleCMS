@@ -42,7 +42,7 @@
             <?php endforeach ?>
         <?php endforeach ?>
       <?php else: ?>
-
+        <h1 class="text-center mb-5">Nie ma aktualnie dodanych żadnych zdjęć</h1>
       <?php endif ?>
       </div>
 

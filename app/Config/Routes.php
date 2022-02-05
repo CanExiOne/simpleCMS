@@ -59,7 +59,7 @@ $routes->post('/admin/profile/changepassword', 'Profile::changePassword');
 $routes->post('/admin/profile/update', 'Profile::updateProfile');
 
 // Settings Management
-$routes->post('/admin/updateSettings', 'Admin::updateSettings');
+$routes->post('/admin/settings/updateSettings', 'Admin::updateSettings');
 
 // News Management
 $routes->post('/admin/news/createNews', 'Admin::createNews');

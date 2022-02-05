@@ -10,7 +10,6 @@ class Gallery extends BaseController
 {
     public function index()
 	{
-        $session = session();
         $usersModel = new UsersModel();
         $galleryModel = new GalleryModel();
 
@@ -19,7 +18,9 @@ class Gallery extends BaseController
             return redirect()->to(base_url('/admin/login'));
         }
 
-        $data['title'] = env('app.siteName').' | Galeria';
+        $data['settings'] = $this->cfg;
+
+        $data['siteTitle'] = $data['settings']['siteName'].' | Galeria';
         $data['siteDesc'] = "Test";
 
         $data['albums'] = $galleryModel->orderBy('created_at', 'desc')->findAll();
@@ -33,7 +34,6 @@ class Gallery extends BaseController
 	{
         $usersModel = new UsersModel();
         $galleryModel = new GalleryModel();
-        $session = session();
 
         if(!isset($_SESSION['logged_in']))
         {
@@ -54,7 +54,9 @@ class Gallery extends BaseController
             $data['album']['date'] = date('d-m-Y', strtotime($data['album']['date']));
         }
 
-        $data['title'] = env('app.siteName').' | Galeria';
+        $data['settings'] = $this->cfg;
+
+        $data['siteTitle'] = $this->cfg['siteName'].' | Galeria';
         $data['siteDesc'] = "Test";
 
         echo view('admin/templates/header', $data);
@@ -67,7 +69,9 @@ class Gallery extends BaseController
     {
         $model = new GalleryModel(); 
 
-        $data['siteTitle'] = env('app.siteName') . ' - Galeria';
+        $data['settings'] = $this->cfg;
+
+        $data['siteTitle'] = $data['settings']['siteName'] . ' - Galeria';
         $data['siteDesc'] = 'Portfolio';
         $data['year'] = date('Y');
 

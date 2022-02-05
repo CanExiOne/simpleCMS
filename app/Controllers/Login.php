@@ -7,15 +7,14 @@ class Login extends BaseController
 {
     public function index()
     {
-        $session = session();
-
         if(isset($_SESSION['logged_in']))
         {
             return redirect()->to(base_url('/admin'));
         }
 
-        $siteName = env('app.siteName');
-        $data['title'] = $siteName . ' - Logowanie';
+        $data['settings'] = $this->cfg;
+
+        $data['siteTitle'] = $this->cfg['siteName']. ' - Logowanie';
         $data['siteDesc'] = 'Logowanie';
 
         echo view('admin/templates/header', $data);
@@ -27,7 +26,6 @@ class Login extends BaseController
     {
         $userModel = new UsersModel();
         $validation =  \Config\Services::validation();
-        $session = session();
 
         //Check if request method is POST and if true validate data received
         if($this->request->getMethod() === 'post' && $this->validate('userLogin'))
@@ -63,7 +61,7 @@ class Login extends BaseController
                'logged_in' => true,
            ];
 
-           $session->set($sessionData);
+           $this->session->set($sessionData);
 
            
             return json_encode(['status' => 'success', 'csrf' => csrf_hash(), 'redirect' => base_url('/admin')]);
@@ -85,9 +83,7 @@ class Login extends BaseController
 
     public function logout()
     {
-        $session = session();
-
-        $session->destroy();
+        $this->session->destroy();
 
         return redirect()->to('/admin/login');
     }

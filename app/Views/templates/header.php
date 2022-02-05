@@ -36,7 +36,7 @@
     <div class="container d-flex justify-content-between align-items-center">
 
       <div class="logo">
-        <h1 class="text-light"><a href="<?=env('app.baseURL')?>/"><span><?=env('app.siteName')?></span></a></h1>
+        <h1 class="text-light"><a href="<?=env('app.baseURL')?>/"><span><?=esc($settings['siteName'])?></span></a></h1>
         <!-- Uncomment below if you prefer to use an image logo -->
         <!-- <a href="index.html"><img src="assets/img/logo.png" alt="" class="img-fluid"></a>-->
       </div>

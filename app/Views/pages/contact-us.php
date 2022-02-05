@@ -28,7 +28,7 @@
                 <div class="info-box">
                   <i class="bx bx-envelope"></i>
                   <h3>Email</h3>
-                  <p>biuro@kac-bud.pl<br>slowkac@gmail.com</p>
+                  <p><?=esc($settings['emailContact'])?><br>slowkac@gmail.com</p>
                 </div>
               </div>
               <div class="col-md-12">
