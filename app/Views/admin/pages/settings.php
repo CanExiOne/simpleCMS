@@ -285,7 +285,7 @@ $(function() {
 
     //Clear error messages
     $('.form-text').each(function() {
-      form.find('.invalid-feedback').remove();
+      $(this).find('.invalid-feedback').remove();
     })
 
     $('.response').text('');

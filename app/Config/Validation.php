@@ -136,28 +136,28 @@ class Validation
 			],
 		],
 		'statsClients' => [
-			'rules' => 'required|alpha_numeric',
+			'rules' => 'alpha_numeric|permit_empty',
 			'errors' => [
 				'required' => 'To pole jest wymagane!',
 				'alpha_numeric' => 'Musisz podać liczbę!',
 			],
 		],
 		'statsFinishedProjects' => [
-			'rules' => 'required|alpha_numeric',
+			'rules' => 'alpha_numeric|permit_empty',
 			'errors' => [
 				'required' => 'To pole jest wymagane!',
 				'alpha_numeric' => 'Musisz podać liczbę!',
 			],
 		],
 		'statsCurrentProjects' => [
-			'rules' => 'required|alpha_numeric',
+			'rules' => 'alpha_numeric|permit_empty',
 			'errors' => [
 				'required' => 'To pole jest wymagane!',
 				'alpha_numeric' => 'Musisz podać liczbę!',
 			],
 		],
 		'statsEmployees' => [
-			'rules' => 'required|alpha_numeric',
+			'rules' => 'alpha_numeric|permit_empty',
 			'errors' => [
 				'required' => 'To pole jest wymagane!',
 				'alpha_numeric' => 'Musisz podać liczbę!',
