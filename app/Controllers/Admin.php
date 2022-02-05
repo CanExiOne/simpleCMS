@@ -141,7 +141,7 @@ class Admin extends BaseController
             $email->setTo($data['userEmail']);
 
             $email->setSubject($this->cfg['siteName'].' - Aktywacja Konta');
-            $email->setMessage(view('templates/emails/newUser'), $data);
+            $email->setMessage(view('templates/emails/newUser', $data));
 
             //Save data to database
             $userModel->save([
