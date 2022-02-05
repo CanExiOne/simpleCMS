@@ -89,7 +89,7 @@ CREATE TABLE `settings` (
   `value` longtext DEFAULT NULL,
   `restricted` tinyint(4) DEFAULT 0,
   PRIMARY KEY (`idsettings`)
-) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -98,7 +98,7 @@ CREATE TABLE `settings` (
 
 LOCK TABLES `settings` WRITE;
 /*!40000 ALTER TABLE `settings` DISABLE KEYS */;
-INSERT INTO `settings` VALUES (1,'siteName','simpleCMS',0),(2,'companyNIP','1234567890',0),(3,'companyREGON','123456789',0),(4,'emailHost','smpt.yourhost.com',1),(5,'emailUser','username',1),(6,'emailPassword','password',1),(7,'emailSender','noreply@domain.com',1),(8,'emailContact','contact@domain.com',0),(9,'emailPort','465',1),(10,'statsClients','0',0),(11,'statsFinishedProjects','0',0),(12,'statsCurrentProjects','0',0),(13,'statsEmployees','0',0);
+INSERT INTO `settings` VALUES (1,'siteName','simpleCMS',0),(2,'companyNIP','1234567890',0),(3,'companyREGON','123456789',0),(4,'emailHost','smtp.sendgrid.net',1),(5,'emailUser','apikey',1),(6,'emailPassword','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',1),(7,'emailSender','noreply@virtual-gaming.eu',1),(8,'emailContact','kontakt@virtual-gaming.eu',0),(9,'emailPort','465',1),(10,'emailCrypto','tls',1),(11,'statsClients','0',0),(12,'statsFinishedProjects','0',0),(13,'statsCurrentProjects','0',0),(14,'statsEmployees','0',0);
 /*!40000 ALTER TABLE `settings` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -131,7 +131,7 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES (1,'Michal','Kolodziej','m.kolodziej@pm.me','$argon2id$v=19$m=65536,t=4,p=1$dUdHRGN0REZDSGJqS21mVQ$PfNxGpmYBMjSDoFvEZuk2YPQMFfEDE4X6mrVRdrQ94Q',1,1,NULL,'2021-08-25 12:01:29','2022-02-03 22:24:41',NULL);
+INSERT INTO `users` VALUES (1,'Michal','Kolodziej','canexione@gmail.com','$argon2id$v=19$m=65536,t=4,p=1$eDF2SXRGSXZMeG9EdEZQTg$CN23lMePqt+gdT1MVDnweJsKzc9d6EX5QeJ+WB8ugEk',1,1,NULL,'2021-08-25 12:01:29','2022-02-05 20:33:45',NULL);
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -144,4 +144,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-02-05 19:11:40
+-- Dump completed on 2022-02-05 20:45:58
