@@ -41,7 +41,7 @@ class Profile extends BaseController
 
         $email = \Config\Services::email();
 
-        $config['SMTPCrypto'] 	= env('email.encrypt');
+        $config['SMTPCrypto'] 	= $this->serverCfg['emailCrypto'];
 		$config['protocol']     = env('email.protocol');
 		$config['SMTPHost'] 	= $this->serverCfg['emailHost'];
 		$config['SMTPPort'] 	= $this->serverCfg['emailPort'];
@@ -95,11 +95,11 @@ class Profile extends BaseController
                 return $this->response->setJSON(json_encode(['status' => 'failure', 'csrf' => csrf_hash(), 'message' => $message]));
             }
 
-            $email->setFrom(env('email.sender'), env('siteName').' - noreply');
-            $email->setReplyTo(env('email.contact'), env('siteName').' - Kontakt');
+            $email->setFrom($this->serverCfg['emailSender'], $this->cfg['siteName'].' - noreply');
+            $email->setReplyTo($this->cfg['emailContact'], $this->cfg['siteName'].' - Kontakt');
             $email->setTo($userData['email']);
 
-            $email->setSubject(env('siteName').' - Zmiana Hasła');
+            $email->setSubject($this->cfg['siteName'].' - Zmiana Hasła');
             $email->setMessage(view('templates/emails/changedPassword', $userData));
 
             if(!$email->send())

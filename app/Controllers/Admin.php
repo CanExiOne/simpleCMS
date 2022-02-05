@@ -111,7 +111,7 @@ class Admin extends BaseController
         $validation =  \Config\Services::validation();
 		$email = \Config\Services::email();
 
-        $config['SMTPCrypto'] 	= env('email.encrypt');
+        $config['SMTPCrypto'] 	= $this->serverCfg['emailCrypto'];
 		$config['protocol']     = env('email.protocol');
 		$config['SMTPHost'] 	= $this->serverCfg['emailHost'];
 		$config['SMTPPort'] 	= $this->serverCfg['emailPort'];
@@ -124,6 +124,8 @@ class Admin extends BaseController
         //Check if request method is POST and if true validate data received
         if($this->request->getMethod() === 'post' && $this->validate('createUser'))
         {
+            $data = $this->request->getPost();
+
             //Generate password for new user
             $chars = "abcdefghijklmnopqerstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*";
             $pwd = substr(str_shuffle($chars), 0, 20);
@@ -131,6 +133,15 @@ class Admin extends BaseController
             //Hash the generated password
             $pwd_pepper = hash_hmac("sha256", $pwd, env('security.secretkey'));
             $pwd_hash = password_hash($pwd_pepper, PASSWORD_ARGON2ID);
+
+            $data['pwd'] = $pwd;
+
+            $email->setFrom($this->serverCfg['emailSender'], $this->cfg['siteName'].' - noreply');
+            $email->setReplyTo($this->cfg['emailContact'], $this->cfg['siteName'].' - Kontakt');
+            $email->setTo($data['userEmail']);
+
+            $email->setSubject($this->cfg['siteName'].' - Aktywacja Konta');
+            $email->setMessage(view('templates/emails/newUser'), $data);
 
             //Save data to database
             $userModel->save([
@@ -141,22 +152,15 @@ class Admin extends BaseController
                 'group' => $this->request->getVar('userGroup')
             ]);
 
-            $data['pwd'] = $pwd;
-
-            $email->setFrom(env('email.sender'), env('siteName').' - noreply');
-            $email->setReplyTo(env('email.contact'), env('siteName').' - Kontakt');
-            $email->setTo($this->request->getVar('email'));
-
-            $email->setSubject(env('siteName').' - Aktywacja Konta');
-            $email->setMessage(view('templates/emails/newUser', $data));
-
             if(!$email->send())
             {
                 $error = "";
 
                 if(!$_SERVER['CI_ENVIRONMENT'] === 'production'){
-                    $error = $email->printDebugger();
+                    $error = $email->printDebugger(['headers']);
                 }
+
+                log_message('critical', $email->printDebugger(['headers']));
 
                 $message = 'Użytkownik został pomyślnie utworzony, ale wystąpił błąd z wysłaniem wiadomości e-mail zawierajacą hasło do konta. Użytkownik będzie musiał zresetować swoje hasło.';
 

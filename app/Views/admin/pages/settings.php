@@ -208,7 +208,12 @@
                   <div class="form-group">
                     <label for="emailPort">Port do serwera SMTP</label>
                     <input id="emailPort" type="text" class="form-control" name="emailPort" value="<?=esc($serverCfg['emailPort'])?>" aria-describedby="emailPortHelp" autocomplete="off">
-                    <div id="emailPortHelp" class="form-text">Podaj adres serwera smtp dla swojego adresu e-mail</div>
+                    <div id="emailPortHelp" class="form-text">Podaj port swojego serwera SMTP. Dla TLS użyj 465, a SSL 587</div>
+                  </div>
+                  <div class="form-group">
+                    <label for="emailCrypto">Port do serwera SMTP</label>
+                    <input id="emailCrypto" type="text" class="form-control" name="emailCrypto" value="<?=esc($serverCfg['emailCrypto'])?>" aria-describedby="emailCryptoHelp" autocomplete="off">
+                    <div id="emailCryptoHelp" class="form-text">Jeśli posiadasz certyfikat to użyj SSL, jeśli to TLS</div>
                   </div>
                   <div class="response">
 
