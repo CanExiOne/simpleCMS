@@ -228,6 +228,10 @@ document.addEventListener("DOMContentLoaded",async function() {
     this.element.querySelector("button[type=submit]").addEventListener("click", function(e) {
       e.preventDefault();
 
+      if(myDropzone.getQueuedFiles().length === 0)
+      {
+        $('#otherErrors').addClass('invalid-feedback d-block').text('Musisz wysłać jakieś pliki!');
+      }
       myDropzone.processQueue();
     });
 

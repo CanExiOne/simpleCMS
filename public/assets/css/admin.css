@@ -10,7 +10,7 @@ textarea {
 
 .gallery-item {
   position: relative;
-  height: 350px !important;
+  height: 180px !important;
 }
 
 .gallery-item > img {
@@ -28,7 +28,8 @@ textarea {
 }
 
 .gallery-item-overlay button {
-  display: none;
+  display: inline-block;
+  bottom: 0 !important;
 }
 
 .gallery-item:hover button {
@@ -40,6 +41,16 @@ textarea {
   display: block;
   /* adjust 'height' to position overlay content vertically */
   height: 50%;
+}
+
+@media (min-width: 981px){
+  .gallery-item-overlay button {
+    display: none;
+  }
+  .gallery-item {
+    position: relative;
+    height: 350px !important;
+  }
 }
 
 .vr {

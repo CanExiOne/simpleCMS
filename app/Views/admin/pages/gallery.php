@@ -110,36 +110,36 @@
           <!-- <h2><span class="badge badge-primary">27.01.2022</span></h2> -->
           <div class="row">
             <?php
-            foreach($albums as $album)
-            {
-              extract($album);
-              $pictures = unserialize($pictures);
-
-              $date = date('d-m-Y', strtotime($date));
-
-              //Create empty array if no picture is in album
-              if(!$pictures)
+              foreach($albums as $album)
               {
-                $pictures[0] = 'gallery_placeholder.png';
-              }
+                extract($album);
+                $pictures = unserialize($pictures);
 
-              echo(
-                "<div class='col-4'>
-                  <div class='card'>
-                  <div class='card-header bg-success'>
-                    <span class='h3'><strong>$title</strong></span><span class='float-sm-right badge badge-secondary'>$date</span>
-                    <p class='card-text'><small>$client</small></p>
-                  </div>
-                  <div class='gallery-item text-center'>
-                    <img class='img-fluid' style='filter: blur(3px); padding:0.1rem;' src='/uploads/$pictures[0]' alt='An Image'>
-                    <div class='gallery-item-overlay'>
-                      <a href='/admin/gallery/edit?albumid=$albumid'><button class='btn btn-warning'>Edytuj Album</button></a>
+                $date = date('d-m-Y', strtotime($date));
+
+                //Create empty array if no picture is in album
+                if(!$pictures)
+                {
+                  $pictures[0] = 'gallery_placeholder.png';
+                }
+
+                echo(
+                  "<div class='col-md-4'>
+                    <div class='card'>
+                    <div class='card-header bg-success'>
+                      <span class='h3'><strong>$title</strong></span><span class='float-sm-right badge badge-secondary' style='float:right !important'>$date</span>
+                      <p class='card-text'><small>$client</small></p>
+                    </div>
+                    <div class='gallery-item text-center'>
+                      <img class='img-fluid' style='filter: blur(3px); padding:0.1rem;' src='/uploads/$pictures[0]' alt='An Image'>
+                      <div class='gallery-item-overlay'>
+                        <a href='/admin/gallery/edit?albumid=$albumid'><button class='btn btn-warning'>Edytuj Album</button></a>
+                      </div>
                     </div>
                   </div>
-                </div>
-                </div>"
-              );
-            }
+                  </div>"
+                );
+              }
             ?>
           </div>
         </div>
