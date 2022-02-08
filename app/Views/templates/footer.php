@@ -18,19 +18,24 @@
       <div class="col-lg-3 col-md-6 footer-links">
         <h4>Nasze Usługi</h4>
         <ul>
-          <li><i class="bx bx-chevron-right"></i> Docieplenia</li>
-          <li><i class="bx bx-chevron-right"></i> Wykonczenia wnętrz</li>
-          <li><i class="bx bx-chevron-right"></i> Flizowanie</li>
-          <li><i class="bx bx-chevron-right"></i> Łazienki od podstaw</li>
+          <li><i class="bx bx-chevron-right"></i> Docieplenia Budynków</li>
+          <li><i class="bx bx-chevron-right"></i> Wykonczenia Wnętrz</li>
+          <li><i class="bx bx-chevron-right"></i> Kompleksowe Remonty</li>
         </ul>
       </div>
 
       <div class="col-lg-3 col-md-6 footer-contact">
         <h4>Kontakt</h4>
         <p>
+          <?php if($settings['companyPhone'] != null): ?>
           <strong>Numer telefonu:</strong> <?=esc($settings['companyPhone'])?>  <br>
+          <?php endif ?>
+          <?php if($settings['companyNIP'] != null): ?>
           <strong>NIP:</strong> <?=esc($settings['companyNIP'])?> <br>
+          <?php endif ?>
+          <?php if($settings['companyREGON'] != null): ?>
           <strong>REGON:</strong> <?=esc($settings['companyREGON'])?> <br>
+          <?php endif ?>
           <strong>Email:</strong> <a href="mailto://<?=esc($settings['emailContact'])?>"><?=esc($settings['emailContact'])?></a>
         </p>
 
@@ -40,8 +45,7 @@
         <h3>Social Media</h3>
         <p>Pracując z nami masz pewność otrzymania najwyżej jakości usług, dzięki wyszkolonemu i doświadczonemu zespołowi oraz wykorzystywaniu przez nas najnowszych i najlepszych rozwiązań i materiałów.</p>
         <div class="social-links mt-3">
-          <a href="#" class="facebook"><i class="bx bxl-facebook"></i></a>
-          <a href="#" class="instagram"><i class="bx bxl-instagram"></i></a>
+          <a href="https://www.facebook.com/kacbudpl" class="facebook"><i class="bx bxl-facebook"></i></a>
         </div>
       </div>
 
