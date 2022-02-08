@@ -139,6 +139,7 @@
                         <input id="email" type="email" class="form-control" name="email" value="<?=esc($profile['email'])?>" aria-describedby="emailHelp" autocomplete="off">
                         <div id="emailHelp" class="form-text">Podaj nowy adres e-mail</div>
                       </div>
+                      <?= csrf_field() ?>
                       <div class="response"></div>
                       <button class="btn btn-success" type="submit">Edytuj Profil</button>
                     </form>
@@ -157,6 +158,7 @@
                           <input id="currPassword" type="password" class="form-control" name="currPassword" aria-describedby="currPasswordHelp" autocomplete="off">
                           <div id="currPasswordHelp" class="form-text">Podaj swoje aktualne hasło</div>
                         </div>
+                        <?= csrf_field() ?>
                         <div class="response"></div>
                         <button class="btn btn-warning" type="submit">Zmień Hasło</button>
                       </form>

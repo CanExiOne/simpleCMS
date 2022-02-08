@@ -154,6 +154,7 @@
                     <div id="userGroupHelp" class="form-text">Wybierz grupę dla użytkownika</div>
 
                   </div>
+                  <?= csrf_field() ?>
 
                   <div id="otherErrors" class="form-group"></div>
                 </div>
@@ -267,6 +268,7 @@
                 <input id="confirmPassword" class="form-control" type="password" name="confirmPassword" aria-describedby="confirmPasswordHelp" autocomplete="off">
                 <div id="confirmPasswordHelp" class="form-text">Potwierdź usunięcie użytkownika podając swoje hasło</div>
               </div>
+              <?= csrf_field() ?>
             </div>
           </form>
         </div>

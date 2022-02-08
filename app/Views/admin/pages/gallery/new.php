@@ -165,6 +165,7 @@
                     </div>
                   </div>
                 </div>
+                <?= csrf_field() ?>
                 <div id="otherErrors">
 
                 </div>

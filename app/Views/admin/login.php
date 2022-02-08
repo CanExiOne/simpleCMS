@@ -25,9 +25,10 @@
             </div>
           </div>
         </div>
-            <div class="card-footer">
-                <button type="submit" class="btn btn-primary btn-block">Zaloguj się</button>
-            </div>
+        <?= csrf_field() ?>
+        <div class="card-footer">
+            <button type="submit" class="btn btn-primary btn-block">Zaloguj się</button>
+        </div>
         </div>
       </form>
     </div>

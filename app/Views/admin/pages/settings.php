@@ -168,7 +168,7 @@
                     <div id="statsEmployeesHelp" class="form-text">Podaj liczbę aktualnych pracowinków</div>
                   </div>
                 </div>
-
+                <?= csrf_field() ?>
                 <div class="response">
 
                 </div>
@@ -221,6 +221,7 @@
                     <input id="emailCrypto" type="text" class="form-control" name="emailCrypto" value="<?=esc($serverCfg['emailCrypto'])?>" aria-describedby="emailCryptoHelp" autocomplete="off">
                     <div id="emailCryptoHelp" class="form-text">Jeśli posiadasz certyfikat to użyj SSL, jeśli nie to TLS</div>
                   </div>
+                  <?= csrf_field() ?>
                   <div class="response">
 
                   </div>
