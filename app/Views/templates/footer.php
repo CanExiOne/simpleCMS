@@ -28,10 +28,10 @@
       <div class="col-lg-3 col-md-6 footer-contact">
         <h4>Kontakt</h4>
         <p>
-          <strong>Numer telefonu:</strong> 510 338 281 / <br>514 317 218  <br>
+          <strong>Numer telefonu:</strong> <?=esc($settings['companyPhone'])?>  <br>
           <strong>NIP:</strong> <?=esc($settings['companyNIP'])?> <br>
           <strong>REGON:</strong> <?=esc($settings['companyREGON'])?> <br>
-          <strong>Email:</strong> <a href="mailto://<?=esc($settings['emailContact'])?>"><?=esc($settings['emailContact'])?></a> / <a href="mailto://biuro@kac-bud.pl"><br>slowkac@gmail.com</a>
+          <strong>Email:</strong> <a href="mailto://<?=esc($settings['emailContact'])?>"><?=esc($settings['emailContact'])?></a>
         </p>
 
       </div>
