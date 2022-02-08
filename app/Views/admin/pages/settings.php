@@ -137,7 +137,13 @@
                   <input id="companyRegon" type="text" class="form-control" name="companyRegon" value="<?= esc($settings['companyREGON']) ?>" aria-describedby="companyRegonHelp" autocomplete="off">
                   <div id="companyRegonHelp" class="form-text">Podaj REGON firmy</div>
                 </div>
+                <div class="form-group">
+                  <label for="companyPhone">Kontaktowy Numer Telefonu</label>
+                  <input id="companyPhone" type="text" class="form-control" name="companyPhone" value="<?= esc($settings['companyPhone']) ?>" aria-describedby="companyPhoneHelp" autocomplete="off">
+                  <div id="companyPhoneHelp" class="form-text">Podaj numer telefonu firmy</div>
+                </div>
                 <hr>
+                <!-- Website Custom Statistics -->
                 <div class="form-row">
                   <div class="form-group col">
                     <label for="statsClients">Liczba Klientów</label>

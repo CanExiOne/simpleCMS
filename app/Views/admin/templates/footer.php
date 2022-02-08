@@ -1,3 +1,4 @@
+<?php if(uri_string() != 'admin/login') :?>
   <!-- Main Footer -->
   <footer class="main-footer">
     <!-- To the right -->
@@ -9,6 +10,7 @@
     <!-- Default to the left -->
     <strong>Copyright &copy; 2021-<?= date('Y') ?> <a href="<?= base_url() ?>"><?=esc($settings['siteName'])?></a>.</strong> Wszystkie prawa zastrzeżone.
   </footer>
+  <?php endif ?>
 </div>
 <!-- ./wrapper -->
 </body>
