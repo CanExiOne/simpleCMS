@@ -122,8 +122,9 @@ class Validation
 
 	public $updateSettings = [
 		'siteName' => [
-			'rules' => 'max_length[80]|permit_empty',
+			'rules' => 'required|max_length[80]',
 			'errors' => [
+				'required' => 'Musisz podać nazwę strony!',
 				'max_length' => 'Nazwa strony nie może być dłuższa niż 80 znaków!',
 			]
 		],
@@ -136,33 +137,42 @@ class Validation
 			],
 		],
 		'statsClients' => [
-			'rules' => 'alpha_numeric|permit_empty',
+			'rules' => 'alpha_numeric',
 			'errors' => [
 				'required' => 'To pole jest wymagane!',
 				'alpha_numeric' => 'Musisz podać liczbę!',
 			],
 		],
 		'statsFinishedProjects' => [
-			'rules' => 'alpha_numeric|permit_empty',
+			'rules' => 'alpha_numeric',
 			'errors' => [
 				'required' => 'To pole jest wymagane!',
 				'alpha_numeric' => 'Musisz podać liczbę!',
 			],
 		],
 		'statsCurrentProjects' => [
-			'rules' => 'alpha_numeric|permit_empty',
+			'rules' => 'alpha_numeric',
 			'errors' => [
 				'required' => 'To pole jest wymagane!',
 				'alpha_numeric' => 'Musisz podać liczbę!',
 			],
 		],
 		'statsEmployees' => [
-			'rules' => 'alpha_numeric|permit_empty',
+			'rules' => 'alpha_numeric',
 			'errors' => [
 				'required' => 'To pole jest wymagane!',
 				'alpha_numeric' => 'Musisz podać liczbę!',
 			],
 		],
+	];
+
+	public $updateEmail = [
+		'emailSender' => [
+			'rules' => 'valid_email',
+			'errors' => [
+				'valid_email' => 'W tym polu musisz podać poprawny e-mail'
+			]
+		]
 	];
 
 	public $uploadFile = [

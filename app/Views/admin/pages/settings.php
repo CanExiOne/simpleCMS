@@ -184,7 +184,7 @@
               <div class="card-header bg-warning">
                 Ustawienia E-mail
               </div>
-              <form action="/admin/settings/updateSettings" method="post">
+              <form action="/admin/settings/updateEmail" method="post">
               <div class="card-body">
                 <div class="form-group">
                     <label for="emailHost">Serwer SMTP E-mail</label>
@@ -208,7 +208,7 @@
                   </div>
                   <div class="form-group">
                     <label for="emailContact">Adres e-mail poczty przychodzącej</label>
-                    <input id="emailContact" type="text" class="form-control" name="emailContact" value="<?=esc($settings['emailContact'])?>" aria-describedby="emailContactHelp" autocomplete="off">
+                    <input id="emailContact" type="email" class="form-control" name="emailContact" value="<?=esc($settings['emailContact'])?>" aria-describedby="emailContactHelp" autocomplete="off">
                     <div id="emailContactHelp" class="form-text">Podaj adres e-mail dla poczty przychodzącej</div>
                   </div>
                   <div class="form-group">
@@ -284,6 +284,9 @@ $(function() {
     $('.form-text').each(function() {
       $(this).find('.invalid-feedback').remove();
     })
+    $('.form-group').each(function() {
+      $(this).find('.is-invalid').removeClass('is-invalid');
+    })
 
     $('.response').text('');
 
@@ -316,6 +319,7 @@ $(function() {
       if(response.status === 'invalid')
       {
         for(error in response.errors) {
+          $(`#${error}`).addClass('is-invalid');
           $(`#${error}Help`).append(`<div class='invalid-feedback d-block'>${response.errors[error]}</div>`);
         }
 
@@ -365,8 +369,8 @@ $(function() {
 
       if(response.status === 'invalid')
       {
-        console.log(response);
         for(error in response.errors) {
+          $(`#${error}`).addClass('is-invalid');
           $(`#${error}Help`).append(`<div class='invalid-feedback d-block'>${response.errors[error]}</div>`);
         }
 

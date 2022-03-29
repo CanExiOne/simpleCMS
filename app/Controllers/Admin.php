@@ -528,4 +528,42 @@ class Admin extends BaseController
             return $this->response->setJSON(json_encode(['status'=> 'failure', 'csrf' => csrf_hash(), 'message' => $message]));
         }
     }
+
+    public function updateEmail()
+    {
+        $validation =  \Config\Services::validation();
+        $model = new SettingsModel();
+        
+        //Check if request method is POST and if true validate data received
+        if($this->request->getMethod() === 'post' && $this->validate('updateEmail'))
+        {
+            $data = $this->request->getPost();
+
+            if(!$model->updateSettings($data))
+            {
+                $message = 'Wystąpił błąd podczas aktualizacji ustawień!';
+
+                return $this->response->setJSON(json_encode(['status' => 'failure', 'csrf' => csrf_hash(), 'message' => $message]));
+            }
+
+            //If everything was successful send success message to user
+            if($this->request->isAjax())
+            {
+                $message = 'Pomyślnie edytowano ustawienia!';
+            
+                return $this->response->setJSON(json_encode(['status' => 'success', 'csrf' => csrf_hash(), 'message' => $message]));
+            }
+        } else if($validation->getErrors())
+        {
+            $errors = $validation->getErrors();
+
+            $message = 'Wykryto błędy formularzu! Musisz je poprawić';
+
+            return $this->response->setJSON(json_encode(['status'=> 'invalid', 'csrf' => csrf_hash(), 'message' => $message, 'errors' => $errors]));
+        } else {
+            $message = 'Nieznany błąd!';
+
+            return $this->response->setJSON(json_encode(['status'=> 'failure', 'csrf' => csrf_hash(), 'message' => $message]));
+        }
+    }
 }

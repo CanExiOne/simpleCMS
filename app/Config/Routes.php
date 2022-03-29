@@ -60,6 +60,7 @@ $routes->post('/admin/profile/update', 'Profile::updateProfile');
 
 // Settings Management
 $routes->post('/admin/settings/updateSettings', 'Admin::updateSettings');
+$routes->post('/admin/settings/updateEmail', 'Admin::updateEmail');
 
 // News Management
 $routes->post('/admin/news/createNews', 'Admin::createNews');
