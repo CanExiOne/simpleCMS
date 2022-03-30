@@ -65,3 +65,7 @@ textarea {
 .img-profile {
   max-width: 80%;
 }
+
+tr.bg-warning td {
+  background-color: #ffc107 !important;
+}

@@ -192,8 +192,42 @@
                         </tr>
                       </thead>
                       <tbody>
+                        <?php if (!empty($users) && is_array($users)): ?>
+                          <?php foreach ($users as $user): ?>
+                            <?php if($user['id'] === $_SESSION['userId']): ?>
+                              <tr class="bg-warning">
+                                <th style='width:2%'>(TY)</th>
+                            <?php else: ?>
+                              <tr>
+                                <th style='width:2%'><?=esc($user['id'])?></th>
+                            <?php endif ?>
+                                <td style='width:auto'><?=esc($user['firstName'])?></td>
+                                <td style='width:auto'><?=esc($user['lastName'])?></td>
+                                <td style='width:auto'><?=esc($user['email'])?></td>
+                                <td style='width:5%'><?=esc($user['group'])?></td>
+                                <td style='width:5%'><?=esc($user['isActive'])?></td>
+                                <td style='width:12%;' class='text-center'>
+
+                              <?php if($user['id'] != $_SESSION['userId']): ?>
+                                <button type='button' class='editUser m-1 btn btn-warning btn-sm' 
+                                  data-id='<?=esc($user['id'])?>' 
+                                  data-firstName='<?=esc($user['firstName'])?>' 
+                                  data-lastName='<?=esc($user['lastName'])?>' 
+                                  data-email='<?=esc($user['email'])?>' 
+                                  data-group='<?=esc($user['group'])?>'
+                                  data-isActive='<?=esc($user['isActive'])?>'>Edytuj</button>
+
+                                  <button type='button' class='deleteUser m-1 btn btn-sm btn-danger' 
+                                  data-id='<?=esc($user['id'])?>' 
+                                  data-firstName='<?=esc($user['firstName'])?>' 
+                                  data-lastName='<?=esc($user['lastName'])?>'>Usuń</button>
+                                <?php endif ?>
+                                </td>
+                              </tr>
+                          <?php endforeach ?>
+                        <?php endif ?>
                         <!-- Create for each loop to display all users -->
-                        <?php
+                        <!-- <?php
                           foreach($users as $user):
                             extract($user);
 
@@ -229,7 +263,7 @@
                           
                           endforeach;
 
-                        ?>
+                        ?> -->
                       </tbody>
                     </table> 
                   </div>
@@ -284,7 +318,7 @@
 $(document).ready(function() {
   //Create data table with all users
   $('#usersTable').DataTable({
-    "order" : [[0, 'desc']],
+    "order" : [[0, 'asc']],
   });
 
   //Change button icon on collapse
