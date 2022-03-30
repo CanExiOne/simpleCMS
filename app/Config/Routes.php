@@ -37,44 +37,6 @@ $routes->setPrioritize();
 // Index Route
 $routes->get('/', 'Home::index');
 
-// Admin Panel Routes
-$routes->get('/admin', 'Admin::index');
-$routes->get('/admin/login', 'Login::index');
-$routes->get('/admin/logout', 'Login::logout');
-
-// View pages in panel
-$routes->get('/admin/(:any)', 'Admin::view/$1', ['priority' => 1]);
-
-// User login authentication
-$routes->post('/admin/login/auth', 'Login::login');
-
-// User Management
-$routes->post('/admin/users/createUser', 'Admin::createUser');
-$routes->post('/admin/users/updateUser', 'Admin::updateUser');
-$routes->post('/admin/users/deleteUser', 'Admin::deleteUser');
-
-//User Profile
-$routes->get('/admin/profile', 'Profile::index');
-$routes->post('/admin/profile/changepassword', 'Profile::changePassword');
-$routes->post('/admin/profile/update', 'Profile::updateProfile');
-
-// Settings Management
-$routes->post('/admin/settings/updateSettings', 'Admin::updateSettings');
-$routes->post('/admin/settings/updateEmail', 'Admin::updateEmail');
-
-// News Management
-$routes->post('/admin/news/createNews', 'Admin::createNews');
-$routes->post('/admin/news/editNews', 'Admin::editNews');
-$routes->post('/admin/news/deleteNews', 'Admin::deleteNews');
-
-// Gallery Management
-$routes->get('/admin/gallery', 'Gallery::index');
-$routes->get('/admin/gallery/(:any)', 'Gallery::view/$1');
-$routes->post('/admin/gallery/createAlbum', 'Gallery::createAlbum');
-$routes->post('/admin/gallery/editAlbum', 'Gallery::editAlbum');
-$routes->post('/admin/gallery/deleteAlbum', 'Gallery::deleteAlbum');
-$routes->post('/admin/gallery/deletePicture', 'Gallery::deletePicture');
-
 // Contact Form
 $routes->post('/contact-us/send', 'Contact::Send');
 
@@ -89,6 +51,47 @@ $routes->addRedirect('/blog/.*/', '/blog');
 $routes->get('/portfolio', 'Gallery::portfolio');
 
 $routes->get('/(:any)', 'Pages::view/$1', ['priority' => 1]);
+
+// Admin Panel Routes
+$routes->group('/admin', function($routes) {
+	$routes->add('/', 'Admin::index');
+	$routes->get('(:any)', 'Admin::view/$1', ['priority' => 1]);
+	$routes->add('login', 'Login::index');
+	$routes->add('logout', 'Login::logout');
+	$routes->post('login/auth', 'Login::auth');
+
+	$routes->group('users', function($routes) {
+		$routes->post('createUser', 'Admin::createUser');
+		$routes->post('updateUser', 'Admin::updateUser');
+		$routes->post('deleteUser', 'Admin::deleteUser');
+	});
+
+	$routes->group('profile', function($routes) {
+		$routes->get('', 'Profile::index');
+		$routes->post('changepassword', 'Profile::changePassword');
+		$routes->post('update', 'Profile::updateProfile');
+	});
+
+	$routes->group('news', function($routes) {
+		$routes->post('createNews', 'Admin::createNews');
+		$routes->post('editNews', 'Admin::editNews');
+		$routes->post('deleteNews', 'Admin::deleteNews');
+	});
+
+	$routes->group('gallery', function($routes) {
+		$routes->get('', 'Gallery::index');
+		$routes->get('(:any)', 'Gallery::view/$1');
+		$routes->post('createAlbum', 'Gallery::createAlbum');
+		$routes->post('editAlbum', 'Gallery::editAlbum');
+		$routes->post('deleteAlbum', 'Gallery::deleteAlbum');
+		$routes->post('deletePicture', 'Gallery::deletePicture');
+	});
+
+	$routes->group('settings', function($routes) {
+		$routes->post('updateSettings', 'Admin::updateSettings');
+		$routes->post('updateEmail', 'Admin::updateEmail');
+	});
+});
 
 /*
  * --------------------------------------------------------------------
