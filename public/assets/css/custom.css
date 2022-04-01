@@ -1,0 +1,13 @@
+.swiper-slide img {
+    max-height: 460px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+.portfolio-details .portfolio-details-slider img {
+    width: auto;
+    max-width: 100%;
+}
+.portfolio-item.d-flex {
+    max-height: 234px;
+}

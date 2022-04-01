@@ -25,8 +25,9 @@
   <link href="<?=env('app.baseURL')?>/assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
   <link href="<?=env('app.baseURL')?>/assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
 
-  <!-- Template Main CSS File -->
+  <!-- Template Main CSS Files -->
   <link href="<?=env('app.baseURL')?>/assets/css/style.css" rel="stylesheet">
+  <link href="<?=env('app.baseURL')?>/assets/css/custom.css" rel="stylesheet">
 </head>
 
 <body>
