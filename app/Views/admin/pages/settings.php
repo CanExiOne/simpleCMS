@@ -248,6 +248,7 @@ $(document).ready(function() {
 
     if(toastData.type === 'success')
     {
+      //Create Pop-up
       $(document).Toasts('create', {
       title: 'Sukces!',
       body: toastData.message,
@@ -318,13 +319,16 @@ $(function() {
       //Check if response was invalid and if true display errors
       if(response.status === 'invalid')
       {
+        //Display Errors
         for(error in response.errors) {
           $(`#${error}`).addClass('is-invalid');
           $(`#${error}Help`).append(`<div class='invalid-feedback d-block'>${response.errors[error]}</div>`);
         }
 
+        //Display Error Message
         form.find('.response').addClass('invalid-feedback d-block').text(response.message);
 
+        //Create Pop-up
         $(document).Toasts('create', {
           title: 'Uwaga!!!',
           body: response.message,
@@ -335,8 +339,10 @@ $(function() {
       } 
       else if (response.status === 'success')
       {
+        //Display Error Message
         form.find('.response').addClass('valid-feedback d-block').text(response.message);
 
+        //Create Pop-up
         $(document).Toasts('create', {
           title: 'Sukces!',
           body: response.message,
@@ -347,8 +353,10 @@ $(function() {
       } 
       else 
       {
+        //Display Error Message
         form.find('.response').addClass('invalid-feedback d-block').text(response.message);
 
+        //Create Pop-up
         $(document).Toasts('create', {
           title: 'Wystąpił Błąd!',
           body: response.message,
@@ -357,25 +365,30 @@ $(function() {
           class: 'bg-danger',
         });
       }
+
+      //Refresh CSRF Token
+      $('input[name=csrf_token]').val(response.csrf)
     }).fail(function(response) {
       //Re-enable button
       $('button[type=submit]').attr('disabled', false);
       //Restore button
       form.find('button[type=submit]').replaceWith(btnClone);
 
-      console.log(response)
-
+      //Display Error Message
       form.find('.response').addClass('invalid-feedback d-block').text(response.message);
 
       if(response.status === 'invalid')
       {
+        //Display Errors
         for(error in response.errors) {
           $(`#${error}`).addClass('is-invalid');
           $(`#${error}Help`).append(`<div class='invalid-feedback d-block'>${response.errors[error]}</div>`);
         }
 
+        //Display Error Message
         form.find('.response').addClass('invalid-feedback d-block').text(response.message);
 
+        //Create Pop-up
         $(document).Toasts('create', {
           title: 'Uwaga!!!',
           body: response.message,
@@ -384,6 +397,7 @@ $(function() {
           class: 'bg-warning',
         });
       } else {
+        //Create Pop-up
         $(document).Toasts('create', {
           title: 'Wystąpił Błąd!',
           body: response.message,
@@ -392,6 +406,9 @@ $(function() {
           class: 'bg-danger',
         });
       }
+
+      //Refresh CSRF Token
+      $('input[name=csrf_token]').val(response.csrf)
     });
   })
 })

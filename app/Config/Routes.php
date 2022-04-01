@@ -50,12 +50,12 @@ $routes->addRedirect('/blog/.*/', '/blog');
 //Gallery
 $routes->get('/portfolio', 'Gallery::portfolio');
 
-$routes->get('/(:any)', 'Pages::view/$1', ['priority' => 1]);
+$routes->get('(:any)', 'Pages::view/$1', ['priority' => 2]);
 
 // Admin Panel Routes
 $routes->group('/admin', function($routes) {
 	$routes->add('/', 'Admin::index');
-	$routes->get('(:any)', 'Admin::view/$1', ['priority' => 1]);
+	$routes->add('(:any)', 'Admin::view/$1', ['priority' => 1]);
 	$routes->add('login', 'Login::index');
 	$routes->add('logout', 'Login::logout');
 	$routes->post('login/auth', 'Login::auth');

@@ -390,12 +390,17 @@ $('.deleteNews').click(function() {
 
   id = {'id' : $(this).attr('data-id')};
 
+  data = {
+    id : id,
+    csrf_token : $('input[name=csrf_token]').val()
+  };
+
   $.ajax({
-      type: 'POST',
-      url: "<?=env('app.baseURL')?>/admin/news/deleteNews",
-      data: JSON.stringify(id),
-      processData: false,
-      contentType: 'application/json',
+    type: 'POST',
+    url: "<?=env('app.baseURL')?>/admin/news/deleteNews",
+    data: JSON.stringify(data),
+    processData: false,
+    contentType: 'application/json',
   }).done(function(data) {
     var data = JSON.parse(data);
     
@@ -412,6 +417,8 @@ $('.deleteNews').click(function() {
         class: 'bg-danger',
       });
 
+      //Refresh CSRF Token
+      $('input[name=csrf_token]').val(response.csrf)
       console.log(data.errors);
     } else if (data.status === 'success')
     {
@@ -425,6 +432,8 @@ $('.deleteNews').click(function() {
       localStorage.setItem('reload-message', JSON.stringify(reloadMessage));
       window.location.reload();
     } else {
+      //Refresh CSRF Token
+      $('input[name=csrf_token]').val(response.csrf)
       console.log(data);
     }
   }).fail(function(data){
@@ -436,6 +445,8 @@ $('.deleteNews').click(function() {
       class: 'bg-danger',
     });
 
+    //Refresh CSRF Token
+    $('input[name=csrf_token]').val(response.csrf)
     console.log(data);
   });
 });
@@ -539,10 +550,13 @@ $(function() {
         window.location.reload();
       }
 
+      //Refresh CSRF Token
+      $('input[name=csrf_token]').val(data.csrf)
     }).fail(function(data) {
       $('#otherErrors').addClass('invalid-feedback d-block').text('Wystąpił nieznany błąd! Skontaktuj się z Administratorem Serwera');
 
-      console.log(data);
+      //Refresh CSRF Token
+      $('input[name=csrf_token]').val(data.csrf)
     });
   });
 });

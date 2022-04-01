@@ -519,6 +519,9 @@ $(function() {
         console.log(data);
       }
 
+      //Refresh CSRF Token
+      $('input[name=csrf_token]').val(data.csrf)
+
     }).fail(function(data) {
       //Re-enable button
         $('#deleteUserConfirm').attr('disabled', false);
@@ -601,7 +604,8 @@ $(function() {
           $('#userGroup').addClass('is-invalid');
         } 
 
-        console.log(data.errors);
+        //Refresh CSRF Token
+        $('input[name=csrf_token]').val(data.csrf)
       } else if (data.status === 'success')
       {
         //Reload page and display success popup
@@ -613,6 +617,8 @@ $(function() {
         localStorage.setItem('reload-message', JSON.stringify(reloadMessage));
         window.location.reload();
       } else {
+        //Refresh CSRF Token
+        $('input[name=csrf_token]').val(data.csrf)
         console.log(data);
       }
 
@@ -626,6 +632,9 @@ $(function() {
       }
       
       $('#otherErrors').addClass('invalid-feedback d-block').text('Wystąpił nieznany błąd! Skontaktuj się z Administratorem Serwera');
+
+      //Refresh CSRF Token
+      $('input[name=csrf_token]').val(data.csrf)
     });
   });
 });

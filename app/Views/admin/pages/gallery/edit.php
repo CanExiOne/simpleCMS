@@ -251,6 +251,7 @@ document.addEventListener("DOMContentLoaded", async function() {
 
           data = {
             name : name,
+            csrf_token : $('input[name=csrf_token]').val(),
             albumid : <?php echo($album['albumid'])?>,
           }
           $.ajax({
@@ -261,7 +262,7 @@ document.addEventListener("DOMContentLoaded", async function() {
             processData: true,
             contentType: 'application/json',
           }).done(function(response) {
-            console.log(response);
+            //Create Pop-up
             $(document).Toasts('create', {
               title: 'Sukces!!!',
               body: response.message,
@@ -269,8 +270,11 @@ document.addEventListener("DOMContentLoaded", async function() {
               delay: 5000,
               class: 'bg-success',
             });
+
+            //Refresh CSRF Token
+            $('input[name=csrf_token]').val(response.csrf)
           }).fail(function(response) {
-            console.log(response);
+            // Create Pop-up
             $(document).Toasts('create', {
               title: 'Wystąpił Błąd!!',
               body: response.message,
@@ -278,6 +282,9 @@ document.addEventListener("DOMContentLoaded", async function() {
               delay: 5000,
               class: 'bg-warning',
             });
+
+            //Refresh CSRF Token
+            $('input[name=csrf_token]').val(response.csrf)
           })
         }
       });
@@ -312,6 +319,9 @@ document.addEventListener("DOMContentLoaded", async function() {
         class: 'bg-success',
         });
 
+        //Refresh CSRF Token
+        $('input[name=csrf_token]').val(response.csrf)
+
         //Re-enable button
         $('button').attr('disabled', false);
         $('button[type=submit]').html("Edytuj Album");
@@ -329,6 +339,9 @@ document.addEventListener("DOMContentLoaded", async function() {
           $(`#${error}`).addClass('is-invalid');
         }
 
+        //Refresh CSRF Token
+        $('input[name=csrf_token]').val(response.csrf)
+        
         //Re-enable button
         $('button').attr('disabled', false);
         $('button[type=submit]').html("Edytuj Album");
@@ -343,6 +356,8 @@ document.addEventListener("DOMContentLoaded", async function() {
         });
       });
 
+      //Completely delete album
+      //I don't know why it's inside dropzone options
       $('#removeAlbum').click(function(e){
         e.preventDefault();
         e.stopPropagation();
@@ -350,7 +365,8 @@ document.addEventListener("DOMContentLoaded", async function() {
         $('#otherErrors').text('');
 
         data = {
-          albumid : <?php echo($album['albumid'])?>
+          albumid : <?php echo($album['albumid'])?>,
+          csrf_token: $('input[name=csrf_token]').val(),
         }
 
         if(confirm('Usunięcie Albumu jest nieodwracalne! Jesteś pewny?') === true){
@@ -369,6 +385,7 @@ document.addEventListener("DOMContentLoaded", async function() {
             //Check if response was invalid and if true display errors
             if(response.status === 'invalid')
             {
+              //Create Pop-up
               $(document).Toasts('create', {
                 title: 'Wystąpił Błąd!',
                 body: response.message,
@@ -377,6 +394,7 @@ document.addEventListener("DOMContentLoaded", async function() {
                 class: 'bg-danger',
               });
 
+              //Display error message
               $('#otherErrors').addClass('invalid-feedback d-block').text(response.message);
             } 
             else if (response.status === 'success')
@@ -393,6 +411,7 @@ document.addEventListener("DOMContentLoaded", async function() {
             } 
             else 
             {
+              //Create Pop-up
               $(document).Toasts('create', {
                 title: 'Wystąpił Błąd!',
                 body: response.message,
@@ -401,13 +420,17 @@ document.addEventListener("DOMContentLoaded", async function() {
                 class: 'bg-danger',
               });
 
+              //Display error message
               $('#otherErrors').addClass('invalid-feedback d-block').text(response.message);
             }
 
+            //Refresh CSRF Token
+            $('input[name=csrf_token]').val(response.csrf)
           }).fail(function(response) {
             //Re-enable button
             $('button').attr('disabled', false);
 
+            //Create Pop-up
             $(document).Toasts('create', {
               title: 'Wystąpił Błąd!',
               body: response.message,
@@ -416,7 +439,11 @@ document.addEventListener("DOMContentLoaded", async function() {
               class: 'bg-danger',
             });
 
+            //Display Unknown Error
             $('#otherErrors').addClass('invalid-feedback d-block').text('Wystąpił nieznany błąd! Skontaktuj się z Administratorem Serwera');
+
+            //Refresh CSRF Token
+            $('input[name=csrf_token]').val(response.csrf)
           });
         }
       });

@@ -22,7 +22,7 @@ class Login extends BaseController
         echo view('admin/templates/footer', $data);
     }
 
-    public function login()
+    public function auth()
     {
         $userModel = new UsersModel();
         $validation =  \Config\Services::validation();

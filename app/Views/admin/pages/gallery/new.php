@@ -269,6 +269,9 @@ document.addEventListener("DOMContentLoaded",async function() {
         $(`#${error}`).addClass('is-invalid');
       }
 
+      //Refresh CSRF Token
+      $('input[name=csrf_token]').val(response.csrf)
+
       //Re-enable button
       $('button[type=submit]').attr('disabled', false);
       $('button[type=submit]').html("Utwórz Album");
