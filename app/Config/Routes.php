@@ -93,6 +93,14 @@ $routes->group('/admin', function($routes) {
 	});
 });
 
+// Contact Form
+$routes->post('/contact-us/send', 'Contact::Send');
+// Main sub-pages
+$routes->get('/blog', 'Blog::index');
+$routes->get('/blog/view/(:any)', 'Blog::view/$1');
+$routes->addRedirect('/blog/.*/', '/blog');
+$routes->get('/(:any)', 'Pages::view/$1', ['priority' => 1]);
+
 /*
  * --------------------------------------------------------------------
  * Additional Routing

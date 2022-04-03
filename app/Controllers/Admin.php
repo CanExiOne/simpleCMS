@@ -291,7 +291,7 @@ class Admin extends BaseController
             //If everything was successful send success message to user
             if($this->request->isAjax())
             {
-                $message = 'Konto z numerem ID:' . $userId . ' zostało pomyślnie usunięte.';
+                $message['user-created'] = 'Konto z numerem ID:' . $userId . ' zostało pomyślnie usunięte.';
             
                 return json_encode(['status' => 'success', 'csrf' => csrf_hash(), 'message' => $message]);
             }

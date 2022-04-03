@@ -20,7 +20,8 @@
 # APP
 #--------------------------------------------------------------------
 
-# app.baseURL = ''
+ app.baseURL = ''
+ app.siteName = 'simpleCMS'
 # app.forceGlobalSecureRequests = false
 
 # app.sessionDriver = 'CodeIgniter\Session\Handlers\FileHandler'
@@ -34,13 +35,40 @@
 # app.CSPEnabled = false
 
 #--------------------------------------------------------------------
+# E-MAIL
+#--------------------------------------------------------------------
+ #Protocol - smtp, mail, sendmail
+ email.protocol = 'smtp'
+
+ #SMTP server address
+ email.host = 'smtp.example.net'
+
+ #User to authenticate to smtp servers
+ email.user = ''
+
+ #Password to authenticate to smtp servers
+ email.password = ""
+
+ #An e-mail that mails should be sent from
+ email.sender = 'noreply@example.eu'
+
+ #An e-mail that should be user as a contact
+ email.contact = 'contact@example.eu'
+
+ #SMTP server SSL/TLS port
+ email.port = '465'
+
+ #SMTP server handshake encryption
+ email.encrypt = 'ssl'
+
+#--------------------------------------------------------------------
 # DATABASE
 #--------------------------------------------------------------------
 
-# database.default.hostname = localhost
-# database.default.database = ci4
-# database.default.username = root
-# database.default.password = root
+ database.default.hostname = localhost
+ database.default.database = dbname
+ database.default.username = dbuser
+ database.default.password = dbpassword
 # database.default.DBDriver = MySQLi
 # database.default.DBPrefix =
 
@@ -117,7 +145,7 @@
 # security.regenerate = true
 # security.redirect = true
 # security.samesite = 'Lax'
-# security.secretkey = 'secretkey'
+ security.secretkey = 'your_secret_key'
 
 #--------------------------------------------------------------------
 # LOGGER
