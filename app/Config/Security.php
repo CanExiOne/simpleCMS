@@ -15,7 +15,7 @@ class Security extends BaseConfig
 	 *
 	 * @var string
 	 */
-	public $tokenName = 'csrf_test_name';
+	public $tokenName = 'csrf_token';
 
 	/**
 	 * --------------------------------------------------------------------------
@@ -37,7 +37,7 @@ class Security extends BaseConfig
 	 *
 	 * @var string
 	 */
-	 public $cookieName = 'csrf_cookie_name';
+	 public $cookieName = 'csrf_cookie';
 
 	/**
 	 * --------------------------------------------------------------------------
@@ -72,7 +72,29 @@ class Security extends BaseConfig
 	 *
 	 * @var boolean
 	 */
-	public $redirect = true;
+	public $redirect = false;
+
+	/**
+	 * --------------------------------------------------------------------------
+	 * CSRF Protection
+	 * --------------------------------------------------------------------------
+	 *
+	 * Change protection between session based or cookie based.
+	 *
+	 * @var boolean
+	 */
+	public $csrfProtection = 'session';
+
+	/**
+	 * --------------------------------------------------------------------------
+	 * CSRF Token Randomization
+	 * --------------------------------------------------------------------------
+	 *
+	 * Randomize CSRF Token.
+	 *
+	 * @var boolean
+	 */
+	public $tokenRandomize = true;
 
 	/**
 	 * --------------------------------------------------------------------------

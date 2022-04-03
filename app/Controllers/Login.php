@@ -7,15 +7,14 @@ class Login extends BaseController
 {
     public function index()
     {
-        $session = session();
-
         if(isset($_SESSION['logged_in']))
         {
             return redirect()->to(base_url('/admin'));
         }
 
-        $siteName = env('app.siteName');
-        $data['title'] = $siteName . ' - Logowanie';
+        $data['settings'] = $this->cfg;
+
+        $data['siteTitle'] = $this->cfg['siteName']. ' - Logowanie';
         $data['siteDesc'] = 'Logowanie';
 
         echo view('admin/templates/header', $data);
@@ -23,11 +22,10 @@ class Login extends BaseController
         echo view('admin/templates/footer', $data);
     }
 
-    public function login()
+    public function auth()
     {
         $userModel = new UsersModel();
         $validation =  \Config\Services::validation();
-        $session = session();
 
         //Check if request method is POST and if true validate data received
         if($this->request->getMethod() === 'post' && $this->validate('userLogin'))
@@ -38,9 +36,9 @@ class Login extends BaseController
 
             if(!$userData)
             {
-                $errors['invalid-password'] = 'Podano nieprawidłowe hasło lub adres e-mail!';
+                $error = 'Podano nieprawidłowe hasło lub adres e-mail!';
            
-               return json_encode(['status' => 'failure', 'csrf' => csrf_hash(), 'message' => $errors]);
+               return json_encode(['status' => 'invalid', 'csrf' => csrf_hash(), 'error' => $error]);
             }
 
            $pwd = $this->request->getVar('password');
@@ -50,9 +48,9 @@ class Login extends BaseController
            //Verify Admin password
            if(!password_verify($pwd_pepper, $pwd_hash))
            {
-               $errors['invalid-password'] = 'Podano nieprawidłowe hasło lub adres e-mail!';
+               $error = 'Podano nieprawidłowe hasło lub adres e-mail!';
            
-               return json_encode(['status' => 'failure', 'csrf' => csrf_hash(), 'message' => $errors]);
+               return json_encode(['status' => 'invalid', 'csrf' => csrf_hash(), 'error' => $error]);
            }
             
            //Set session data
@@ -63,18 +61,18 @@ class Login extends BaseController
                'logged_in' => true,
            ];
 
-           $session->set($sessionData);
+           $this->session->set($sessionData);
 
            
-            return json_encode(['status' => 'success', 'csrf' => csrf_hash(), 'response' => base_url('/admin')]);
+            return json_encode(['status' => 'success', 'csrf' => csrf_hash(), 'redirect' => base_url('/admin')]);
 
         } else if($validation->hasError('email')
                 || $validation->hasError('password')) 
         {
 
-            $errors = $validation->getErrors();
+            $error = 'Podano nieprawidłowe hasło lub adres e-mail!';
 
-            return json_encode(['status'=> 'invalid', 'csrf' => csrf_hash(), 'message' => $errors ]);
+            return json_encode(['status'=> 'invalid', 'csrf' => csrf_hash(), 'error' => $error ]);
 
         } else {
             $message = 'Nieznany błąd!';
@@ -85,9 +83,7 @@ class Login extends BaseController
 
     public function logout()
     {
-        $session = session();
-
-        $session->destroy();
+        $this->session->destroy();
 
         return redirect()->to('/admin/login');
     }
