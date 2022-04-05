@@ -28,7 +28,7 @@ class UserCreate extends BaseCommand
      *
      * @var string
      */
-    protected $description = 'Create a new User';
+    protected $description = 'Creates a new User';
 
     /**
      * The Command's Usage
@@ -60,7 +60,7 @@ class UserCreate extends BaseCommand
     {
         $userModel = new UsersModel();
 
-        $data['email'] = CLI::prompt('Podaj adres e-mail dla tego konta', 'testing@domain.com', 'required|valid_email|is_unique[users.email]');
+        $data['email'] = CLI::prompt('Podaj adres e-mail dla tego konta', null, 'required|valid_email|is_unique[users.email]');
         $data['firstName'] = CLI::prompt('Podaj imię użytkownika', null, 'required|alpha_numeric_space|min_length[3]|max_length[60]');
         $data['lastName'] = CLI::prompt('Podaj nazwisko użytkownika', null, 'required|alpha_numeric_space|min_length[3]|max_length[60]');
         $data['group'] = CLI::promptByKey(['Wybierz grupę dla użytkownika:'], [
@@ -68,18 +68,19 @@ class UserCreate extends BaseCommand
             2 => 'Moderator',
             3 => 'Użytkownik'
         ], 'required|in_list[1,2,3]');
+        $data['password'] = CLI::prompt('Podaj hasło użytkownika (pozostaw puste aby wygenerować hasło)');
 
         if($data)
         {
             CLI::write('Tworzenie użytkownika '.$data['firstName'].' '.$data['lastName'].' z grupą: '.$data['group']);
+            $chars = "abcdefghijklmnopqerstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*";
+            // Generate password if one has not been provided
+            
+            $data['password'] ? $customPassword = true : $data['password'] = substr(str_shuffle($chars), 0, 20);
 
-             //Generate password for new user
-             $chars = "abcdefghijklmnopqerstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*";
-             $pwd = substr(str_shuffle($chars), 0, 20);
- 
-             //Hash the generated password
-             $pwd_pepper = hash_hmac("sha256", $pwd, env('security.secretkey'));
-             $pwd_hash = password_hash($pwd_pepper, PASSWORD_ARGON2ID);
+            //Hash the generated password
+            $pwd_pepper = hash_hmac("sha256", $data['password'], env('security.secretkey'));
+            $pwd_hash = password_hash($pwd_pepper, PASSWORD_ARGON2ID);
 
             try {
                 $userModel->save([
@@ -95,7 +96,7 @@ class UserCreate extends BaseCommand
             }
 
             CLI::write('Utworzono użytkownika z adresem e-mail: '.$data['email']);
-            CLI::write('Hasło dla użytkownika: '.$pwd);
+            isset($customPassword) ?: CLI::write('Hasło dla użytkownika: '.$data['password']);
         } else {
             CLI::write('Wystąpił błąd! Nie udało się wczytać podanych danych!');
         }
