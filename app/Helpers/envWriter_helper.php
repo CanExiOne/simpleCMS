@@ -22,13 +22,13 @@ function escapeEnvironmentValue(string $value): string
 /**
  * Update the .env file for the application using the passed in values.
  *
- * @throws \CodeIgniter\FileNotFoundException
+ * @throws \Exception
  */
 function writeToEnvironment(array $values = [])
 {
     $path = ROOTPATH.'/.env';
     if (!file_exists($path)) {
-        throw new CodeIgniter\FileNotFoundException('Cannot locate .env file, please copy and rename env file or use php spark app:install');
+        throw new \Exception('Cannot locate .env file, please copy and rename env file or use php spark app:install');
     }
 
     $saveContents = file_get_contents($path);
