@@ -240,4 +240,6 @@ if(!currPage)
     });
   });
 
+  //Initialize PureCounter
+  new PureCounter();
 })()

@@ -41,8 +41,8 @@
 
 <script>
 $(function() {
-    $('form').submit(function(event) {
-        event.preventDefault();
+    $('form').submit(function(e) {
+        e.preventDefault();
 
         $('button:submit').attr('disabled', true)
 
@@ -55,24 +55,26 @@ $(function() {
         formData = new FormData(form);
 
         $.ajax({
-            type: form.getAttribute('method'),
-            url: form.getAttribute('action'),
-            data: formData,
-            processData: false,
-            contentType: false,
+          type: form.getAttribute('method'),
+          url: form.getAttribute('action'),
+          data: formData,
+          processData: false,
+          contentType: false,
         }).done(function(data) {
-            var data = JSON.parse(data);
-            $('button:submit').attr('disabled', false)
+          var data = JSON.parse(data);
+          $('button:submit').attr('disabled', false)
 
-            if(data.status === 'invalid')
-            {
-                $(`#password`).parent().append(`<div class='form-text invalid-feedback d-block'>${data.error}</div>`);
-            } else if (data.status === 'success')
-            {
-                window.location.href = data.redirect;
-            }
+          if(data.status === 'invalid')
+          {
+              $(`#password`).parent().append(`<div class='form-text invalid-feedback d-block'>${data.error}</div>`);
+          } else if (data.status === 'success')
+          {
+              window.location.href = data.redirect;
+          }
+
+          $('input[name=csrf_token]').val(data.csrf);
         }).fail(function(data) {
-            console.log(data);
+          $('input[name=csrf_token]').val(data.csrf);
         });
     })
 });
