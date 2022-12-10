@@ -7,6 +7,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Laravel\Fortify\Features;
 use Laravel\Jetstream\Jetstream;
 use Tests\TestCase;
+use Spatie\Permission\Models\Role;
 
 class RegistrationTest extends TestCase
 {
@@ -39,6 +40,8 @@ class RegistrationTest extends TestCase
         if (! Features::enabled(Features::registration())) {
             return $this->markTestSkipped('Registration support is not enabled.');
         }
+        // User role is required to register a new user
+        $userRole = Role::create(['name' => 'user']);
 
         $response = $this->post('/register', [
             'name' => 'Test User',
