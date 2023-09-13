@@ -16,18 +16,18 @@ class Cookie extends BaseConfig
      */
     public string $prefix = '';
 
-	/**
-	 * --------------------------------------------------------------------------
-	 * Cookie Expires Timestamp
-	 * --------------------------------------------------------------------------
-	 *
-	 * Default expires timestamp for cookies. Setting this to `0` will mean the
-	 * cookie will not have the `Expires` attribute and will behave as a session
-	 * cookie.
-	 *
-	 * @var DateTimeInterface|integer|string
-	 */
-	public $expires = 0;
+    /**
+     * --------------------------------------------------------------------------
+     * Cookie Expires Timestamp
+     * --------------------------------------------------------------------------
+     *
+     * Default expires timestamp for cookies. Setting this to `0` will mean the
+     * cookie will not have the `Expires` attribute and will behave as a session
+     * cookie.
+     *
+     * @var DateTimeInterface|int|string
+     */
+    public $expires = 0;
 
     /**
      * --------------------------------------------------------------------------

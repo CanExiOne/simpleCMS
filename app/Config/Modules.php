@@ -14,18 +14,18 @@ use CodeIgniter\Modules\Modules as BaseModules;
  */
 class Modules extends BaseModules
 {
-	/**
-	 * --------------------------------------------------------------------------
-	 * Enable Auto-Discovery?
-	 * --------------------------------------------------------------------------
-	 *
-	 * If true, then auto-discovery will happen across all elements listed in
-	 * $aliases below. If false, no auto-discovery will happen at all,
-	 * giving a slight performance boost.
-	 *
-	 * @var boolean
-	 */
-	public $enabled = true;
+    /**
+     * --------------------------------------------------------------------------
+     * Enable Auto-Discovery?
+     * --------------------------------------------------------------------------
+     *
+     * If true, then auto-discovery will happen across all elements listed in
+     * $aliases below. If false, no auto-discovery will happen at all,
+     * giving a slight performance boost.
+     *
+     * @var bool
+     */
+    public $enabled = true;
 
     /**
      * --------------------------------------------------------------------------
@@ -62,23 +62,23 @@ class Modules extends BaseModules
      */
     public $composerPackages = [];
 
-	/**
-	 * --------------------------------------------------------------------------
-	 * Auto-Discovery Rules
-	 * --------------------------------------------------------------------------
-	 *
-	 * Aliases list of all discovery classes that will be active and used during
-	 * the current application request.
-	 *
-	 * If it is not listed, only the base application elements will be used.
-	 *
-	 * @var string[]
-	 */
-	public $aliases = [
-		'events',
-		'filters',
-		'registrars',
-		'routes',
-		'services',
-	];
+    /**
+     * --------------------------------------------------------------------------
+     * Auto-Discovery Rules
+     * --------------------------------------------------------------------------
+     *
+     * Aliases list of all discovery classes that will be active and used during
+     * the current application request.
+     *
+     * If it is not listed, only the base application elements will be used.
+     *
+     * @var string[]
+     */
+    public $aliases = [
+        'events',
+        'filters',
+        'registrars',
+        'routes',
+        'services',
+    ];
 }

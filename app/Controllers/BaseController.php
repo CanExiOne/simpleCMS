@@ -9,8 +9,6 @@ use CodeIgniter\HTTP\RequestInterface;
 use CodeIgniter\HTTP\ResponseInterface;
 use Psr\Log\LoggerInterface;
 
-use App\Models\SettingsModel;
-
 /**
  * Class BaseController
  *
@@ -21,29 +19,23 @@ use App\Models\SettingsModel;
  *
  * For security be sure to declare any new methods as protected or private.
  */
-
-class BaseController extends Controller
+abstract class BaseController extends Controller
 {
-	/**
-	 * Instance of the main Request object.
-	 *
-	 * @var IncomingRequest|CLIRequest
-	 */
-	protected $request;
+    /**
+     * Instance of the main Request object.
+     *
+     * @var CLIRequest|IncomingRequest
+     */
+    protected $request;
 
-	/**
-	 * An array of helpers to be loaded automatically upon
-	 * class instantiation. These helpers will be available
-	 * to all other controllers that extend BaseController.
-	 *
-	 * @var array
-	 */
-	protected $helpers = [];
-
-	public function __construct()
-	{
-		
-	}
+    /**
+     * An array of helpers to be loaded automatically upon
+     * class instantiation. These helpers will be available
+     * to all other controllers that extend BaseController.
+     *
+     * @var array
+     */
+    protected $helpers = [];
 
     /**
      * Be sure to declare properties for any property fetch you initialized.
@@ -59,16 +51,8 @@ class BaseController extends Controller
         // Do Not Edit This Line
         parent::initController($request, $response, $logger);
 
-		//--------------------------------------------------------------------
-		// Preload any models, libraries, etc, here.
-		//--------------------------------------------------------------------
-		// E.g.: $this->session = \Config\Services::session();
+        // Preload any models, libraries, etc, here.
 
-		$this->session = \Config\Services::session();
-
-		$settingsModel = new SettingsModel();
-
-		$this->cfg = $settingsModel->getSettings();
-		$this->serverCfg = $settingsModel->getSettings(true);
-	}
+        // E.g.: $this->session = \Config\Services::session();
+    }
 }

@@ -1,5 +1,17 @@
 <?php
 
+// Check PHP version.
+$minPhpVersion = '7.4'; // If you update this, don't forget to update `spark`.
+if (version_compare(PHP_VERSION, $minPhpVersion, '<')) {
+    $message = sprintf(
+        'Your PHP version must be %s or higher to run CodeIgniter. Current version: %s',
+        $minPhpVersion,
+        PHP_VERSION
+    );
+
+    exit($message);
+}
+
 // Path to the front controller (this file)
 define('FCPATH', __DIR__ . DIRECTORY_SEPARATOR);
 
@@ -17,14 +29,10 @@ if (getcwd() . DIRECTORY_SEPARATOR !== FCPATH) {
  * and fires up an environment-specific bootstrapping.
  */
 
-// Ensure the current directory is pointing to the front controller's directory
-chdir(__DIR__);
-
 // Load our paths config file
 // This is the line that might need to be changed, depending on your folder structure.
-$pathsConfig = FCPATH . '../app/Config/Paths.php';
-// ^^^ Change this if you move your application folder
-require realpath($pathsConfig) ?: $pathsConfig;
+require FCPATH . '../app/Config/Paths.php';
+// ^^^ Change this line if you move your application folder
 
 $paths = new Config\Paths();
 
@@ -67,6 +75,7 @@ $app->setContext($context);
  * Now that everything is set up, it's time to actually fire
  * up the engines and make this app do its thang.
  */
+
 $app->run();
 
 // Save Config Cache
