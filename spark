@@ -39,18 +39,24 @@ require realpath($pathsConfig) ?: $pathsConfig;
 
 $paths = new Config\Paths();
 
-// Ensure the current directory is pointing to the front controller's directory
-chdir(FCPATH);
+// Location of the framework bootstrap file.
+require rtrim($paths->systemDirectory, '\\/ ') . DIRECTORY_SEPARATOR . 'bootstrap.php';
 
-$bootstrap = rtrim($paths->systemDirectory, '\\/ ') . DIRECTORY_SEPARATOR . 'bootstrap.php';
-$app       = require realpath($bootstrap) ?: $bootstrap;
+// Load environment settings from .env files into $_SERVER and $_ENV
+require_once SYSTEMPATH . 'Config/DotEnv.php';
+(new CodeIgniter\Config\DotEnv(ROOTPATH))->load();
+
+// Define ENVIRONMENT
+if (! defined('ENVIRONMENT')) {
+    define('ENVIRONMENT', env('CI_ENVIRONMENT', 'production'));
+}
+
+// Grab our CodeIgniter
+$app = Config\Services::codeigniter();
+$app->initialize();
 
 // Grab our Console
-$console = new CodeIgniter\CLI\Console($app);
-
-// We want errors to be shown when using it from the CLI.
-error_reporting(-1);
-ini_set('display_errors', '1');
+$console = new CodeIgniter\CLI\Console();
 
 // Show basic information before we do anything else.
 if (is_int($suppress = array_search('--no-header', $_SERVER['argv'], true)))
@@ -62,8 +68,6 @@ if (is_int($suppress = array_search('--no-header', $_SERVER['argv'], true)))
 $console->showHeader($suppress);
 
 // fire off the command in the main framework.
-$response = $console->run();
-if ($response->getStatusCode() >= 300)
-{
-	exit($response->getStatusCode());
-}
+$exit = $console->run();
+
+exit(is_int($exit) ? $exit : EXIT_SUCCESS);

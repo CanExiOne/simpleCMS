@@ -181,7 +181,7 @@ class InitialDatabase extends Migration
 
 		foreach ($fields as $key => $value) {
 			$this->forge->addField($value);
-			$this->forge->addPrimaryKey('id', true);
+			$this->forge->addKey('id', true);
 			$this->forge->createTable($key);
 		}
 	}
