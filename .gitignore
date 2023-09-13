@@ -62,6 +62,9 @@ writable/uploads/*
 
 writable/debugbar/*
 
+public/uploads/*
+!public/uploads/avatars/avatar_placeholder.png
+
 php_errors.log
 
 #-------------------------

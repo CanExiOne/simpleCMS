@@ -1,486 +1,641 @@
-<main>
-<div class="d-flex flex-column flex-shrink-0 p-3 text-white bg-dark" style="width: 280px;">
-  <a href="<?=env('app.baseURL')?>/admin" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none">
-    <span class="fs-4"><img src="<?= env('app.baseURL') ?>/theme/img/logo.png" alt="<?= env('app.siteName') ?>" width="120"></span>
-  </a>
-  <hr>
-  <ul class="nav nav-pills flex-column mb-auto">
-    <li class="nav-item">
-      <a href="<?=env('app.baseURL')?>/admin" class="nav-link text-white">
-        <i width="16" height="16" class="fas fa-home nav-icon"></i>
-        Home
-      </a>
-    </li>
-    <li>
-      <a href="<?=env('app.baseURL')?>/admin/news" class="nav-link text-white">
-        <i width="16" height="16" class="fas fa-newspaper nav-icon"></i>
-        Ogłoszenia
-      </a>
-    </li>
-    <li>
-      <a href="<?=env('app.baseURL')?>/admin/users" class="nav-link text-white active">
-        <i width="16" height="16" class="fas fa-users-cog nav-icon"></i>
-        Użytkownicy
-      </a>
-    </li>
-    <li>
-      <a href="<?=env('app.baseURL')?>/admin/settings" class="nav-link text-white">
-        <i width="16" height="16" class="fas fa-cog nav-icon"></i>
-        Ustawienia
-      </a>
-    </li>
-  </ul>
-  <hr>
-  <div class="dropdown">
-    <a href="#" class="d-flex align-items-center text-white text-decoration-none dropdown-toggle" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
-      <img src="/uploads/avatars/avatar_placeholder.png" alt="" class="rounded-circle me-2" width="32" height="32">
-      <strong><?php echo($_SESSION['username']); ?></strong>
+  <!-- Main Sidebar Container -->
+  <aside class="main-sidebar sidebar-dark-primary elevation-4">
+    <!-- Brand Logo -->
+    <a href="<?=base_url('/admin')?>" class="brand-link">
+      <img src="/assets/img/logo.png" alt="Logo" class="brand-image style="opacity: .8">
+      <span class="brand-text font-weight-light"><?=esc($settings['siteName'])?></span>
     </a>
-    <ul class="dropdown-menu dropdown-menu-dark text-small shadow" aria-labelledby="dropdownUser1">
-      <li><a class="dropdown-item" href="/admin/logout">Wyloguj się</a></li>
-    </ul>
-  </div>
-</div>
-<div style="overflow-y:scroll;" tab-index="0" class="container mt-5">
-  <div class="row">
-    <div class="col-md">
-      <div class="card bg-dark text-white">
-        <div class="card-header">
-          <h4 class="mt-1">Zarządzanie Użytkownikami</h4>
+
+    <!-- Sidebar -->
+    <div class="sidebar">
+      <!-- Sidebar user panel-->
+      <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+        <div class="image">
+          <img src="/uploads/avatars/avatar_placeholder.png" class="img-circle elevation-2" alt="User Image">
         </div>
-        <div class="card-body" style="background-color:#24282d;">
-          <div class="row pb-3 border-bottom border-secondary">
-            <div class="col">
-            <strong>Poniżej możesz zarządzać użytkownikami oraz utworzyć nowe konta.</strong>
-            </br>
-            <button type="button" class="mt-3 btn btn-success" data-bs-toggle="modal" data-bs-target="#newUserModal">Nowy Użytkownik</button>
-            </div>
-          </div>    
-          <div class="row pt-3">
-            <div class="col">
-              <table class="table table-dark table-striped table-bordered table-hover">
-                <thead>
-                  <tr>
-                    <th style="width:2%">ID</th>
-                    <th style="width:auto">Imię</th>
-                    <th style="width:auto">Nazwisko</th>
-                    <th style="width:auto">E-mail</th>
-                    <th style="width:5%">Grupa</th>
-                    <th style="width:5%">Aktywny</th>
-                    <th style="width:12%">Opcje</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <!-- Create for each loop to display all users -->
-                  <?php
-				  if (!$users) {
-					  echo('Zarejestruj się!');
-				  } else {
-				  
-                    foreach($users as $user):
-                      extract($user);
-
-                      if($id == $_SESSION['userId'])
-                      {
-                        continue;
-                      }
-
-                      echo(
-                        "<tr>
-                        <th style='width:2%'>$id</th>
-                        <td style='width:auto'>$firstName</td>
-                        <td style='width:auto'>$lastName</td>
-                        <td style='width:auto'>$email</td>
-                        <td style='width:5%'>$group</td>
-                        <td style='width:5%'>$isActive</td>
-                        <td style='width:12%;' class='text-center'>
-                        <button type='button' class='m-1 btn btn-warning btn-sm btn-edituser' 
-                          data-id='$id' 
-                          data-firstName='$firstName' 
-                          data-lastName='$lastName' 
-                          data-email='$email' 
-                          data-group='$group'
-                          data-isActive='$isActive'
-                          data-bs-toggle='modal' data-bs-target='#editUserModal'>Edytuj</button>
-
-                          <button type='button' class='m-1 btn btn-sm btn-danger btn-deleteuser' 
-                          data-id='$id' 
-                          data-firstName='$firstName' 
-                          data-lastName='$lastName' 
-                          data-bs-toggle='modal' data-bs-target='#deleteUserModal'>Usuń</button>
-                        </td>
-                      </tr>"
-                      );
-                    
-                    endforeach;
-					}
-
-                  ?>
-                </tbody>
-              </table> 
-            </div>
-          </div>    
+        <div class="info">
+          <a href="/admin/profile" class="d-block"><?php echo($_SESSION['username']); ?></a>
         </div>
       </div>
-    </div>
-  </div>
-</div>
 
-<div class="modal fade" id="newUserModal" tabindex="-1" aria-labelledby="newUserModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content bg-dark text-white">
-      <div class="modal-header">
-        <h5 class="modal-title" id="newUserModalLabel">Nowy Uzytkownik</h5>
-        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Zamknij"></button>
-      </div>
-      <div class="modal-body">
-        <form id="newUserForm" name="newUserForm">
-          <label for="firstName" class="form-label">Imię Użytkownika</label>
-
-            <input type="text" class="form-control" id="firstName" name="firstName" aria-describedby="firstNameHelp">
-
-          <div id="firstNameHelp" class="form-text">Podaj imię użytkownika</div>
-
-          <label for="lastName" class="form-label">Nazwisko Użytkownika</label>
-
-            <input type="text" class="form-control" id="lastName" name="lastName" aria-describedby="lastNameHelp">
-
-          <div id="lastNameHelp" class="form-text">Podaj nazwisko użytkownika</div>
-
-          <label for="email" class="form-label">Adres E-mail</label>
-
-            <input type="email" class="form-control" id="email" name="email" aria-describedby="emailHelp">
-
-          <div id="emailHelp" class="form-text">Podaj poprawny adres e-mail użytkownika. Na ten e-mail zostanie wysłany mail z linkiem do aktywowania konta i ustawienia hasła</div>
-
-          <label for="group" class="form-label">Wybierz Grupę Użytkownika</label>
-          <select class="form-select" id="group" name="group" aria-label="Wybierz grupę dla użytkownika" aria-describedby="groupHelp">
-              <option value="3" selected>Użytkownik</option>
-              <option value="2">Moderator</option>
-              <option value="1">Administrator</option>
-          </select>
-          <div id="groupHelp" class="form-text">Grupa dla użytkownika, Administrator ma prawa do wszystkiego, moderator może wstawiać ogłoszenia, a użytkownik(domyślnie) ma tylko dostęp do panelu</div>
-        </form>
-      </div>
-      <div>
-        <ul id="modal-response-createUser" class="list-group p-3">
-
+      <!-- Sidebar Menu -->
+      <nav class="mt-2">
+        <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+          <li class="nav-item">
+            <a href="<?=base_url('/admin')?>" class="nav-link">
+              <i class="nav-icon fas fa-tachometer-alt"></i>
+              <p>
+                Panel Kontrolny
+              </p>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="<?=base_url('/admin/news')?>" class="nav-link">
+              <i class="nav-icon fas fa-newspaper"></i>
+              <p>
+                Ogłoszenia
+              </p>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="<?=base_url('/admin/gallery')?>" class="nav-link">
+              <i class="nav-icon fas fa-images"></i>
+              <p>
+                Galeria
+                <i class="right fas fa-angle-left"></i>
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a href="/admin/gallery" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Albumy</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="/admin/gallery/new" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Nowy Album</p>
+                </a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-item">
+            <a href="<?=base_url('/admin/users')?>" class="nav-link active">
+              <i class="nav-icon fas fa-users-cog"></i>
+              <p>
+                Użytkownicy
+              </p>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="<?=base_url('/admin/settings')?>" class="nav-link">
+              <i class="nav-icon fas fa-cog"></i>
+              <p>
+                Ustawienia
+              </p>
+            </a>
+          </li>
         </ul>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Anuluj</button>
-        <button id="createUserSubmit" type="submit" class="btn btn-success">Utwórz Użytkownika</button>
+      </nav>
+      <!-- /.sidebar-menu -->
+    </div>
+    <!-- /.sidebar -->
+  </aside>
+
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <div class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+            <h1 class="m-0">Użytkownicy</h1>
+          </div><!-- /.col -->
+          <div class="col-sm-6">
+            <ol class="breadcrumb float-sm-right">
+            <li class="breadcrumb-item"><a href="<?=base_url('/admin')?>">Panel Kontrolny</a></li>
+              <li class="breadcrumb-item active">Użytkownicy</li>
+            </ol>
+          </div><!-- /.col -->
+        </div><!-- /.row -->
+      </div><!-- /.container-fluid -->
+    </div>
+    <!-- /.content-header -->
+
+    <!-- Main content -->
+    <div class="content">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-sm-12">
+            <div class="card card-success">
+              <div class="card-header d-flex">
+                <div id="userEditorTitle" class="mt-auto mb-auto">
+                Utwórz Użytkownika
+                </div>
+                <div class="ml-auto">
+                  <button class="btn btn-transparent text-white" data-toggle="collapse" data-target=".user-collapse"><i class="far fa-eye"></i></button>
+                </div>
+              </div>
+              <form id="userForm" class="display user-collapse show" method="post" action="<?=env('app.baseURL')?>/admin/users/createUser" data-action-type="create" novalidate>
+                <div class="card-body">
+                  <div class="form-row">
+                    <div class="form-group col-md-6">
+                      <input id="userId" type="hidden" value="0" readonly/>
+                      <label for="firstName">Imię Użytkownika</label>
+
+                      <input id="firstName" type="text" class="form-control" name="userFirstName" aria-describedby="firstNameHelp" autocomplete="off">
+                      <div id="firstNameHelp" class="form-text">Podaj imię użytkownika</div>
+
+                    </div>
+                    <div class="form-group col-md-6">
+                      <label for="lastName">Nazwisko Użytkownika</label>
+
+                      <input id="lastName" type="text" class="form-control" name="userLastName" aria-describedby="lastNameHelp" autocomplete="off">
+                      <div id="lastNameHelp" class="form-text">Podaj nazwisko użytkownika</div>
+
+                    </div>
+                  </div>
+                  
+                  <div class="form-group">
+                    <label for="userEmail">Adres E-mail</label>
+
+                    <input id="userEmail" type="email" class="form-control" name="userEmail" aria-describedby="userEmailHelp" autocomplete="off">
+                    <div id="userEmailHelp" class="form-text">Podaj adres e-mail użytkownika</div>
+
+                  </div>
+                  <div class="form-group">
+                    <label for="userGroup">Wybierz Grupę Użytkownika</label>
+                    <select class="form-control col-md-3" id="userGroup" name="userGroup" aria-label="Wybierz grupę dla użytkownika" aria-describedby="userGroupHelp">
+                        <option value="3" selected>Użytkownik</option>
+                        <option value="2">Moderator</option>
+                        <option value="1">Administrator</option>
+                    </select>
+                    <div id="userGroupHelp" class="form-text">Wybierz grupę dla użytkownika</div>
+
+                  </div>
+                  <?= csrf_field() ?>
+
+                  <div id="otherErrors" class="form-group"></div>
+                </div>
+                <div class="card-footer">
+                  <button id="createUser" class="btn btn-success">Utwórz Użytkownika</button>
+                  <button id="editUser" class="btn btn-warning d-none" disabled>Edytuj Użytkownika</button>
+                  <button type="button" id="cancelEdit" class="btn btn-danger d-none" disabled>Anuluj</button>
+                </div>
+              </form>
+            </div>
+            <!-- /.card -->
+          </div>
+          <!-- /.col-sm-12 -->
+        </div>
+        <!-- /.row -->
+        <div class="row">
+          <div class="col-sm-12">
+            <div class="card card-primary">
+              <div class="card-header">
+                Lista Użytkowników
+              </div>
+              <div class="card-body">
+                <div class="row">
+                  <div class="col-sm-12">
+                    <table id="usersTable" class="table table-striped table-bordered table-hover">
+                      <thead>
+                        <tr>
+                          <th style="width:2%">ID</th>
+                          <th style="width:auto">Imię</th>
+                          <th style="width:auto">Nazwisko</th>
+                          <th style="width:auto">E-mail</th>
+                          <th style="width:5%">Grupa</th>
+                          <th style="width:5%">Aktywny</th>
+                          <th style="width:12%">Opcje</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <?php if (!empty($users) && is_array($users)): ?>
+                          <?php foreach ($users as $user): ?>
+                            <?php if($user['id'] === $_SESSION['userId']): ?>
+                              <tr class="bg-warning">
+                                <th style='width:2%'>(TY)</th>
+                            <?php else: ?>
+                              <tr>
+                                <th style='width:2%'><?=esc($user['id'])?></th>
+                            <?php endif ?>
+                                <td style='width:auto'><?=esc($user['firstName'])?></td>
+                                <td style='width:auto'><?=esc($user['lastName'])?></td>
+                                <td style='width:auto'><?=esc($user['email'])?></td>
+                                <td style='width:5%'><?=esc($user['group'])?></td>
+                                <td style='width:5%'><?=esc($user['isActive'])?></td>
+                                <td style='width:12%;' class='text-center'>
+
+                              <?php if($user['id'] != $_SESSION['userId']): ?>
+                                <button type='button' class='editUser m-1 btn btn-warning btn-sm' 
+                                  data-id='<?=esc($user['id'])?>' 
+                                  data-firstName='<?=esc($user['firstName'])?>' 
+                                  data-lastName='<?=esc($user['lastName'])?>' 
+                                  data-email='<?=esc($user['email'])?>' 
+                                  data-group='<?=esc($user['group'])?>'
+                                  data-isActive='<?=esc($user['isActive'])?>'>Edytuj</button>
+
+                                  <button type='button' class='deleteUser m-1 btn btn-sm btn-danger' 
+                                  data-id='<?=esc($user['id'])?>' 
+                                  data-firstName='<?=esc($user['firstName'])?>' 
+                                  data-lastName='<?=esc($user['lastName'])?>'>Usuń</button>
+                                <?php endif ?>
+                                </td>
+                              </tr>
+                          <?php endforeach ?>
+                        <?php endif ?>
+                        <!-- Create for each loop to display all users -->
+                        <!-- <?php
+                          foreach($users as $user):
+                            extract($user);
+
+                            if($id == $_SESSION['userId'])
+                            {
+                              continue;
+                            }
+
+                            echo(
+                              "<tr>
+                              <th style='width:2%'>$id</th>
+                              <td style='width:auto'>$firstName</td>
+                              <td style='width:auto'>$lastName</td>
+                              <td style='width:auto'>$email</td>
+                              <td style='width:5%'>$group</td>
+                              <td style='width:5%'>$isActive</td>
+                              <td style='width:12%;' class='text-center'>
+                              <button type='button' class='editUser m-1 btn btn-warning btn-sm' 
+                                data-id='$id' 
+                                data-firstName='$firstName' 
+                                data-lastName='$lastName' 
+                                data-email='$email' 
+                                data-group='$group'
+                                data-isActive='$isActive'>Edytuj</button>
+
+                                <button type='button' class='deleteUser m-1 btn btn-sm btn-danger' 
+                                data-id='$id' 
+                                data-firstName='$firstName' 
+                                data-lastName='$lastName'>Usuń</button>
+                              </td>
+                            </tr>"
+                            );
+                          
+                          endforeach;
+
+                        ?> -->
+                      </tbody>
+                    </table> 
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- /.card -->
+          </div>
+          <!-- /.col-sm-12 -->
+        </div>
+        <!-- /.row -->
+      </div><!-- /.container-fluid -->
+    </div>
+    <!-- /.content -->
+  </div>
+  <!-- /.content-wrapper -->
+
+  <!-- Delete User Confirmation Modal -->
+  <div class="modal fade" id="deleteUserModal" tabindex="-1" role="dialog" aria-labelledby="deleteUserModalTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header bg-danger">
+          <h5 class="modal-title" id="deleteUserModalTitle">Usuwanie Użytkownika</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form id="deleteUser" action="<?=env('app.baseURL')?>/admin/users/deleteUser" method="post" novalidate>
+            <div class="form-row">
+              <div class="form-group col">
+              <input id="userIdDelete" type="hidden" value="0" readonly/>
+                <label for="confirmPassword">
+                  Potwierdź Hasło
+                </label>
+                <input id="confirmPassword" class="form-control" type="password" name="confirmPassword" aria-describedby="confirmPasswordHelp" autocomplete="off">
+                <div id="confirmPasswordHelp" class="form-text">Potwierdź usunięcie użytkownika podając swoje hasło</div>
+              </div>
+              <?= csrf_field() ?>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Anuluj</button>
+          <button id="deleteUserConfirm" type="button" class="btn btn-primary">Potwierdź</button>
+        </div>
       </div>
     </div>
   </div>
-</div>
-<div class="modal fade" id="editUserModal" tabindex="-1" aria-labelledby="editUserModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content bg-dark text-white">
-      <div class="modal-header">
-        <h5 class="modal-title" id="editUserModalLabel">Edytuj Użytkownika</h5>
-        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Zamknij"></button>
-      </div>
-      <div class="modal-body">
-        <form id="editUserForm" name="editUserForm">
-          <label for="firstName" class="form-label">Imię Użytkownika</label>
-
-            <input type="text" class="form-control" id="firstName" name="firstName" aria-describedby="firstNameHelp">
-
-          <div id="firstNameHelp" class="form-text">Podaj imię użytkownika</div>
-
-          <label for="lastName" class="form-label">Nazwisko Użytkownika</label>
-
-            <input type="text" class="form-control" id="lastName" name="lastName" aria-describedby="lastNameHelp">
-
-          <div id="lastNameHelp" class="form-text">Podaj nazwisko użytkownika</div>
-
-          <label for="email" class="form-label">Adres E-mail</label>
-
-            <input type="email" class="form-control" id="email" name="email" aria-describedby="emailHelp">
-
-          <div id="emailHelp" class="form-text">Podaj poprawny adres e-mail użytkownika.</div>
-
-          <label for="group" class="form-label">Wybierz Grupę Użytkownika</label>
-          <select class="form-select" id="group" name="group" aria-label="Wybierz grupę dla użytkownika" aria-describedby="groupHelp">
-              <option value="3" selected>Użytkownik</option>
-              <option value="2">Moderator</option>
-              <option value="1">Administrator</option>
-          </select>
-          <div id="groupHelp" class="form-text">Grupa dla użytkownika, Administrator ma prawa do wszystkiego, moderator może wstawiać ogłoszenia, a użytkownik(domyślnie) ma tylko dostęp do panelu</div>
-        </form>
-      </div>
-      <div>
-        <ul id="modal-response-editUser" class="list-group p-3">
-
-        </ul>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Anuluj</button>
-        <button id="editUserSubmit" type="submit" class="btn btn-success">Edytuj Użytkownika</button>
-      </div>
-    </div>
-  </div>
-</div>
-<div class="modal fade" id="deleteUserModal" tabindex="-1" aria-labelledby="deleteUserModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content bg-dark text-white">
-      <div class="modal-header">
-        <h5 class="modal-title" id="deleteUserModalLabel">Usuń Użytkownika</h5>
-        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Zamknij"></button>
-      </div>
-      <div class="modal-body">
-        <form id="deleteUserForm" name="deleteUserForm">
-          <label for="password" class="form-label">Podaj Hasło</label>
-
-            <input type="password" class="form-control" id="password" name="password" aria-describedby="passwordHelp">
-
-          <div id="passwordHelp" class="form-text">Podaj poprawny adres e-mail użytkownika.</div>
-
-          <label for="password-confirm" class="form-label">Potwierdź Hasło</label>
-
-            <input type="password" class="form-control" id="password-confirm" name="password-confirm" aria-describedby="password-confirmHelp">
-
-          <div id="password-confirmHelp" class="form-text">Podaj poprawny adres e-mail użytkownika.</div>
-        </form>
-      </div>
-      <div>
-        <ul id="modal-response-deleteUser" class="list-group p-3">
-
-        </ul>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Anuluj</button>
-        <button id="deleteUserSubmit" type="submit" class="btn btn-danger">Usuń Użytkownika</button>
-      </div>
-    </div>
-  </div>
-</div>
-</main>
 
 <script>
-//Open modal for editing the user with user data already in place
-var editUserModal = document.getElementById('editUserModal');
+$(document).ready(function() {
+  //Create data table with all users
+  $('#usersTable').DataTable({
+    "order" : [[0, 'asc']],
+  });
 
-editUserModal.addEventListener('show.bs.modal', function (event) {
-  // Button that triggered the modal
-  var button = event.relatedTarget;
-  // Extract info from data-bs-* attributes
-  var userId = button.getAttribute('data-id');
-  var firstName = button.getAttribute('data-firstName');
-  var lastName = button.getAttribute('data-lastName');
-  var email = button.getAttribute('data-email');
-  var group = button.getAttribute('data-group');
-  var isActive = button.getAttribute('data-isActive');
-  // Update the modal's content.
-  var modalTitle = editUserModal.querySelector('.modal-title');
-  var modalFirstName = editUserModal.querySelector('.modal-body #firstName');
-  var modalLastName = editUserModal.querySelector('.modal-body #lastName');
-  var modalEmail = editUserModal.querySelector('.modal-body #email');
-  var modalGroup = editUserModal.querySelector('.modal-body #group');
-  // var modalIsActive = editUserModal.querySelector('.modal-body #firstName');
-  // var modalID = editUserModal.querySelector('.modal-body #firstName');
+  //Change button icon on collapse
+  $('.new-user-collapse')
+    .on('hide.bs.collapse', function () {
+      $(this)
+            .parent()
+            .find(".fa-eye")
+            .removeClass("fa-eye")
+            .addClass("fa-eye-slash");
+    })
+    .on('show.bs.collapse', function () {
+      $(this)
+            .parent()
+            .find(".fa-eye-slash")
+            .removeClass("fa-eye-slash")
+            .addClass("fa-eye");
+    });
 
-  modalTitle.textContent = 'Edytuj Użytkownika - ' + firstName + ' ' + lastName + ' ID:' + userId;
-  modalFirstName.value = firstName;
-  modalLastName.value = lastName;
-  modalEmail.value = email;
-  modalGroup.value = group;
+  if(localStorage.getItem('reload-message'))
+  {
+    toastData = JSON.parse(localStorage.getItem('reload-message'))
 
-  document.querySelector("#editUserSubmit").setAttribute("data-userId", userId);
-});
+    console.log(toastData);
 
-//Modal to delete user
-var deleteUserModal = document.getElementById('deleteUserModal');
-
-deleteUserModal.addEventListener('show.bs.modal', function (event) {
-  // Button that triggered the modal
-  var button = event.relatedTarget;
-  // Extract info from data-bs-* attributes
-  var userId = button.getAttribute('data-id');
-  var firstName = button.getAttribute('data-firstName');
-  var lastName = button.getAttribute('data-lastName');
-
-  var modalTitle = deleteUserModal.querySelector('.modal-title');
-
-  modalTitle.textContent = 'Potwierdź Usunięcie Użytkownika - ' + firstName + ' ' + lastName + ' ID:' + userId;
-
-  document.querySelector("#deleteUserSubmit").setAttribute("data-userId", userId);
-});
-
-//Clear user ID attribute from submit button
-deleteUserModal.addEventListener('hide.bs.modal', function (event) {
-  document.querySelector("#deleteUserSubmit").removeAttribute("data-userId");
-});
-
-//Clear user ID attribute from submit button
-editUserModal.addEventListener('hide.bs.modal', function (event) {
-  document.querySelector("#editUserSubmit").removeAttribute("data-userId");
-});
-
-//Create User and get response
-document.getElementById("createUserSubmit").addEventListener("click", function(event) {
-  
-  event.preventDefault();
-
-  document.querySelectorAll(".response-message").forEach(e => e.remove());
-
-  console.log("clicked!")
-
-  document.getElementById('createUserSubmit').disabled = true;
-
-  //Get form data
-  let formData = new FormData(newUserForm);
-
-  //Send the data
-  fetch('<?=env('app.baseURL')?>/admin/users/createUser', {
-      method: 'POST',
-      headers: {
-          'Content-Type': 'application/json',
-          'X-Requested-With': 'XMLHttpRequest'
-      },
-      body: JSON.stringify(Object.fromEntries(formData)),
-      }).then(function (response) {
-          if (response.ok) {
-              return response.json();
-          }
-          return Promise.reject(response);
-      }).then(function (data) {
-          console.log(data);
-
-          if(data.status === 'success')
-          {
-            el = document.getElementById('modal-response-createUser');
-
-            el.insertAdjacentHTML('afterbegin', "<li class='response-message list-group-item list-group-item-success'>"+ data.message +"</li>");
-          } else 
-          {
-            //Create an element for the response
-            el = document.getElementById('modal-response-createUser');
-
-            errors = data.message;
-
-            for (const [key, value] of Object.entries(errors)) {
-              el.insertAdjacentHTML('afterbegin', "<li class='response-message list-group-item list-group-item-danger'>"+ value +"</li>");
-            }
-          }
-
-          //Enable button
-          document.getElementById('createUserSubmit').disabled = false;
-      }).catch(function (error) {
-          console.warn(error);
+    if(toastData.type === 'success')
+    {
+      $(document).Toasts('create', {
+      title: 'Sukces!',
+      body: toastData.message,
+      autohide: true,
+      delay: 5000,
+      class: 'bg-success',
       });
+    }
+  }
+
+  //Clear cookie reload-message
+  localStorage.removeItem('reload-message');
 });
 
-//Edit User and get response
-document.getElementById("editUserSubmit").addEventListener("click", function(event) {
+$('.deleteUser').click(function() {
+  $('#deleteUserModal').modal('show');
+
+  $('#confirmPassword').val('');
+  $('#userIdDelete').val($(this).attr('data-id'));
+  $('#deleteUserModalTitle').text("Potwierdź Usunięcie Użytkownika - " + $(this).attr('data-firstName') + " " + $(this).attr('data-lastName') + " - ID:" + $(this).attr('data-id'));
+})
+
+$('.editUser').click(function() {
+  //Change User Form Header
+  $('#userEditorTitle')
+    .text("Edytuj Użytkownika - " + $(this).attr('data-firstName') + " " + $(this).attr('data-lastName') + " - ID:" + $(this).attr('data-id')) 
+    .parent()
+    .parent()
+    .removeClass("card-success")
+    .addClass("card-warning")
+
+  //Change button and assign attributes to it
+  if(!$('#createUser').hasClass('d-none'))
+  {
+    $('#createUser').addClass('d-none')
+  }
+
+  if($('#editUser').hasClass('d-none'))
+  {
+    $('#editUser').removeClass('d-none')
+    $('#cancelEdit').removeClass('d-none')
+  }
   
-  event.preventDefault();
+  $('#editUser').attr('data-postId', $(this).attr('data-id'));
 
-  document.querySelectorAll(".response-message").forEach(e => e.remove());
 
-  document.getElementById('editUserSubmit').disabled = true;
+  //Disable create button and enable edit button
+  $('#createUser').attr('disabled', true);
 
-  //Get form data
-  let formData = new FormData(editUserForm);
+  $('#editUser').attr('disabled', false);
+  $('#cancelEdit').attr('disabled', false);
 
-  userId = document.querySelector('#editUserSubmit').getAttribute("data-userId");
+  $('#userForm').attr('action', "<?=env('app.baseURL')?>/admin/users/updateUser");
 
-  formData.append('id', userId)
+  //Populate User Form Contents
+  $('#userId').val($(this).attr('data-id'));
+  $('#firstName').val($(this).attr('data-firstname'));
+  $('#lastName').val($(this).attr('data-lastname'));
+  $('#userEmail').val($(this).attr('data-email'));
+  $('#userGroup').val($(this).attr('data-group'));
 
-  //Send the data
-  fetch('<?=env('app.baseURL')?>/admin/users/updateUser', {
-      method: 'POST',
-      headers: {
-          'Content-Type': 'application/json',
-          'X-Requested-With': 'XMLHttpRequest'
-      },
-      body: JSON.stringify(Object.fromEntries(formData)),
-      }).then(function (response) {
-          if (response.ok) {
-              return response.json();
-          }
-          return Promise.reject(response);
-      }).then(function (data) {
-          console.log(data);
+  //Check if card is collapsed, if true then show it
+  if(!$('.editor-collapse').collapse('show'))
+  {
+    $('editor.collapse').collapse('show')
+  }
 
-          if(data.status === 'success')
-          {
-            el = document.getElementById('modal-response-editUser');
+  //Set current state of form to allow for easier handling of submit buttons
+  $('#userForm').attr('data-action-type', 'edit');
 
-            el.insertAdjacentHTML('afterbegin', "<li class='response-message list-group-item list-group-item-success'>"+ data.message +"</li>");
-          } else 
-          {
-            //Create an element for the response
-            el = document.getElementById('modal-response-editUser');
-
-            errors = data.message;
-
-            for (const [key, value] of Object.entries(errors)) {
-              el.insertAdjacentHTML('afterbegin', "<li class='response-message list-group-item list-group-item-danger'>"+ value +"</li>");
-            }
-          }
-
-          //Enable button
-          document.getElementById('editUserSubmit').disabled = false;
-      }).catch(function (error) {
-        console.log(error);
-      });
+  $(window).scrollTop(0)
 });
 
-//Delete User and get response
-document.getElementById("deleteUserSubmit").addEventListener("click", function(event) {
+$('#cancelEdit').click(function() {
+  //Change User Form Header
+  $('#userEditorTitle')
+    .text("Utwórz Użytkownika") 
+    .parent()
+    .parent()
+    .removeClass("card-warning")
+    .addClass("card-success")
+
+  //Change button and remove attributes from it
+  if($('#createUser').hasClass('d-none'))
+  {
+    $('#createUser').removeClass('d-none')
+  }
+
+  if(!$('#editUser').hasClass('d-none'))
+  {
+    $('#editUser').addClass('d-none')
+    $('#cancelEdit').addClass('d-none')
+  }
   
-  event.preventDefault();
+  $('#editUser').attr('data-postId', '');
 
-  document.querySelectorAll(".response-message").forEach(e => e.remove());
 
-  document.getElementById('deleteUserSubmit').disabled = true;
+  //Disable edit button and enable create button
+  $('#createUser').attr('disabled', false);
 
-  //Get form data
-  let formData = new FormData(deleteUserForm);
+  $('#editUser').attr('disabled', true);
+  $('#editUser').attr('disabled', true);
 
-  userId = document.querySelector('#deleteUserSubmit').getAttribute("data-userId");
+  $('#userForm').attr('action', "<?=env('app.baseURL')?>/admin/users/createUser");
 
-  formData.append('userId', userId)
+  //Clear User Form
+  $('#userId').val('');
+  $('#firstName').val('');
+  $('#lastName').val('');
+  $('#userEmail').val('');
+  $('#userGroup').val('3');
 
-  //Send the data
-  fetch('<?=env('app.baseURL')?>/admin/users/deleteUser', {
-      method: 'POST',
-      headers: {
-          'Content-Type': 'application/json',
-          'X-Requested-With': 'XMLHttpRequest'
-      },
-      body: JSON.stringify(Object.fromEntries(formData)),
-      }).then(function (response) {
-          if (response.ok) {
-              return response.json();
-          }
-          return Promise.reject(response);
-      }).then(function (data) {
-          console.log(data);
+  //Set current state of form to allow for easier handling of submit buttons
+  $('#userForm').attr('data-action-type', 'create');
+});
 
-          if(data.status === 'success')
-          {
-            el = document.getElementById('modal-response-deleteUser');
+//Remove user after confirming admin password
+$(function() {
+  $('#deleteUserConfirm').click(function(event) {
+    event.preventDefault();
 
-            el.insertAdjacentHTML('afterbegin', "<li class='response-message list-group-item list-group-item-success'>"+ data.message +"</li>");
-          } else 
-          {
-            //Create an element for the response
-            el = document.getElementById('modal-response-deleteUser');
+    //Disable Button
+    $('#deleteUserConfirm').attr('disabled', true);
 
-            errors = data.message;
+    //Restore state of input help
+    $('#confirmPasswordHelp').replaceWith('<div id="confirmPasswordHelp" class="form-text">Potwierdź usunięcie użytkownika podając swoje hasło</div>');
+    $('#confirmPassword').removeClass('is-invalid');
 
-            for (const [key, value] of Object.entries(errors)) {
-              el.insertAdjacentHTML('afterbegin', "<li class='response-message list-group-item list-group-item-danger'>"+ value +"</li>");
-            }
-          }
+    var form = document.querySelector('#deleteUser');
 
-          //Enable button
-          document.getElementById('deleteUserSubmit').disabled = false;
-      }).catch(function (error) {
-        console.log(error);
-      });
+    formData = new FormData(form);
+
+    formData.set('userId', $('#userIdDelete').val());
+
+    $.ajax({
+      type: form.getAttribute('method'),
+      url: form.getAttribute('action'),
+      data: formData,
+      processData: false,
+      contentType: false,
+    }).done(function(data) {
+      //Parse data to json for easier response handling
+      var data = JSON.parse(data);
+
+      //Re-enable button but first check form state
+        $('#deleteUserConfirm').attr('disabled', false);
+
+        console.log(data);
+      
+      //Check if response was invalid and if true display errors
+      if(data.status === 'invalid')
+      {
+        if(data.errors.confirmPassword)
+        {
+          $('#confirmPasswordHelp').addClass('invalid-feedback d-block').text(data.errors.confirmPassword);
+          $('#confirmPassword').addClass('is-invalid');
+        }
+
+        console.log(data.errors);
+      } else if (data.status === 'success')
+      {
+        //Reload page and display success popup
+        reloadMessage = {
+          'message' : data.message,
+          'type' : 'success'
+        };
+
+        localStorage.setItem('reload-message', JSON.stringify(reloadMessage));
+        window.location.reload();
+      } else {
+        console.log(data);
+      }
+
+      //Refresh CSRF Token
+      $('input[name=csrf_token]').val(data.csrf)
+
+    }).fail(function(data) {
+      //Re-enable button
+        $('#deleteUserConfirm').attr('disabled', false);
+
+      
+      $('#confirmPassword').addClass('invalid-feedback d-block').text('Wystąpił nieznany błąd! Skontaktuj się z Administratorem Serwera');
+    });
+  })
+})
+
+//Send data to server on user create or edit
+$(function() {
+  $('form').submit(function(event) {
+    event.preventDefault();
+
+    //Restore #titleHelp and #otherErrors state in case it was edited to show error before
+    $('#firstNameHelp').replaceWith('<div id="firstNameHelp" class="form-text">Podaj imię użytkownika</div>');
+    $('#lastNameHelp').replaceWith('<div id="lastNameHelp" class="form-text">Podaj nazwisko użytkownika</div>');
+    $('#userEmailHelp').replaceWith('<div id="userEmailHelp" class="form-text">Podaj adres e-mail użytkownika</div>');
+    $('#userGroupHelp').replaceWith('<div id="userGroupHelp" class="form-text">Wybierz grupę dla użytkownika</div>');
+    $('#otherErrors').replaceWith('<div id="otherErrors" class="form-group"></div>');
+
+    //Disable button but first check form state
+    if($('#userForm').attr('data-action-type') === 'create')
+    {
+      $('#createUser').attr('disabled', true);
+    } else {
+      $('#editUser').attr('disabled', true)
+    }
+
+    //Get form and create FormData, using DOM because FormData() get's angry about jquery
+    var form = document.querySelector('#userForm');
+
+    formData = new FormData(form);
+
+    //Append to FormData user id if editing user
+    if($('#userForm').attr('data-action-type') === 'edit')
+    {
+      formData.set('userId', $('#userId').val())
+    }
+    $.ajax({
+      type: form.getAttribute('method'),
+      url: form.getAttribute('action'),
+      data: formData,
+      processData: false,
+      contentType: false,
+    }).done(function(data) {
+      //Parse data to json for easier response handling
+      var data = JSON.parse(data);
+
+      //Re-enable button but first check form state
+      if($('#userForm').attr('data-action-type') === 'create')
+      {
+        $('#createUser').attr('disabled', false);
+      } else {
+        $('#editUser').attr('disabled', false)
+      }
+      
+      //Check if response was invalid and if true display errors
+      if(data.status === 'invalid')
+      {
+        if(data.errors.userFirstName)
+        {
+          $('#firstNameHelp').addClass('invalid-feedback d-block').text(data.errors.userFirstName);
+          $('#firstName').addClass('is-invalid');
+        } 
+        if(data.errors.userLastName)
+        {
+          $('#lastNameHelp').addClass('invalid-feedback d-block').text(data.errors.userLastName);
+          $('#lastName').addClass('is-invalid');
+        } 
+        if(data.errors.userEmail)
+        {
+          $('#userEmailHelp').addClass('invalid-feedback d-block').text(data.errors.userEmail);
+          $('#userEmail').addClass('is-invalid');
+        } 
+        if(data.errors.userGroup)
+        {
+          $('#userGroupHelp').addClass('invalid-feedback d-block').text(data.errors.userGroup);
+          $('#userGroup').addClass('is-invalid');
+        } 
+
+        //Refresh CSRF Token
+        $('input[name=csrf_token]').val(data.csrf)
+      } else if (data.status === 'success')
+      {
+        //Reload page and display success popup
+        reloadMessage = {
+          'message' : data.message,
+          'type' : 'success'
+        };
+
+        localStorage.setItem('reload-message', JSON.stringify(reloadMessage));
+        window.location.reload();
+      } else {
+        //Refresh CSRF Token
+        $('input[name=csrf_token]').val(data.csrf)
+        console.log(data);
+      }
+
+    }).fail(function(data) {
+      //Re-enable button but first check form state
+      if($('#userForm').attr('data-action-type') === 'create')
+      {
+        $('#createUser').attr('disabled', false);
+      } else {
+        $('#editUser').attr('disabled', false)
+      }
+      
+      $('#otherErrors').addClass('invalid-feedback d-block').text('Wystąpił nieznany błąd! Skontaktuj się z Administratorem Serwera');
+
+      //Refresh CSRF Token
+      $('input[name=csrf_token]').val(data.csrf)
+    });
+  });
 });
 </script>

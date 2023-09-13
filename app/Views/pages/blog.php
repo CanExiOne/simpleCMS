@@ -74,7 +74,7 @@
                       $contentShort
                     </p>
                     <div class='read-more'>
-                      <a href='/blog/view/$slug'>Czytaj talej</a>
+                      <a href='/blog/view/$slug'>Czytaj Dalej</a>
                     </div>
                   </div>
     

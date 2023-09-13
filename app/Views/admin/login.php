@@ -1,88 +1,81 @@
-<main>
-    <div class="container">
-        <div class="row h-100">
-            <div class="col-6 mx-auto d-flex justify-content-center">
-                <div class="card p-3 w-100 bg-dark text-light mx-auto my-auto">
-                <h5 class="card-title">Logowanie Do Panelu</h5>
-                    <div class="card-body"></div>
-                        <form id="loginForm" name="loginForm">
-                            <label for="email" class="form-label">Adres E-mail</label>
-
-                            <input type="text" class="form-control" id="email" name="email" aria-describedby="emailHelp">
-
-                            <div id="emailHelp" class="form-text">Podaj swój adres e-mail</div>
-
-                            <label for="password" class="form-label">Hasło</label>
-
-                            <input type="password" class="form-control" id="password" name="password" aria-describedby="passwordHelp">
-
-                            <div id="passwordHelp" class="form-text">Podaj swoje hasło</div>
-                        </form>
-
-                        <button type="submit" id="loginSubmit" class="btn btn-success mt-3">Zaloguj się</button>
-
-                        <div>
-                            <ul id="response" class="list-group p-3">
-
-                            </ul>
-                        </div>
-                </div>
-            </div>
-        </div>
+<body class="hold-transition login-page">
+<div class="login-box">
+  <!-- /.login-logo -->
+  <div class="card card-outline card-primary">
+    <div class="card-header text-center">
+      <span class="h1"><img src="/assets/img/logo.png" width="150px" alt="<?=esc($settings['siteName'])?>"></span>
     </div>
-</main>
+    <div class="card-body">
+      <p class="login-box-msg">Zaloguj się do panelu</p>
+
+      <form action="/admin/login/auth" method="post">
+        <div class="input-group mb-3">
+          <input id="email" type="email" name="email" class="form-control" placeholder="Email">
+          <div class="input-group-append">
+            <div class="input-group-text">
+              <span class="fas fa-envelope"></span>
+            </div>
+          </div>
+        </div>
+        <div class="input-group mb-3">
+          <input id="password" type="password" name="password" class="form-control" placeholder="Password">
+          <div class="input-group-append">
+            <div class="input-group-text">
+              <span class="fas fa-lock"></span>
+            </div>
+          </div>
+        </div>
+        <?= csrf_field() ?>
+        <div class="card-footer">
+            <button type="submit" class="btn btn-primary btn-block">Zaloguj się</button>
+        </div>
+        </div>
+      </form>
+    </div>
+    <!-- /.card-body -->
+  </div>
+  <!-- /.card -->
+</div>
+<!-- /.login-box -->
+</body>
 
 <script>
-document.getElementById("loginSubmit").addEventListener("click", function(event) {
-  
-  event.preventDefault();
+$(function() {
+    $('form').submit(function(e) {
+        e.preventDefault();
 
-  document.querySelectorAll(".response-message").forEach(e => e.remove());
+        $('button:submit').attr('disabled', true)
 
-  document.getElementById('loginSubmit').disabled = true;
+        $('.invalid-feedback').each(function(){
+            $(this).children().remove();
+        })
 
-  //Get form data
-  let formData = new FormData(loginForm);
+        var form = document.querySelector('form');
 
-  //Send the data
-  fetch('<?=env('app.baseURL')?>/admin/login/auth', {
-      method: 'POST',
-      headers: {
-          'Content-Type': 'application/json',
-          'X-Requested-With': 'XMLHttpRequest'
-      },
-      body: JSON.stringify(Object.fromEntries(formData)),
-      }).then(function (response) {
-          if (response.ok) {
-              return response.json();
-          }
-          return Promise.reject(response);
-      }).then(function (data) {
-          console.log(data);
+        formData = new FormData(form);
 
-          if(data.status === 'success')
+        $.ajax({
+          type: form.getAttribute('method'),
+          url: form.getAttribute('action'),
+          data: formData,
+          processData: false,
+          contentType: false,
+        }).done(function(data) {
+          var data = JSON.parse(data);
+          $('button:submit').attr('disabled', false)
+
+          if(data.status === 'invalid')
           {
-
-            console.log(data.message);
-            window.location.href = data.response;
-          } else 
+              $(`#password`).parent().append(`<div class='form-text invalid-feedback d-block'>${data.error}</div>`);
+          } else if (data.status === 'success')
           {
-            //Create an element for the response
-            el = document.getElementById('response');
-
-            errors = data.message;
-
-            for (const [key, value] of Object.entries(errors)) {
-              el.insertAdjacentHTML('afterbegin', "<li class='response-message list-group-item list-group-item-danger'>"+ value +"</li>");
-            }
+              window.location.href = data.redirect;
           }
 
-          //Enable button
-          document.getElementById('loginSubmit').disabled = false;
-      }).catch(function (error) {
-          console.warn(error);
-
-          document.getElementById('loginSubmit').disabled = false;
-      });
+          $('input[name=csrf_token]').val(data.csrf);
+        }).fail(function(data) {
+          $('input[name=csrf_token]').val(data.csrf);
+        });
+    })
 });
 </script>

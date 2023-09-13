@@ -22,7 +22,7 @@
       <nav class="mt-2">
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
           <li class="nav-item">
-            <a href="#" class="nav-link active">
+            <a href="<?=base_url('/admin')?>" class="nav-link">
               <i class="nav-icon fas fa-tachometer-alt"></i>
               <p>
                 Panel Kontrolny
@@ -38,7 +38,7 @@
             </a>
           </li>
           <li class="nav-item">
-            <a href="<?=base_url('/admin/gallery')?>" class="nav-link">
+            <a href="<?=base_url('/admin/gallery')?>" class="nav-link active">
               <i class="nav-icon fas fa-images"></i>
               <p>
                 Galeria
@@ -47,8 +47,8 @@
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="/admin/gallery" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
+                <a href="/admin/gallery" class="nav-link active">
+                  <i class="fas fa-circle nav-icon"></i>
                   <p>Albumy</p>
                 </a>
               </li>
@@ -94,7 +94,8 @@
           </div><!-- /.col -->
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
-              <li class="breadcrumb-item active">Panel Kontrolny</li>
+              <li class="breadcrumb-item"><a href="<?=base_url('/admin')?>">Panel Kontrolny</a></li>
+              <li class="breadcrumb-item active">Galeria</li>
             </ol>
           </div><!-- /.col -->
         </div><!-- /.row -->
@@ -105,74 +106,70 @@
     <!-- Main content -->
     <div class="content">
       <div class="container-fluid">
-        <div class="row">
-          <div class="col-md-6">
-            <div class="small-box bg-gradient-success">
-                <div class="inner">
-                    <h3><?= esc($userCount) ?></h3>
-                    <p>Użytkowników</p>
-                </div>
-                <div class="icon">
-                    <i class="fas fa-user-plus"></i>
-                </div>
-                <a href="<?= base_url('/admin/users')?>" class="small-box-footer">
-                    Sprawdź <i class="fas fa-arrow-circle-right"></i>
-                </a>
-            </div>
+        <div>
+          <!-- <h2><span class="badge badge-primary">27.01.2022</span></h2> -->
+          <div class="row">
+            <?php
+              foreach($albums as $album)
+              {
+                extract($album);
+                $pictures = unserialize($pictures);
+
+                $date = date('d-m-Y', strtotime($date));
+
+                //Create empty array if no picture is in album
+                if(!$pictures)
+                {
+                  $pictures[0] = 'gallery_placeholder.png';
+                }
+
+                echo(
+                  "<div class='col-md-4'>
+                    <div class='card'>
+                    <div class='card-header bg-success'>
+                      <span class='h3'><strong>$title</strong></span><span class='float-sm-right badge badge-secondary' style='float:right !important'>$date</span>
+                      <p class='card-text'><small>$client</small></p>
+                    </div>
+                    <div class='gallery-item text-center'>
+                      <img class='img-fluid' style='filter: blur(3px); padding:0.1rem;' src='/uploads/$pictures[0]' alt='An Image'>
+                      <div class='gallery-item-overlay'>
+                        <a href='/admin/gallery/edit?albumid=$albumid'><button class='btn btn-warning'>Edytuj Album</button></a>
+                      </div>
+                    </div>
+                  </div>
+                  </div>"
+                );
+              }
+            ?>
           </div>
-          <!-- /.col-md-6 -->
-          <div class="col-md-6">
-            <div class="small-box bg-gradient-info">
-                <div class="inner">
-                    <h3><?= esc($newsCount) ?></h3>
-                    <p>Ogłoszeń</p>
-                </div>
-                <div class="icon">
-                    <i class="fas fa-newspaper"></i>
-                </div>
-                <a href="<?=base_url('/admin/news')?>" class="small-box-footer">
-                    Sprawdź <i class="fas fa-arrow-circle-right"></i>
-                </a>
-            </div>
-          </div>
-          <!-- /.col-md-6 -->
         </div>
-        <!-- /.row -->
-        <div class="row">
-          <div class="col-md-6">
-            <div class="small-box bg-gradient-warning">
-                <div class="inner">
-                    <h3><?=esc($galleryCount)?></h3>
-                    <p>Albumów</p>
-                </div>
-                <div class="icon">
-                    <i class="fas fa-images"></i>
-                </div>
-                <a href="#" class="small-box-footer">
-                    Sprawdź <i class="fas fa-arrow-circle-right"></i>
-                </a>
-            </div>
-          </div>
-          <!-- /.col-md-6 -->
-          <div class="col-md-6">
-            <div class="small-box bg-gradient-warning">
-                <div class="inner">
-                    <h3><?=esc($picturesCount)?></h3>
-                    <p>Zdjęć</p>
-                </div>
-                <div class="icon">
-                    <i class="fas fa-image"></i>
-                </div>
-                <a href="#" class="small-box-footer">
-                    Sprawdź <i class="fas fa-arrow-circle-right"></i>
-                </a>
-            </div>
-          </div>
-          <!-- /.col-md-6 -->
-        </div>
+        
         <!-- /.row -->
       </div><!-- /.container-fluid -->
     </div>
     <!-- /.content -->
   </div>
   <!-- /.content-wrapper -->
+  
+<script>
+$(document).ready(function() {
+  if(localStorage.getItem('reload-message'))
+  {
+    toastData = JSON.parse(localStorage.getItem('reload-message'))
+
+    if(toastData.type === 'success')
+    {
+      $(document).Toasts('create', {
+      title: 'Sukces!',
+      body: toastData.message,
+      autohide: true,
+      delay: 8000,
+      class: 'bg-success',
+      });
+    }
+  }
+
+  //Clear cookie reload-message
+  localStorage.removeItem('reload-message');
+})
+</script>

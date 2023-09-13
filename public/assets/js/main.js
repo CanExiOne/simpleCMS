@@ -216,6 +216,7 @@ if(!currPage)
    */
   new Swiper('.portfolio-details-slider', {
     speed: 400,
+    autoHeight: true,
     autoplay: {
       delay: 5000,
       disableOnInteraction: false
@@ -239,4 +240,6 @@ if(!currPage)
     });
   });
 
+  //Initialize PureCounter
+  new PureCounter();
 })()

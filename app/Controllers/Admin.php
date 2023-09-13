@@ -3,6 +3,7 @@
 use App\Models\SettingsModel;
 use App\Models\UsersModel;
 use App\Models\NewsModel;
+use App\Models\GalleryModel;
 use CodeIgniter\Controller;
 
 use App\Controllers\BaseController;
@@ -11,7 +12,9 @@ class Admin extends BaseController
 {
 	public function index()
 	{
-        $session = session();
+        $usersModel = new UsersModel();
+        $newsModel = new NewsModel();
+        $galleryModel = new GalleryModel();
 
         if(!isset($_SESSION['logged_in']))
         {
@@ -20,23 +23,29 @@ class Admin extends BaseController
         //Create User Management System
         //Create Content Management System
         //Create Configuration Management System
-        $siteName = 'test';
-        $siteDesc = 'test';
-        $data['title'] = $siteName;
-        $data['siteDesc'] = $siteDesc;
-        $data['year'] = date('Y');
+        $data['siteTitle'] = 'Panel Administratora';
+        $data['siteDesc'] = 'test';
+
+        $data['settings'] = $this->cfg;
+
+        $data['userCount'] = count($usersModel->findAll());
+        $data['newsCount'] = count($newsModel->findAll());
+        $data['galleryCount'] = count($galleryModel->findAll());
+        $data['picturesCount'] = $galleryModel->countPictures(); 
 
         echo view('admin/templates/header', $data);
 		echo view('admin/home', $data);
         echo view('admin/templates/footer', $data);
 	}
 
-	public function view($page = 'pages')
+	public function view($page)
 	{
         $usersModel = new UsersModel();
+        $settingsModel = new SettingsModel();
         $news = new NewsModel();
         $db = \Config\Database::connect();
-        $session = session();
+
+        $data['settings'] = $this->cfg;
 
         if(!isset($_SESSION['logged_in']))
         {
@@ -78,12 +87,7 @@ class Admin extends BaseController
         {
             if($userData['group'] == 1)
             {
-                $cfg = [
-                    'baseURL' => getenv('app.baseURL'),
-                    'siteName' => getenv('app.siteName'),
-                ];
-    
-                $data['cfg'] = $cfg;
+                $data['serverCfg'] = $this->serverCfg;
             } else 
             {
                 throw new \CodeIgniter\Exceptions\PageNotFoundException($page);
@@ -91,11 +95,10 @@ class Admin extends BaseController
 
         }
 
-        $siteName = ucfirst($page);
-        $siteDesc = 'test';
-        $data['title'] = $siteName;
-        $data['siteDesc'] = $siteDesc;
+        $data['siteTitle'] = ucfirst($page);
+        $data['siteDesc'] = 'test';
         $data['year'] = date('Y');
+        $data['page'] = $page;
 
         echo view('admin/templates/header', $data);
 		echo view('admin/pages/'.$page, $data);
@@ -105,16 +108,15 @@ class Admin extends BaseController
     public function createUser()
     {
         $userModel = new UsersModel();
-        $session = session();
         $validation =  \Config\Services::validation();
 		$email = \Config\Services::email();
 
-        $config['SMTPCrypto'] 	= env('email.encrypt');
+        $config['SMTPCrypto'] 	= $this->serverCfg['emailCrypto'];
 		$config['protocol']     = env('email.protocol');
-		$config['SMTPHost'] 	= env('email.host');
-		$config['SMTPPort'] 	= env('email.port');
-		$config['SMTPUser'] 	= env('email.user');
-		$config['SMTPPass'] 	= env('email.password');
+		$config['SMTPHost'] 	= $this->serverCfg['emailHost'];
+		$config['SMTPPort'] 	= $this->serverCfg['emailPort'];
+		$config['SMTPUser'] 	= $this->serverCfg['emailUser'];
+		$config['SMTPPass'] 	= $this->serverCfg['emailPassword'];
 		$config['mailType']		= 'html';
 
 		$email->initialize($config);
@@ -122,57 +124,69 @@ class Admin extends BaseController
         //Check if request method is POST and if true validate data received
         if($this->request->getMethod() === 'post' && $this->validate('createUser'))
         {
+            $data = $this->request->getPost();
+
             //Generate password for new user
-            $chars = "abcdefghijklmnopqerstuvwxyzABCDEFGIJLMNOPQRSTUVWXYZ0123456789!@#$%^&*";
+            $chars = "abcdefghijklmnopqerstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*";
             $pwd = substr(str_shuffle($chars), 0, 20);
 
             //Hash the generated password
             $pwd_pepper = hash_hmac("sha256", $pwd, env('security.secretkey'));
             $pwd_hash = password_hash($pwd_pepper, PASSWORD_ARGON2ID);
 
-            //Save data to database
-            $userModel->save([
-                'firstName' => $this->request->getVar('firstName'),
-                'lastName' => $this->request->getVar('lastName'),
-                'email' => $this->request->getVar('email'),
-                'password' => $pwd_hash,
-                'group' => $this->request->getVar('group')
-            ]);
-
             $data['pwd'] = $pwd;
 
-            $email->setFrom(env('email.sender'), env('siteName').' - noreply');
-            $email->setReplyTo(env('email.contact'), env('siteName').' - Kontakt');
-            $email->setTo($this->request->getVar('email'));
+            $email->setFrom($this->serverCfg['emailSender'], $this->cfg['siteName'].' - noreply');
+            $email->setReplyTo($this->cfg['emailContact'], $this->cfg['siteName'].' - Kontakt');
+            $email->setTo($data['userEmail']);
 
-            $email->setSubject(env('siteName').' - Aktywacja Konta');
+            $email->setSubject($this->cfg['siteName'].' - Aktywacja Konta');
             $email->setMessage(view('templates/emails/newUser', $data));
+
+            //Save data to database
+            $userModel->save([
+                'firstName' => $this->request->getVar('userFirstName'),
+                'lastName' => $this->request->getVar('userLastName'),
+                'email' => $this->request->getVar('userEmail'),
+                'password' => $pwd_hash,
+                'group' => $this->request->getVar('userGroup')
+            ]);
 
             if(!$email->send())
             {
-                $message['error'] = $email->printDebugger();
+                $error = "";
 
-                return json_encode(['status'=> 'failure', 'csrf' => csrf_hash(), 'message' => $message]);
+                if(!$_SERVER['CI_ENVIRONMENT'] === 'production'){
+                    $error = $email->printDebugger(['headers']);
+                }
+
+                log_message('critical', $email->printDebugger(['headers']));
+
+                $message = 'Użytkownik został pomyślnie utworzony, ale wystąpił błąd z wysłaniem wiadomości e-mail zawierajacą hasło do konta. Użytkownik będzie musiał zresetować swoje hasło.';
+
+                return json_encode(['status'=> 'success', 'csrf' => csrf_hash(), 'error' => $error, 'message' => $message]);
             }
 
             //If everything was successful send success message to user
             if($this->request->isAjax())
             {
                 $message = 'Konto dla ' . 
-                            $this->request->getVar('firstName') . ' ' . 
-                            $this->request->getVar('lastName') . ' z adresem e-mail ' . 
-                            $this->request->getVar('email') . ' zostało utworzone pomyślnie!';
+                            $this->request->getVar('userFirstName') . ' ' . 
+                            $this->request->getVar('userLastName') . ' z adresem e-mail ' . 
+                            $this->request->getVar('userEmail') . ' zostało utworzone pomyślnie!';
                 return json_encode(['status' => 'success', 'csrf' => csrf_hash(), 'message' => $message]);
             }
-        } else if($validation->hasError('firstName')
-                    || $validation->hasError('lastName')
-                    || $validation->hasError('email')
-                    || $validation->hasError('group')) 
+        } else if($validation->hasError('userFirstName')
+                    || $validation->hasError('userLastName')
+                    || $validation->hasError('userEmail')
+                    || $validation->hasError('userGroup')) 
         {
 
             $errors = $validation->getErrors();
 
-            return json_encode(['status'=> 'invalid', 'csrf' => csrf_hash(), 'message' => $errors ]);
+            $message = 'Serwer wykrył błędy w otrzymanych danych, przed kontynuacją muszą zostać poprawione!';
+
+            return json_encode(['status'=> 'invalid', 'csrf' => csrf_hash(), 'errors' => $errors, 'message' => $message ]);
 
         } else {
             $message = 'Nieznany błąd!';
@@ -190,15 +204,21 @@ class Admin extends BaseController
         if($this->request->getMethod() === 'post' && $this->validate('updateUser'))
         {
 
-            $id = $this->request->getVar('id');
-            //Update data in database
-            $userModel->update($id, [
-                'firstName' => $this->request->getVar('firstName'),
-                'lastName'  => $this->request->getVar('lastName'),
-                'email'     => $this->request->getVar('email'),
-                'group'     => $this->request->getVar('group')
-            ]);
+            $id = $this->request->getVar('userId');
 
+            if($id) {
+                //Update data in database
+                $userModel->update($id, [
+                    'firstName' => $this->request->getVar('userFirstName'),
+                    'lastName'  => $this->request->getVar('userLastName'),
+                    'email'     => $this->request->getVar('userEmail'),
+                    'group'     => $this->request->getVar('userGroup')
+                ]);
+            } else {
+                $this->response->setStatusCode(400);
+                return json_encode(['status' => 'failure', 'csrf' => csrf_hash(), 'message' => $this->request->getJSON()]);
+            }
+        
             //If everything was successful send success message to user
             if($this->request->isAjax())
             {
@@ -206,14 +226,16 @@ class Admin extends BaseController
             
                 return json_encode(['status' => 'success', 'csrf' => csrf_hash(), 'message' => $message]);
             }
-        } else if($validation->hasError('firstName')
-                || $validation->hasError('lastName')
-                || $validation->hasError('email')
-                || $validation->hasError('group'))
+        } else if($validation->hasError('userFirstName')
+                || $validation->hasError('userLastName')
+                || $validation->hasError('userEmail')
+                || $validation->hasError('userGroup'))
         {
             $errors = $validation->getErrors();
 
-            return json_encode(['status'=> 'invalid', 'csrf' => csrf_hash(), 'message' => $errors]);
+            $message = 'Serwer wykrył błędy w otrzymanych danych, przed kontynuacją muszą zostać poprawione!';
+
+            return json_encode(['status'=> 'invalid', 'csrf' => csrf_hash(), 'errors' => $errors, 'message' => $message]);
         } else {
             $message = 'Nieznany błąd!';
 
@@ -233,7 +255,7 @@ class Admin extends BaseController
             $adminData = $userModel->find($_SESSION['userId']);
             $adminID = $_SESSION['userId'];
 
-            $pwd = $this->request->getVar('password');
+            $pwd = $this->request->getVar('confirmPassword');
             $pwd_pepper = hash_hmac("sha256", $pwd, env('security.secretkey'));
             $pwd_hash = $adminData['password'];
 
@@ -243,17 +265,17 @@ class Admin extends BaseController
             //Check if target ID is not the Admin requesting deletion of target, if target ID is the same as Admin ID, throw error
             if($userId == $adminID) {
 
-                $errors['invalid-target'] = 'Nie możesz usunąć swojego konta!';
+                $errors['confirmPassword'] = 'Nie możesz usunąć swojego konta!';
             
-                return json_encode(['status' => 'failure', 'csrf' => csrf_hash(), 'message' => $errors]);
+                return json_encode(['status' => 'invalid', 'csrf' => csrf_hash(), 'errors' => $errors]);
             }
 
             //Verify Admin password
             if(!password_verify($pwd_pepper, $pwd_hash))
             {
-                $errors['invalid-password'] = 'Podano nieprawidłowe hasło!';
+                $errors['confirmPassword'] = 'Podano nieprawidłowe hasło!';
             
-                return json_encode(['status' => 'failure', 'csrf' => csrf_hash(), 'message' => $errors]);
+                return json_encode(['status' => 'invalid', 'csrf' => csrf_hash(), 'errors' => $errors]);
             }
             
             //Permamently delete user from database
@@ -261,9 +283,9 @@ class Admin extends BaseController
             {
                 $userModel->delete($userId, true);
             } 
-            //Perform soft delete in the database
+            //Perform soft delete in the database //We permamently delete now because user management needs to be expanded
             else {
-                $userModel->delete($userId);
+                $userModel->delete($userId, true);
             }   
 
             //If everything was successful send success message to user
@@ -274,11 +296,11 @@ class Admin extends BaseController
                 return json_encode(['status' => 'success', 'csrf' => csrf_hash(), 'message' => $message]);
             }
         } else if($validation->hasError('password')
-        || $validation->hasError('password-confirm'))
+        || $validation->hasError('confirmPassword'))
         {       
             $errors = $validation->getErrors();
 
-            return json_encode(['status'=> 'invalid', 'csrf' => csrf_hash(), 'message' => $errors]);
+            return json_encode(['status'=> 'invalid', 'csrf' => csrf_hash(), 'errors' => $errors]);
         }
         //Redirect to login page if there's no session data
         else
@@ -293,7 +315,6 @@ class Admin extends BaseController
     {
         $usersModel = new UsersModel();
         $newsModel = new NewsModel();
-        $session = session();
         $validation =  \Config\Services::validation();
 
         $userData = $usersModel->find($_SESSION['userId']);
@@ -313,7 +334,7 @@ class Admin extends BaseController
             $newsModel->save([
                 'title' => $this->request->getVar('title'),
                 'slug' => url_title($this->request->getVar('title'), '-', true),
-                'content' => $this->request->getVar('postBody'),
+                'content' => $this->request->getVar('contents'),
                 'delta' => $this->request->getVar('editorDelta'),
                 'authorID' => $_SESSION['userId'],
             ]);
@@ -321,29 +342,33 @@ class Admin extends BaseController
             //If everything was successful send success message to user
             if($this->request->isAjax())
             {
-                $message['news-posted'] = 'Post został pomyślnie utworzony!';
+                $message = 'Post "' . $this->request->getVar('title') . '" został pomyślnie utworzony!';
 
-                return json_encode(['status' => 'success', 'csrf' => csrf_hash(), 'message' => $message]);
+                $slug = url_title($this->request->getVar('title'), '-', true);
+
+                return json_encode(['status' => 'success', 'csrf' => csrf_hash(), 'slug' => $slug, 'message' => $message]);
             }
         } else if($validation->hasError('title')
-                    || $validation->hasError('content')) 
+                || $validation->hasError('contents'))
         {
 
             $errors = $validation->getErrors();
 
-            return json_encode(['status'=> 'invalid', 'csrf' => csrf_hash(), 'message' => $errors ]);
+            $message = 'Serwer wykrył błędy w otrzymanych danych, przed kontynuacją muszą zostać poprawione!';
+
+            return json_encode(['status'=> 'invalid', 'csrf' => csrf_hash(), 'errors' => $errors, 'message' => $message ]);
 
         } else {
-            $message['unknown-error'] = 'Nieznany błąd!';
+            
+            $error = 'Wykryto nieznany błąd! Skontaktuj się z Administratorem Serwera podając zawartość formularza!';
 
-            return json_encode(['status'=> 'failure', 'csrf' => csrf_hash(), 'message' => $message]);
+            return json_encode(['status'=> 'failure', 'csrf' => csrf_hash(), 'error' => $error]);
         }
     }
 
     public function editNews()
     {
         $newsModel = new NewsModel();
-        $session = session();
         $validation =  \Config\Services::validation();
 
         /*
@@ -362,28 +387,34 @@ class Admin extends BaseController
             $newsModel->update($id, [
                 'title' => $this->request->getVar('title'),
                 'slug' => url_title($this->request->getVar('title'), '-', true),
-                'content' => $this->request->getVar('postBody'),
+                'content' => $this->request->getVar('contents'),
                 'delta' => $this->request->getVar('editorDelta')
             ]);
 
             //If everything was successful send success message to user
             if($this->request->isAjax())
             {
+                $slug = url_title($this->request->getVar('title'), '-', true);
+
                 $message = 'Post został pomyślnie edytowany!';
-                return json_encode(['status' => 'success', 'csrf' => csrf_hash(), 'message' => $message]);
+
+                return json_encode(['status' => 'success', 'csrf' => csrf_hash(), 'slug' => $slug, 'message' => $message]);
             }
         } else if($validation->hasError('title')
-                    || $validation->hasError('postBody')) 
+                || $validation->hasError('contents')) 
         {
 
             $errors = $validation->getErrors();
 
-            return json_encode(['status'=> 'invalid', 'csrf' => csrf_hash(), 'message' => $errors ]);
+            $message = $this->request->getVar('postId');
+
+            return json_encode(['status'=> 'invalid', 'csrf' => csrf_hash(), 'errors' => $errors, 'message' => $message ]);
 
         } else {
-            $message['unknown-error'] = 'Nieznany błąd!';
+            
+            $error['unknown'] = 'Wykryto nieznany błąd! Skontaktuj się z Administratorem Serwera podając zawartość formularza!';
 
-            return json_encode(['status'=> 'failure', 'csrf' => csrf_hash(), 'message' => $message]);
+            return json_encode(['status'=> 'failure', 'csrf' => csrf_hash(), 'error' => $error]);
         }
     }
 
@@ -394,28 +425,28 @@ class Admin extends BaseController
         $validation =  \Config\Services::validation();
         
         //Check if request method is POST and if true validate data received
-        if($this->request->getMethod() === 'post' && $this->validate('deleteNews'))
+        if($this->request->getMethod() === 'post')
         {
             //Get Admin password to confirm deletion of the account
-            $adminData = $userModel->find($_SESSION['userId']);
-            $adminID = $_SESSION['userId'];
+            // $adminData = $userModel->find($_SESSION['userId']);
+            // $adminID = $_SESSION['userId'];
 
-            $pwd = $this->request->getVar('password');
-            $pwd_pepper = hash_hmac("sha256", $pwd, env('security.secretkey'));
-            $pwd_hash = $adminData['password'];
+            // $pwd = $this->request->getVar('password');
+            // $pwd_pepper = hash_hmac("sha256", $pwd, env('security.secretkey'));
+            // $pwd_hash = $adminData['password'];
 
             //Get target post ID
-            $postId = $this->request->getVar('postId');
+            $postId = $this->request->getVar('id');
 
             //Verify Admin password
-            if(!password_verify($pwd_pepper, $pwd_hash))
-            {
-                $errors['invalid-password'] = 'Podano nieprawidłowe hasło!';
+            // if(!password_verify($pwd_pepper, $pwd_hash))
+            // {
+            //     $errors['invalid-password'] = 'Podano nieprawidłowe hasło!';
             
-                return json_encode(['status' => 'failure', 'csrf' => csrf_hash(), 'message' => $errors]);
-            }
+            //     return json_encode(['status' => 'failure', 'csrf' => csrf_hash(), 'message' => $errors]);
+            // }
             
-            //Permamently delete user from database
+            //Permamently delete news from database
             if($this->request->getVar('deletePermamently') === 'true')
             {
                 $newsModel->delete($postId, true);
@@ -428,129 +459,111 @@ class Admin extends BaseController
             //If everything was successful send success message to user
             if($this->request->isAjax())
             {
-                $message = 'Ogłoszenie o numerze ID:' . $postId . ' został pomyślnie usunięty.';
+                $message = 'Ogłoszenie o numerze ID:' . $postId . ' zostało pomyślnie usunięte.';
             
                 return json_encode(['status' => 'success', 'csrf' => csrf_hash(), 'message' => $message]);
             }
-        } else if($validation->hasError('password')
-        || $validation->hasError('password-confirm'))
-        {       
-            $errors = $validation->getErrors();
-
-            return json_encode(['status'=> 'invalid', 'csrf' => csrf_hash(), 'message' => $errors]);
         }
-        //Redirect to login page if there's no session data
-        else
-        {
-            $message = "Wystąpił błąd podczas przetwarzania tej akcji! Musisz się zalogować!";
-
-            return redirect()->to('/admin/login')->with('redirectMessage', $message);
-        }
-    }
-
-    public function uploadFile()
-    {
-        $validation =  \Config\Services::validation();
-        $file = $this->request->getFile('myImage');
-
-        return json_encode(['status' => 'failure', 'message' => $_FILES]);
-
-        if($this->request->getMethod() === 'post' && $this->validate('uploadFile'))
-        {
-            if($file->isValid() && ! $file->hasMoved())
-            {
-                $newName = $file->getRandomName();
-                $file->move(WRITEPATH.'uploads', $newName);
-
-                return json_encode(['status' => 'success', 'message' => 'success']);
-            } else {
-                return json_encode(['status' => 'failure', 'message' => 'Nie działa']);
-            }
-        } else if($validation->hasError('myImage'))
-        {
-            $errors = $validation->getErrors();
-
-            return json_encode(['status' => 'invalid', 'message' => $errors]);
-        }
-
     }
 
     public function updateSettings()
     {
         $validation =  \Config\Services::validation();
+        $model = new SettingsModel();
         $file = $this->request->getFile('siteLogo');
         
         //Check if request method is POST and if true validate data received
         if($this->request->getMethod() === 'post' && $this->validate('updateSettings'))
         {
+            $data = $this->request->getPost();
 
-            $path = ROOTPATH.'.env';
+            if(!$model->updateSettings($data))
+            {
+                $message = 'Wystąpił błąd podczas aktualizacji ustawień!';
 
-            if (file_exists($path)) {
-                file_put_contents($path, str_replace(
-                    "app.baseURL = '".getenv('app.baseURL')."'", "app.baseURL = '".$this->request->getVar('baseURL')."'", file_get_contents($path)
-                ));
-                
-                file_put_contents($path, str_replace(
-                    "app.siteName = '".getenv('app.siteName')."'", "app.siteName = '".$this->request->getVar('siteName')."'", file_get_contents($path)
-                ));
-
-                file_put_contents($path, str_replace(
-                    "email.host = '".getenv('email.host')."'", "email.host = '".$this->request->getVar('emailHost')."'", file_get_contents($path)
-                ));
-
-                file_put_contents($path, str_replace(
-                    "email.user = '".getenv('email.user')."'", "email.user = '".$this->request->getVar('emailUsername')."'", file_get_contents($path)
-                ));
-
-                file_put_contents($path, str_replace(
-                    "email.password = '".getenv('email.password')."'", "email.password = '".$this->request->getVar('emailPassword')."'", file_get_contents($path)
-                ));
-
-                file_put_contents($path, str_replace(
-                    "email.sender = '".getenv('email.sender')."'", "email.sender = '".$this->request->getVar('emailSender')."'", file_get_contents($path)
-                ));
-
-                file_put_contents($path, str_replace(
-                    "email.contact = '".getenv('email.contact')."'", "email.contact = '".$this->request->getVar('emailContact')."'", file_get_contents($path)
-                ));
-
-                file_put_contents($path, str_replace(
-                    "email.port = '".getenv('email.port')."'", "email.port = '".$this->request->getVar('emailPort')."'", file_get_contents($path)
-                ));
-            } else {
-                $message = 'Wystąpił błąd!';
-            
-                return json_encode(['status' => 'failure', 'csrf' => csrf_hash(), 'message' => $message]);
+                return $this->response->setJSON(json_encode(['status' => 'failure', 'csrf' => csrf_hash(), 'message' => $message]));
             }
 
-            $file = $this->request->getFile('siteLogo');
-
-            if($file->isValid() && ! $file->hasMoved())
+            if($file = $this->request->getFile('siteLogo'))
             {
-               if(!$file->move(ROOTPATH.'public/theme/img/', 'logo.png'))
-               {
-                throw new \RuntimeException($file->getErrorString().'('.$file->getError().')');
-               }
+                if($file->isValid() && !$file->hasMoved())
+                {
+                   $currLogo = ROOTPATH.'public/assets/img/logo.png';
+                   rename($currLogo, $currLogo.'.old');
+                    if(!$file->move(ROOTPATH.'public/assets/img/', 'logo.png'))
+                    {
+                        $errors = '';
+
+                        if(!$_SERVER['CI_ENVIRONMENT'] === 'production')
+                        {
+                            $errors['unknown'] = $file->getError();
+                        }
+
+                        rename($currLogo.'.old', $currLogo);
+
+                        $message = 'Wystąpił błąd podczas aktualizacji logo!';
+
+                        return $this->response->setJSON(json_encode(['status' => 'failure', 'csrf' => csrf_hash(), 'message' => $message, 'errors' => $errors]));
+                    }
+                    unlink(ROOTPATH.'/public/assets/img/logo.png.old');
+                }
             }
             //If everything was successful send success message to user
             if($this->request->isAjax())
             {
-                $message = 'Ustawienia zostały edytowane!';
+                $message = 'Pomyślnie edytowano ustawienia! W przypadku zmiany logo nie zapomnij odświeżyć strony!';
             
-                return json_encode(['status' => 'success', 'csrf' => csrf_hash(), 'message' => $message]);
+                return $this->response->setJSON(json_encode(['status' => 'success', 'csrf' => csrf_hash(), 'message' => $message]));
             }
-        } else if($validation->hasError('baseURL')
-                || $validation->hasError('siteName')
-                || $validation->hasError('siteLogo'))
+        } else if($validation->getErrors())
         {
             $errors = $validation->getErrors();
 
-            return json_encode(['status'=> 'invalid', 'csrf' => csrf_hash(), 'message' => $errors]);
+            $message = 'Wykryto błędy formularzu! Musisz je poprawić';
+
+            return $this->response->setJSON(json_encode(['status'=> 'invalid', 'csrf' => csrf_hash(), 'message' => $message, 'errors' => $errors]));
         } else {
             $message = 'Nieznany błąd!';
 
-            return json_encode(['status'=> 'failure', 'csrf' => csrf_hash(), 'message' => $message]);
+            return $this->response->setJSON(json_encode(['status'=> 'failure', 'csrf' => csrf_hash(), 'message' => $message]));
+        }
+    }
+
+    public function updateEmail()
+    {
+        $validation =  \Config\Services::validation();
+        $model = new SettingsModel();
+        
+        //Check if request method is POST and if true validate data received
+        if($this->request->getMethod() === 'post' && $this->validate('updateEmail'))
+        {
+            $data = $this->request->getPost();
+
+            if(!$model->updateSettings($data))
+            {
+                $message = 'Wystąpił błąd podczas aktualizacji ustawień!';
+
+                return $this->response->setJSON(json_encode(['status' => 'failure', 'csrf' => csrf_hash(), 'message' => $message]));
+            }
+
+            //If everything was successful send success message to user
+            if($this->request->isAjax())
+            {
+                $message = 'Pomyślnie edytowano ustawienia!';
+            
+                return $this->response->setJSON(json_encode(['status' => 'success', 'csrf' => csrf_hash(), 'message' => $message]));
+            }
+        } else if($validation->getErrors())
+        {
+            $errors = $validation->getErrors();
+
+            $message = 'Wykryto błędy formularzu! Musisz je poprawić';
+
+            return $this->response->setJSON(json_encode(['status'=> 'invalid', 'csrf' => csrf_hash(), 'message' => $message, 'errors' => $errors]));
+        } else {
+            $message = 'Nieznany błąd!';
+
+            return $this->response->setJSON(json_encode(['status'=> 'failure', 'csrf' => csrf_hash(), 'message' => $message]));
         }
     }
 }

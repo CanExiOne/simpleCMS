@@ -1,252 +1,462 @@
-<main>
-<div class="d-flex flex-column flex-shrink-0 p-3 text-white bg-dark" style="width: 280px;">
-  <a href="<?=env('app.baseURL')?>/admin" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none">
-    <span class="fs-4"><img src="<?= env('app.baseURL') ?>/theme/img/logo.png" alt="<?= env('app.siteName') ?>" width="120"></span>
-  </a>
-  <hr>
-  <ul class="nav nav-pills flex-column mb-auto">
-    <li class="nav-item">
-      <a href="<?=env('app.baseURL')?>/admin" class="nav-link text-white">
-        <i width="16" height="16" class="fas fa-home nav-icon"></i>
-        Home
-      </a>
-    </li>
-    <li>
-      <a href="<?=env('app.baseURL')?>/admin/news" class="nav-link text-white active">
-        <i width="16" height="16" class="fas fa-newspaper nav-icon"></i>
-        Ogłoszenia
-      </a>
-    </li>
-    <li>
-      <a href="<?=env('app.baseURL')?>/admin/users" class="nav-link text-white">
-        <i width="16" height="16" class="fas fa-users-cog nav-icon"></i>
-        Użytkownicy
-      </a>
-    </li>
-    <li>
-      <a href="<?=env('app.baseURL')?>/admin/settings" class="nav-link text-white">
-        <i width="16" height="16" class="fas fa-cog nav-icon"></i>
-        Ustawienia
-      </a>
-    </li>
-  </ul>
-  <hr>
-  <div class="dropdown">
-    <a href="#" class="d-flex align-items-center text-white text-decoration-none dropdown-toggle" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
-      <img src="/uploads/avatars/avatar_placeholder.png" alt="" class="rounded-circle me-2" width="32" height="32">
-      <strong><?php echo($_SESSION['username']); ?></strong>
+  <!-- Main Sidebar Container -->
+  <aside class="main-sidebar sidebar-dark-primary elevation-4">
+    <!-- Brand Logo -->
+    <a href="<?=base_url('/admin')?>" class="brand-link">
+      <img src="/assets/img/logo.png" alt="Logo" class="brand-image style="opacity: .8">
+      <span class="brand-text font-weight-light"><?=esc($settings['siteName'])?></span>
     </a>
-    <ul class="dropdown-menu dropdown-menu-dark text-small shadow" aria-labelledby="dropdownUser1">
-      <li><a class="dropdown-item" href="/admin/logout">Wyloguj się</a></li>
-    </ul>
-  </div>
-</div>
-<div style="overflow-y:scroll;" tab-index="0" class="container mt-5">
-  <div class="row">
-    <div class="col-md">
-      <div class="card bg-dark text-white">
-        <div class="card-header">
-          <h4 class="mt-1">Zarządzanie Ogłoszeniami</h4>
+
+    <!-- Sidebar -->
+    <div class="sidebar">
+      <!-- Sidebar user panel-->
+      <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+        <div class="image">
+          <img src="/uploads/avatars/avatar_placeholder.png" class="img-circle elevation-2" alt="User Image">
         </div>
-        <div class="card-body" style="background-color:#24282d;">
-          <div class="row pb-3 border-bottom border-secondary">
-            <div class="col">
-            <strong>Poniżej możesz zarządzać ogłoszeniami oraz utworzyć nowe.</strong>
-            </br>
-            <button type="button" class="mt-3 btn btn-success" data-bs-toggle="modal" data-bs-target="#createNewsModal">Nowe Ogłoszenie</button>
-            </div>
-          </div>    
-          <div class="row pt-3">
-            <div class="col">
-              <table class="table table-dark table-striped table-bordered table-hover">
-                <thead>
-                  <tr>
-                    <th style="width:2%">ID</th>
-                    <th style="width:auto">Tytuł</th>
-                    <th style="width:auto">Slug</th>
-                    <th style="width:12%">Autor</th>
-                    <th style="width:auto">Data Publikacji</th>
-                    <th style="width:12%">Opcje</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <!-- Create for each loop to display all news -->
-                  <?php
-                    helper('text');
-                    foreach($newsList as $news):
-                      if(!$news['deleted_at'])
-                      {
-                        extract($news);
-
-                        //Get the name of the author
-                        $authorData = array_search($authorID, array_column($users, 'id'));
-
-                        if($authorData !== FALSE)
-                        {
-                          $authorName = $users[$authorData]['firstName'] . ' ' . $users[$authorData]['lastName'];
-                        } else {
-                          $authorName = 'System';
-                        }
-                        $contentShort = word_limiter($content, 10);
-
-                        echo(
-                          "<tr>
-                          <th style='width:2%'>$id</th>
-                          <td style='width:auto'>$title</td>
-                          <td style='width:auto'>$slug</td>
-                          <td style='width:12%'>$authorName</td>
-                          <td style='width:auto'>$created_at</td>
-                          <td style='width:12%;' class='text-center'>
-                          <button type='button' class='m-1 btn btn-warning btn-sm btn-editnews' 
-                            data-id='$id' 
-                            data-postTitle='$title' 
-                            data-slug='$slug' 
-                            data-postContent='$content' 
-                            data-postDelta='$delta' 
-                            data-authorID='$authorID'
-                            data-published='$created_at'
-                            data-bs-toggle='modal' data-bs-target='#editNewsModal'>Edytuj</button>
-
-                            <button type='button' class='m-1 btn btn-sm btn-danger btn-deletenews' 
-                            data-id='$id' 
-                            data-postTitle='$title' 
-                            data-postBody='$content'
-                            data-bs-toggle='modal' data-bs-target='#deleteNewsModal'>Usuń</button>
-                          </td>
-                        </tr>"
-                        );
-                      }
-                    
-                    endforeach;
-
-                  ?>
-                </tbody>
-              </table> 
-            </div>
-          </div>    
+        <div class="info">
+          <a href="/admin/profile" class="d-block"><?php echo($_SESSION['username']); ?></a>
         </div>
       </div>
+
+      <!-- Sidebar Menu -->
+      <nav class="mt-2">
+        <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+          <li class="nav-item">
+            <a href="<?=base_url('/admin')?>" class="nav-link">
+              <i class="nav-icon fas fa-tachometer-alt"></i>
+              <p>
+                Panel Kontrolny
+              </p>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="<?=base_url('/admin/news')?>" class="nav-link active">
+              <i class="nav-icon fas fa-newspaper"></i>
+              <p>
+                Ogłoszenia
+              </p>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="<?=base_url('/admin/gallery')?>" class="nav-link">
+              <i class="nav-icon fas fa-images"></i>
+              <p>
+                Galeria
+                <i class="right fas fa-angle-left"></i>
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a href="/admin/gallery" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Albumy</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="/admin/gallery/new" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Nowy Album</p>
+                </a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-item">
+            <a href="<?=base_url('/admin/users')?>" class="nav-link">
+              <i class="nav-icon fas fa-users-cog"></i>
+              <p>
+                Użytkownicy
+              </p>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="<?=base_url('/admin/settings')?>" class="nav-link">
+              <i class="nav-icon fas fa-cog"></i>
+              <p>
+                Ustawienia
+              </p>
+            </a>
+          </li>
+        </ul>
+      </nav>
+      <!-- /.sidebar-menu -->
     </div>
-  </div>
-</div>
+    <!-- /.sidebar -->
+  </aside>
 
-<div class="modal fade" id="createNewsModal" tabindex="-1" aria-labelledby="createNewsModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-lg">
-    <div class="modal-content bg-dark text-white">
-      <div class="modal-header">
-        <h5 class="modal-title" id="createNewsModalLabel">Nowe Ogłoszenie</h5>
-        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Zamknij"></button>
-      </div>
-      <div class="modal-body">
-        <form id="createNewsForm" name="createNewsForm" accept-charset="utf-8">
-          <label for="title" class="form-label">Tytuł Ogłoszenia</label>
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <div class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+            <h1 class="m-0">Ogłoszenia</h1>
+          </div><!-- /.col -->
+          <div class="col-sm-6">
+            <ol class="breadcrumb float-sm-right">
+            <li class="breadcrumb-item"><a href="<?=base_url('/admin')?>">Panel Kontrolny</a></li>
+              <li class="breadcrumb-item active">Ogłoszenia</li>
+            </ol>
+          </div><!-- /.col -->
+        </div><!-- /.row -->
+      </div><!-- /.container-fluid -->
+    </div>
+    <!-- /.content-header -->
 
-            <input type="text" class="form-control" id="title" name="title" aria-describedby="titleHelp">
+    <!-- Main content -->
+    <div class="content">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-sm-12">
+            <div class="card card-success">
+              <div class="card-header d-flex">
+                <div id="newsEditorTitle" class="mt-auto mb-auto">
+                Utwórz Ogłoszenie
+                </div>
+                <div class="ml-auto">
+                  <button class="btn btn-transparent text-white" data-toggle="collapse" data-target=".editor-collapse"><i class="far fa-eye"></i></button>
+                </div>
+              </div>
+              <form id="newsForm" class="display editor-collapse show" method="post" action="<?=env('app.baseURL')?>/admin/news/createNews" data-news-type="create" novalidate>
+                <div class="card-body">
+                  <div class="form-group">
+                    <input id="newsId" type="hidden" value="0" readonly/>
+                    <label for="newsTitle">Tytuł Ogłoszenia</label>
 
-          <div id="titleHelp" class="form-text">Podaj nazwę ogłoszenia</div>
+                    <input id="newsTitle" type="text" class="form-control" name="title" aria-describedby="titleHelp" autocomplete="off">
+                    <div id="titleHelp" class="form-text">Podaj nazwę ogłoszenia</div>
 
-          <label for="editor-create" class="mt-3 form-label">Zawartość Ogłoszenia</label>
+                  </div>
+                  <div class="form-group">
+                    <label for="newsEditor" class="form-label">Zawartość Ogłoszenia</label>
 
-          <div id="editor-create" class="bg-light text-dark">
-            <div id="editor-container-create" tab-index="0" style="height:400px">
+                    <div id="newsEditor">
+                      <div id="newsEditorContainer" tab-index="0" style="height:400px">
+                      </div>
+                      <div id="newsEditorCounter"></div>
+                    </div>
+
+                  </div>
+                  <?= csrf_field() ?>
+                  <div id="otherErrors" class="form-group">
+                  </div>
+                </div>
+                <div class="card-footer">
+                  <button id="createNews" class="btn btn-success">Utwórz Ogłoszenie</button>
+                  <button id="editNews" class="btn btn-warning d-none" disabled>Edytuj Ogłoszenie</button>
+                  <button type="button" id="cancelEdit" class="btn btn-danger d-none" disabled>Anuluj</button>
+                </div>
+              </form>
             </div>
-            <div class="editor-counter"></div>
+            <!-- /.card -->
           </div>
+          <!-- /.col-sm-12 -->
+        </div>
+        <!-- /.row -->
+        <div class="row">
+          <div class="col-sm-12">
+            <div class="card card-primary">
+              <div class="card-header">
+                Lista Ogłoszeń
+              </div>
+              <div class="card-body">
+                <div class="row">
+                  <div class="col-sm-12">
+                    <table id="newsTable" class="table table-striped table-bordered table-hover">
+                      <thead>
+                        <tr>
+                          <th style="width:2%">ID</th>
+                          <th style="width:auto">Tytuł</th>
+                          <th style="width:auto">Slug</th>
+                          <th style="width:12%">Autor</th>
+                          <th style="width:auto">Data Publikacji</th>
+                          <th style="width:12%">Opcje</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <!-- Create for each loop to display all news -->
+                        <?php
+                          helper('text');
+                          foreach($newsList as $news):
+                            if(!$news['deleted_at'])
+                            {
+                              extract($news);
 
-        </form>
-      </div>
-      <div>
-        <ul id="modal-response-createNews" class="list-group p-3">
+                              //Get the name of the author
+                              $authorData = array_search($authorID, array_column($users, 'id'));
 
-        </ul>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Anuluj</button>
-        <button id="createNewsSubmit" type="submit" class="btn btn-success">Napisz Ogłoszenie</button>
-      </div>
-    </div>
-  </div>
-</div>
-<div class="modal fade" id="editNewsModal" tabindex="-1" aria-labelledby="editNewsModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-lg">
-    <div class="modal-content bg-dark text-white">
-    <div class="modal-header">
-        <h5 class="modal-title" id="editNewsModalLabel">Edytuj Ogłoszenie</h5>
-        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Zamknij"></button>
-      </div>
-      <div class="modal-body">
-        <form id="editNewsForm" name="editNewsForm" accept-charset="utf-8">
-          <label for="title" class="form-label">Tytuł Ogłoszenia</label>
+                              if($authorData !== FALSE)
+                              {
+                                $authorName = $users[$authorData]['firstName'] . ' ' . $users[$authorData]['lastName'];
+                              } else {
+                                $authorName = 'System';
+                              }
+                              $contentShort = word_limiter($content, 10);
 
-            <input type="text" class="form-control" id="title" name="title" aria-describedby="titleHelp">
+                              echo(
+                                "<tr>
+                                <th style='width:2%'>$id</th>
+                                <td style='width:auto'>$title</td>
+                                <td style='width:auto'>$slug</td>
+                                <td style='width:12%'>$authorName</td>
+                                <td style='width:auto'>$created_at</td>
+                                <td style='width:12%;' class='text-center'>
+                                <button type='button' class='editNews m-1 btn btn-warning btn-sm' 
+                                  data-id='$id' 
+                                  data-postTitle='$title' 
+                                  data-slug='$slug' 
+                                  data-postContent='$content' 
+                                  data-postDelta='$delta' 
+                                  data-authorID='$authorID'
+                                  data-published='$created_at'>Edytuj</button>
 
-          <div id="titleHelp" class="form-text">Podaj nazwę ogłoszenia</div>
+                                  <button type='button' class='deleteNews m-1 btn btn-sm btn-danger' 
+                                  data-id='$id' 
+                                  data-postTitle='$title' 
+                                  data-postBody='$content'>Usuń</button>
+                                </td>
+                              </tr>"
+                              );
+                            }
+                          
+                          endforeach;
 
-          <label for="editor-edit" class="mt-3 form-label">Zawartość Ogłoszenia</label>
-
-          <div id="editor-edit" class="bg-light text-dark">
-            <div id="editor-container-edit" tab-index="0" style="height:400px">
+                        ?>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
             </div>
-            <div class="editor-counter"></div>
+            <!-- /.card -->
           </div>
-
-        </form>
-      </div>
-      <div>
-        <ul id="modal-response-editNews" class="list-group p-3">
-
-        </ul>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Anuluj</button>
-        <button id="editNewsSubmit" type="submit" class="btn btn-success">Edytuj Ogłoszenie</button>
-      </div>
+          <!-- /.col-sm-12 -->
+        </div>
+        <!-- /.row -->
+      </div><!-- /.container-fluid -->
     </div>
+    <!-- /.content -->
   </div>
-</div>
-<div class="modal fade" id="deleteNewsModal" tabindex="-1" aria-labelledby="deleteNewsModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-lg">
-    <div class="modal-content bg-dark text-white">
-      <div class="modal-header">
-        <h5 class="modal-title" id="deleteNewsModalLabel">Usuń Ogłoszenie</h5>
-        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Zamknij"></button>
-      </div>
-      <div class="modal-body">
-        <form id="deleteNewsForm" name="deleteNewsForm">
-          <label for="password" class="form-label">Podaj Hasło</label>
-
-            <input type="password" class="form-control" id="password" name="password" aria-describedby="passwordHelp">
-
-          <div id="passwordHelp" class="form-text">Podaj swoje hasło w celu weryfikacji tej akcji.</div>
-
-          <label for="password-confirm" class="form-label">Potwierdź Hasło</label>
-
-            <input type="password" class="form-control" id="password-confirm" name="password-confirm" aria-describedby="password-confirmHelp">
-
-          <div id="password-confirmHelp" class="form-text">Potwierdź swoje hasło.</div>
-        </form>
-      </div>
-      <div>
-        <ul id="modal-response-deleteNews" class="list-group p-3">
-
-        </ul>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Anuluj</button>
-        <button id="deleteNewsSubmit" type="submit" class="btn btn-danger">Usuń Ogłoszenie</button>
-      </div>
-    </div>
-  </div>
-</div>
-</main>
+  <!-- /.content-wrapper -->
 
 <script>
+$(document).ready(function() {
+  //Create data table with all news
+  $('#newsTable').DataTable({
+    "order" : [[4, 'desc']],
+  });
+
+  //Change button icon on collapse
+  $('.editor-collapse')
+    .on('hide.bs.collapse', function () {
+      $(this)
+            .parent()
+            .find(".fa-eye")
+            .removeClass("fa-eye")
+            .addClass("fa-eye-slash");
+    })
+    .on('show.bs.collapse', function () {
+      $(this)
+            .parent()
+            .find(".fa-eye-slash")
+            .removeClass("fa-eye-slash")
+            .addClass("fa-eye");
+    });
+
+  if(localStorage.getItem('reload-message'))
+  {
+    toastData = JSON.parse(localStorage.getItem('reload-message'))
+
+    console.log(toastData);
+
+    if(toastData.type === 'success')
+    {
+      $(document).Toasts('create', {
+      title: 'Sukces!',
+      subtitle: `<a href=${toastData.href} target='_blank'>Przeczytaj Post</a>`,
+      body: toastData.message,
+      autohide: true,
+      delay: 5000,
+      class: 'bg-success',
+      });
+    } else if(toastData.type === 'danger')
+    {
+      $(document).Toasts('create', {
+      title: 'Sukces!',
+      body: toastData.message,
+      autohide: true,
+      delay: 5000,
+      class: 'bg-danger',
+      });
+    }
+  }
+
+  //Clear cookie reload-message
+  localStorage.removeItem('reload-message');
+});
+
+//Edit form to allow editing of news from the table below
+$('.editNews').click(function() {
+  //Change News Form Header
+  $('#newsEditorTitle')
+    .text("Edytuj Ogłoszenie -" + " " + $(this).attr('data-postTitle') + " - ID:" + $(this).attr('data-id')) 
+    .parent()
+    .parent()
+    .removeClass("card-success")
+    .addClass("card-warning")
+
+  //Change button and assign attributes to it
+  if(!$('#createNews').hasClass('d-none'))
+  {
+    $('#createNews').addClass('d-none')
+  }
+
+  if($('#editNews').hasClass('d-none'))
+  {
+    $('#editNews').removeClass('d-none')
+    $('#cancelEdit').removeClass('d-none')
+  }
+  
+  $('#editNews').attr('data-postId', $(this).attr('data-id'));
+
+
+  //Disable create button and enable edit button
+  $('#createNews').attr('disabled', true);
+
+  $('#editNews').attr('disabled', false);
+  $('#cancelEdit').attr('disabled', false);
+
+  $('#newsForm').attr('action', "<?=env('app.baseURL')?>/admin/news/editNews");
+
+  //Populate News Form Contents
+  $('#newsId').val($(this).attr('data-id'));
+  $('#newsTitle').val($(this).attr('data-postTitle'));
+  quill.setContents(JSON.parse($(this).attr('data-postDelta')));
+
+  //Check if card is collapsed, if true then show it
+  if(!$('.editor-collapse').collapse('show'))
+  {
+    $('editor.collapse').collapse('show')
+  }
+
+  //Set current state of form to allow for easier handling of submit buttons
+  $('#newsForm').attr('data-news-type', 'edit');
+
+  $(window).scrollTop(0)
+});
+
+$('#cancelEdit').click(function() {
+  //Change News Form Header
+  $('#newsEditorTitle')
+    .text("Utwórz Ogłoszenie") 
+    .parent()
+    .parent()
+    .removeClass("card-warning")
+    .addClass("card-success")
+
+  //Change button and remove attributes from it
+  if($('#createNews').hasClass('d-none'))
+  {
+    $('#createNews').removeClass('d-none')
+  }
+
+  if(!$('#editNews').hasClass('d-none'))
+  {
+    $('#editNews').addClass('d-none')
+    $('#cancelEdit').addClass('d-none')
+  }
+  
+  $('#editNews').attr('data-postId', '');
+
+
+  //Disable edit button and enable create button
+  $('#createNews').attr('disabled', false);
+
+  $('#editNews').attr('disabled', true);
+  $('#editNews').attr('disabled', true);
+
+  $('#newsForm').attr('action', "<?=env('app.baseURL')?>/admin/news/createNews");
+
+  //Clear News Form
+  $('#newsId').val('');
+  $('#newsTitle').val('');
+  quill.setContents([]);
+
+  //Set current state of form to allow for easier handling of submit buttons
+  $('#newsForm').attr('data-news-type', 'create');
+});
+
+$('.deleteNews').click(function() {
+
+  id = {'id' : $(this).attr('data-id')};
+
+  data = {
+    id : id,
+    csrf_token : $('input[name=csrf_token]').val()
+  };
+
+  $.ajax({
+    type: 'POST',
+    url: "<?=env('app.baseURL')?>/admin/news/deleteNews",
+    data: JSON.stringify(data),
+    processData: false,
+    contentType: 'application/json',
+  }).done(function(data) {
+    var data = JSON.parse(data);
+    
+    //Check if response was invalid and if true display errors
+    if(data.status === 'invalid')
+    {
+      console.log(data);
+      
+      $(document).Toasts('create', {
+        title: 'Błąd!',
+        body: data.errors,
+        autohide: true,
+        delay: 5000,
+        class: 'bg-danger',
+      });
+
+      //Refresh CSRF Token
+      $('input[name=csrf_token]').val(response.csrf)
+      console.log(data.errors);
+    } else if (data.status === 'success')
+    {
+      //Reload page and display success popup
+      reloadMessage = {
+        'title' : $(this).attr('data-postTitle'),
+        'message' : data.message,
+        'type' : 'danger'
+      };
+
+      localStorage.setItem('reload-message', JSON.stringify(reloadMessage));
+      window.location.reload();
+    } else {
+      //Refresh CSRF Token
+      $('input[name=csrf_token]').val(response.csrf)
+      console.log(data);
+    }
+  }).fail(function(data){
+    $(document).Toasts('create', {
+      title: 'Nieznany Błąd!',
+      body: data.message,
+      autohide: true,
+      delay: 5000,
+      class: 'bg-danger',
+    });
+
+    //Refresh CSRF Token
+    $('input[name=csrf_token]').val(response.csrf)
+    console.log(data);
+  });
+});
+
 //Initialize Quill, it's an WYSIWYG Editor
-var options = {
+var qOptions = {
   debug: 'warn',
   modules: {
     counter: {
-      container: ".editor-counter",
+      container: "#newsEditorCounter",
       unit: "letter",
     },
     toolbar: [
@@ -255,247 +465,99 @@ var options = {
       ['image', 'code-block']
     ]
   },
-  placeholder: 'Compose an epic...',
+  placeholder: 'Treść ogłoszenia...',
   theme: 'snow'
 };
 
-var quill = new Quill('#editor-container-create', options);
+var quill = new Quill('#newsEditorContainer', qOptions);
 
-var editQuill = new Quill('#editor-container-edit', options);
+//Send data to the server
+$(function() {
+  $('form').submit(function(event) {
+    event.preventDefault();
 
-//Open modal for editing the news with news data already in place
-var editNewsModal = document.getElementById('editNewsModal');
+    //Restore #titleHelp and #otherErrors state in case it was edited to show error before
+    $('#titleHelp').replaceWith('<div id="titleHelp" class="form-text">Podaj nazwę ogłoszenia</div>');
+    $('#otherErrors').replaceWith('<div id="otherErrors" class="form-group"></div>');
 
-editNewsModal.addEventListener('show.bs.modal', function (event) {
-  // Button that triggered the modal
-  var button = event.relatedTarget;
+    //Also remove error border from input
+    $('#newsTitle').removeClass('is-invalid');
 
-  // Extract info from data-bs-* attributes
-  var postId = button.getAttribute('data-id');
-  var postTitle = button.getAttribute('data-postTitle');
-  var postBody = button.getAttribute('data-postBody');
-  var postDelta = button.getAttribute('data-postDelta');
+    //Disable button but first check form state
+    if($('#newsForm').attr('data-news-type') === 'create')
+    {
+      $('#createNews').attr('disabled', true);
+    } else {
+      $('#editNews').attr('disabled', true)
+    }
 
-  // Update the modal's content.
-  var modalTitle = editNewsModal.querySelector('.modal-title');
-  var modalPostTitle = editNewsModal.querySelector('.modal-body #title');
-  
-  editQuill.setContents(JSON.parse(postDelta));
+    //Get form and create FormData, using DOM because FormData() get's angry about jquery
+    var form = document.querySelector('form');
 
-  modalTitle.textContent = 'Edytuj Post - ' + postTitle;
-  modalPostTitle.value = postTitle;
+    formData = new FormData(form);
 
-  document.querySelector("#editNewsSubmit").setAttribute("data-postId", postId);
-});
+    //Append to FormData editor contents and delta
+    formData.set('contents', quill.root.innerHTML);
+    formData.set('editorDelta', JSON.stringify(quill.getContents()));
 
-//Modal to delete news
-var deleteNewsModal = document.getElementById('deleteNewsModal');
+    //Append to FormData post id if sending edited news
+    if($('#newsForm').attr('data-news-type') === 'edit')
+    {
+      formData.set('postId', $('#newsId').val())
+    }
 
-deleteNewsModal.addEventListener('show.bs.modal', function (event) {
-  // Button that triggered the modal
-  var button = event.relatedTarget;
-  // Extract info from data-bs-* attributes
-  var postId = button.getAttribute('data-id');
-  var postTitle = button.getAttribute('data-postTitle');
+    $.ajax({
+      type: form.getAttribute('method'),
+      url: form.getAttribute('action'),
+      data: formData,
+      processData: false,
+      contentType: false,
+    }).done(function(data) {
+      //Parse data to json for easier response handling
+      var data = JSON.parse(data);
 
-  var modalTitle = deleteNewsModal.querySelector('.modal-title');
+      //Re-enable button but first check form state
+      if($('#newsForm').attr('data-news-type') === 'create')
+      {
+        $('#createNews').attr('disabled', false);
+      } else {
+        $('#editNews').attr('disabled', false)
+      }
+      
+      //Check if response was invalid and if true display errors
+      if(data.status === 'invalid')
+      {
+        console.log(data);
+        if(data.errors.title)
+        {
+          $('#titleHelp').addClass('invalid-feedback d-block').text(data.errors.title);
+          $('#newsTitle').addClass('is-invalid');
+        }
+        $('#otherErrors').addClass('invalid-feedback d-block').text(data.errors.contents);
 
-  modalTitle.textContent = 'Potwierdź Usunięcie Ogłoszenia - ' + postTitle + ' ID:' + postId;
+        console.log(data.errors);
+      } else if (data.status === 'success')
+      {
+        //Reload page and display success popup
+        reloadMessage = {
+          'title' : $('#newsTitle').val(),
+          'message' : data.message,
+          'href' : '<?= base_url('/blog/view')?>/' + data.slug,
+          'type' : 'success'
+        };
 
-  document.querySelector("#deleteNewsSubmit").setAttribute("data-postId", postId);
-});
+        localStorage.setItem('reload-message', JSON.stringify(reloadMessage));
+        window.location.reload();
+      }
 
-//Clear news ID attribute from submit button
-deleteNewsModal.addEventListener('hide.bs.modal', function (event) {
-  document.querySelector("#deleteNewsSubmit").removeAttribute("data-userId");
-});
+      //Refresh CSRF Token
+      $('input[name=csrf_token]').val(data.csrf)
+    }).fail(function(data) {
+      $('#otherErrors').addClass('invalid-feedback d-block').text('Wystąpił nieznany błąd! Skontaktuj się z Administratorem Serwera');
 
-//Clear news ID attribute from submit button
-editNewsModal.addEventListener('hide.bs.modal', function (event) {
-  document.querySelector("#editNewsSubmit").removeAttribute("data-userId");
-});
-
-//Create News and get response
-document.getElementById("createNewsSubmit").addEventListener("click", function(event) {
-  
-  event.preventDefault();
-
-  document.querySelectorAll(".response-message").forEach(e => e.remove());
-
-  document.getElementById('createNewsSubmit').disabled = true;
-
-  //Get form data
-  let formData = new FormData(createNewsForm);
-
-  var postBody = quill.root.innerHTML;
-
-  var editorDelta = quill.getContents();
-
-  formData.append('postBody', postBody);
-
-  formData.append('editorDelta', JSON.stringify(editorDelta));
-
-  console.log(Object.fromEntries(formData));
-
-  //Send the data
-  fetch('<?=env('app.baseURL')?>/admin/news/createNews', {
-      method: 'POST',
-      headers: {
-          'Content-Type': 'application/json',
-          'X-Requested-With': 'XMLHttpRequest'
-      },
-      body: JSON.stringify(Object.fromEntries(formData)),
-      }).then(function (response) {
-          if (response.ok) {
-              return response.json();
-          }
-          return Promise.reject(response);
-      }).then(function (data) {
-          console.log(data);
-
-          if(data.status === 'success')
-          {
-            el = document.getElementById('modal-response-createNews');
-
-            el.insertAdjacentHTML('afterbegin', "<li class='response-message list-group-item list-group-item-success'>"+ data.message +"</li>");
-          } else 
-          {
-            //Create an element for the response
-            el = document.getElementById('modal-response-createNews');
-
-            errors = data.message;
-
-            for (const [key, value] of Object.entries(errors)) {
-              el.insertAdjacentHTML('afterbegin', "<li class='response-message list-group-item list-group-item-danger'>"+ value +"</li>");
-            }
-          }
-
-          //Enable button
-          document.getElementById('createNewsSubmit').disabled = false;
-      }).catch(function (error) {
-          console.warn(error);
-      });
-});
-
-//Edit News and get response
-document.getElementById("editNewsSubmit").addEventListener("click", function(event) {
-  
-  event.preventDefault();
-
-  document.querySelectorAll(".response-message").forEach(e => e.remove());
-
-  document.getElementById('editNewsSubmit').disabled = true;
-
-  //Get form data
-  let formData = new FormData(editNewsForm);
-
-  var postBody = editQuill.root.innerHTML;
-
-  var editorDelta = editQuill.getContents();
-
-  formData.append('postBody', postBody);
-
-  formData.append('editorDelta', JSON.stringify(editorDelta));
-
-  postId = document.querySelector('#editNewsSubmit').getAttribute("data-postId");
-
-  formData.append('postId', postId)
-
-  console.log(Object.fromEntries(formData));
-
-  //Send the data
-  fetch('<?=env('app.baseURL')?>/admin/news/editNews', {
-      method: 'POST',
-      headers: {
-          'Content-Type': 'application/json',
-          'X-Requested-With': 'XMLHttpRequest'
-      },
-      body: JSON.stringify(Object.fromEntries(formData)),
-      }).then(function (response) {
-          if (response.ok) {
-              return response.json();
-          }
-          return Promise.reject(response);
-      }).then(function (data) {
-          console.log(data);
-
-          if(data.status === 'success')
-          {
-            el = document.getElementById('modal-response-editNews');
-
-            el.insertAdjacentHTML('afterbegin', "<li class='response-message list-group-item list-group-item-success'>"+ data.message +"</li>");
-          } else 
-          {
-            //Create an element for the response
-            el = document.getElementById('modal-response-editNews');
-
-            errors = data.message;
-
-            for (const [key, value] of Object.entries(errors)) {
-              el.insertAdjacentHTML('afterbegin', "<li class='response-message list-group-item list-group-item-danger'>"+ value +"</li>");
-            }
-          }
-
-          //Enable button
-          document.getElementById('editNewsSubmit').disabled = false;
-      }).catch(function (error) {
-          console.warn(error);
-      });
-});
-
-//Delete News and get response
-document.getElementById("deleteNewsSubmit").addEventListener("click", function(event) {
-  
-  event.preventDefault();
-
-  document.querySelectorAll(".response-message").forEach(e => e.remove());
-
-  document.getElementById('deleteNewsSubmit').disabled = true;
-
-  //Get form data
-  let formData = new FormData(deleteNewsForm);
-
-  postId = document.querySelector('#deleteNewsSubmit').getAttribute("data-postId");
-
-  formData.append('postId', postId)
-
-  //Send the data
-  fetch('<?=env('app.baseURL')?>/admin/news/deleteNews', {
-      method: 'POST',
-      headers: {
-          'Content-Type': 'application/json',
-          'X-Requested-With': 'XMLHttpRequest'
-      },
-      body: JSON.stringify(Object.fromEntries(formData)),
-      }).then(function (response) {
-          if (response.ok) {
-              return response.json();
-          }
-          return Promise.reject(response);
-      }).then(function (data) {
-          console.log(data);
-
-          if(data.status === 'success')
-          {
-            el = document.getElementById('modal-response-deleteNews');
-
-            el.insertAdjacentHTML('afterbegin', "<li class='response-message list-group-item list-group-item-success'>"+ data.message +"</li>");
-          } else 
-          {
-            //Create an element for the response
-            el = document.getElementById('modal-response-deleteNews');
-
-            errors = data.message;
-
-            for (const [key, value] of Object.entries(errors)) {
-              el.insertAdjacentHTML('afterbegin', "<li class='response-message list-group-item list-group-item-danger'>"+ value +"</li>");
-            }
-          }
-
-          //Enable button
-          document.getElementById('deleteNewsSubmit').disabled = false;
-      }).catch(function (error) {
-        console.log(error);
-      });
+      //Refresh CSRF Token
+      $('input[name=csrf_token]').val(data.csrf)
+    });
+  });
 });
 </script>

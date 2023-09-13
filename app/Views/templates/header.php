@@ -18,17 +18,23 @@
   <!-- Google Fonts -->
   <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Roboto:300,300i,400,400i,500,500i,700,700i&display=swap" rel="stylesheet">
 
-  <!-- Vendor CSS Files -->
-  <link href="<?=env('app.baseURL')?>/assets/vendor/animate.css/animate.min.css" rel="stylesheet">
-  <link href="<?=env('app.baseURL')?>/assets/vendor/aos/aos.css" rel="stylesheet">
-  <link href="<?=env('app.baseURL')?>/assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-  <link href="<?=env('app.baseURL')?>/assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
-  <link href="<?=env('app.baseURL')?>/assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
-  <link href="<?=env('app.baseURL')?>/assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
-  <link href="<?=env('app.baseURL')?>/assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
+  <!-- Boostrap -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css" />
 
-  <!-- Template Main CSS File -->
+  <!-- JQuery -->
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"></script>
+
+  <!-- Vendor CSS Files -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+  <link rel="stylesheet" href="https://unpkg.com/aos@2.3.1/dist/aos.css" />
+  <link rel='stylesheet' href='https://unpkg.com/boxicons@2.1.2/css/boxicons.min.css' />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/glightbox/dist/css/glightbox.min.css" />
+  <link rel="stylesheet" href="https://unpkg.com/swiper@8/swiper-bundle.min.css"/>
+
+  <!-- Template Main CSS Files -->
   <link href="<?=env('app.baseURL')?>/assets/css/style.css" rel="stylesheet">
+  <link href="<?=env('app.baseURL')?>/assets/css/custom.css" rel="stylesheet">
 </head>
 
 <body>
@@ -38,7 +44,7 @@
     <div class="container d-flex justify-content-between align-items-center">
 
       <div class="logo">
-        <h1 class="text-light"><a href="<?=env('app.baseURL')?>/"><span><?=env('app.siteName')?></span></a></h1>
+        <h1 class="text-light"><a href="<?=env('app.baseURL')?>/"><span><?=esc($settings['siteName'])?></span></a></h1>
         <!-- Uncomment below if you prefer to use an image logo -->
         <!-- <a href="index.html"><img src="assets/img/logo.png" alt="" class="img-fluid"></a>-->
       </div>
@@ -48,6 +54,7 @@
           <li><a id="home" href="<?=env('app.baseURL')?>/">Home</a></li>
           <li><a id="about-us" href="<?=env('app.baseURL')?>/about-us">O Nas</a></li>
           <li><a id="blog" href="<?=env('app.baseURL')?>/blog">Blog</a></li>
+          <li><a id="portfolio" href="<?=env('app.baseURL')?>/portfolio">Galeria</a></li>
           <li><a id="contact-us" href="<?=env('app.baseURL')?>/contact-us">Kontakt</a></li>
         </ul>
         <i class="bi bi-list mobile-nav-toggle"></i>

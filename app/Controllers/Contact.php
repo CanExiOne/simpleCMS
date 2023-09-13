@@ -9,13 +9,13 @@ class Contact extends BaseController
         $validation =  \Config\Services::validation();
         $email = \Config\Services::email();
 
-        $config['SMTPCrypto'] 	= env('email.encrypt');
-        $config['protocol']     = env('email.protocol');
-        $config['SMTPHost'] 	= env('email.host');
-        $config['SMTPPort'] 	= env('email.port');
-        $config['SMTPUser'] 	= env('email.user');
-        $config['SMTPPass'] 	= env('email.password');
-        $config['mailType']		= 'html';
+        $config['SMTPCrypto'] 	= $this->serverCfg['emailCrypto'];
+		$config['protocol']     = env('email.protocol');
+		$config['SMTPHost'] 	= $this->serverCfg['emailHost'];
+		$config['SMTPPort'] 	= $this->serverCfg['emailPort'];
+		$config['SMTPUser'] 	= $this->serverCfg['emailUser'];
+		$config['SMTPPass'] 	= $this->serverCfg['emailPassword'];
+		$config['mailType']		= 'html';
 
         $email->initialize($config);
 
@@ -28,18 +28,26 @@ class Contact extends BaseController
                 'message' =>  $this->request->getVar('message'),
             ];
 
-            $email->setFrom(env('email.sender'), env('siteName').' - noreply');
-            $email->setReplyTo($this->request->getVar('email'), $this->request->getVar('name'));
-            $email->setTo(env('email.contact'));
+            $email->setFrom($this->serverCfg['emailSender'], $this->cfg['siteName'].' - noreply');
+            $email->setReplyTo($data['clientEmail'], $data['clientName']);
+            $email->setTo($this->cfg['emailContact']);
 
-            $email->setSubject($this->request->getVar('name').' - Formularz Kontaktowy');
+            $email->setSubject($data['clientName'].' - Formularz Kontaktowy');
             $email->setMessage(view('templates/emails/contactForm', $data));
 
             if(!$email->send())
             {
-                $message['error'] = $email->printDebugger();
+                $error = "";
 
-                return json_encode(['status'=> 'failure', 'csrf' => csrf_hash(), 'message' => $message]);
+                if($_SERVER['CI_ENVIRONMENT'] != 'production'){
+                    $error = $email->printDebugger(['headers']);
+                }
+
+                log_message('critical', $email->printDebugger(['headers']));
+
+                $message = 'Wystąpił błąd podczas wysyłania wiadomości! Spróbuj wysłać wiadomość bezpośrednio na nasz adres znajdujący się z lewej strony!';
+
+                return json_encode(['status'=> 'failure', 'csrf' => csrf_hash(), 'message' => $message, 'error' => $error]);
             }
 
             //If everything was successful send success message to user

@@ -5,7 +5,7 @@
       <!-- Slide 1 -->
       <div class="carousel-item active">
         <div class="carousel-container">
-          <h2 class="animate__animated animate__fadeInDown">Witaj na <span>Kac-Bud.pl</span></h2>
+          <h2 class="animate__animated animate__fadeInDown">Witaj na <span><?=esc($settings['siteName'])?></span></h2>
           <p class="animate__animated animate__fadeInUp">Jedna z najlepszych firm budowlanych w Krakowie</p>
           <a href="<?=env('app.baseURL')?>/about-us" class="btn-get-started animate__animated animate__fadeInUp">O Nas</a>
         </div>
@@ -23,15 +23,15 @@
       <div class="carousel-item">
         <div class="carousel-container">
           <h2 class="animate__animated animate__fadeInDown">Kompleksowe Remonty</h2>
-          <p class="animate__animated animate__fadeInUp">Wykonujemy Kompleksowe remonty twojego domu i wnetrza, jestesmy w stanie wymienic lub naprawic wszystko w twoim domu</p>
+          <p class="animate__animated animate__fadeInUp">Wykonujemy Kompleksowe remonty twojego domu i wnętrza, jesteśmy w stanie wymienić lub naprawić wszystko w Twoim domu</p>
         </div>
       </div>
 
       <!-- Slide 4 -->
       <div class="carousel-item">
         <div class="carousel-container">
-          <h2 class="animate__animated animate__fadeInDown">Wykonczenia Wnętrz</h2>
-          <p class="animate__animated animate__fadeInUp">Pracujemy takze przy pracach wewnatz takich jak poddasza, podwieszane sufity, stawianie scian dzialowych z plyt g-k przy uzyciu najwyzszej jakosci produktow</p>
+          <h2 class="animate__animated animate__fadeInDown">Wykonywanie Wnętrz</h2>
+          <p class="animate__animated animate__fadeInUp">Pracujemy także przy pracach wewnątrz takich jak poddasza, podwieszane sufity, stawianie ścian działowych z płyt g-k przy użyciu najwyższej jakości produktów</p>
         </div>
       </div>
 
