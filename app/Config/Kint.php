@@ -3,10 +3,7 @@
 namespace Config;
 
 use CodeIgniter\Config\BaseConfig;
-use Kint\Parser\ConstructablePluginInterface;
-use Kint\Renderer\AbstractRenderer;
-use Kint\Renderer\Rich\TabPluginInterface;
-use Kint\Renderer\Rich\ValuePluginInterface;
+use Kint\Renderer\Renderer;
 
 /**
  * --------------------------------------------------------------------------
@@ -20,50 +17,45 @@ use Kint\Renderer\Rich\ValuePluginInterface;
  */
 class Kint extends BaseConfig
 {
-    /*
-    |--------------------------------------------------------------------------
-    | Global Settings
-    |--------------------------------------------------------------------------
-    */
+	/*
+	|--------------------------------------------------------------------------
+	| Global Settings
+	|--------------------------------------------------------------------------
+	*/
 
-    /**
-     * @var array<int, ConstructablePluginInterface|string>
-     * @phpstan-var list<class-string<ConstructablePluginInterface>|ConstructablePluginInterface>
-     */
-    public $plugins;
+	public $plugins = null;
 
-    public int $maxDepth           = 6;
-    public bool $displayCalledFrom = true;
-    public bool $expanded          = false;
+	public $maxDepth = 6;
 
-    /*
-    |--------------------------------------------------------------------------
-    | RichRenderer Settings
-    |--------------------------------------------------------------------------
-    */
-    public string $richTheme = 'aante-light.css';
-    public bool $richFolder  = false;
-    public int $richSort     = AbstractRenderer::SORT_FULL;
+	public $displayCalledFrom = true;
 
-    /**
-     * @var array<string, string>
-     * @phpstan-var array<string, class-string<ValuePluginInterface>>
-     */
-    public $richObjectPlugins;
+	public $expanded = false;
 
-    /**
-     * @var array<string, string>
-     * @phpstan-var array<string, class-string<TabPluginInterface>>
-     */
-    public $richTabPlugins;
+	/*
+	|--------------------------------------------------------------------------
+	| RichRenderer Settings
+	|--------------------------------------------------------------------------
+	*/
+	public $richTheme = 'aante-light.css';
 
-    /*
-    |--------------------------------------------------------------------------
-    | CLI Settings
-    |--------------------------------------------------------------------------
-    */
-    public bool $cliColors      = true;
-    public bool $cliForceUTF8   = false;
-    public bool $cliDetectWidth = true;
-    public int $cliMinWidth     = 40;
+	public $richFolder = false;
+
+	public $richSort = Renderer::SORT_FULL;
+
+	public $richObjectPlugins = null;
+
+	public $richTabPlugins = null;
+
+	/*
+	|--------------------------------------------------------------------------
+	| CLI Settings
+	|--------------------------------------------------------------------------
+	*/
+	public $cliColors = true;
+
+	public $cliForceUTF8 = false;
+
+	public $cliDetectWidth = true;
+
+	public $cliMinWidth = 40;
 }
