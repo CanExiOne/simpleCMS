@@ -387,7 +387,7 @@ $('#cancelEdit').click(function() {
 
 $('.deleteNews').click(function() {
 
-  id = {'id' : $(this).attr('data-id')};
+  id = $(this).attr('data-id');
 
   data = {
     id : id,
@@ -425,7 +425,7 @@ $('.deleteNews').click(function() {
       reloadMessage = {
         'title' : $(this).attr('data-postTitle'),
         'message' : data.message,
-        'type' : 'danger'
+        'type' : 'success'
       };
 
       localStorage.setItem('reload-message', JSON.stringify(reloadMessage));
