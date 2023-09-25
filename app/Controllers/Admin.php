@@ -449,12 +449,12 @@ class Admin extends BaseController
             //Permamently delete news from database
             if($this->request->getVar('deletePermamently') === 'true')
             {
-                $newsModel->delete($postId, true);
+                $newsModel->where('id', $postId)->delete();
             } 
             //Perform soft delete in the database
             else {
-                $newsModel->delete($postId);
-            }   
+                $newsModel->where('id', $postId)->delete();
+            }
 
             //If everything was successful send success message to user
             if($this->request->isAjax())
