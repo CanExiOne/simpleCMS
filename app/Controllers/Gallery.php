@@ -51,7 +51,7 @@ class Gallery extends BaseController
         if($page === 'edit')
         {
             $data['album'] = $galleryModel->find($this->request->getGet('albumid'));
-            $data['album']['date'] = date('d-m-Y', strtotime($data['album']['date']));
+            $data['album']['date'] = date('m-d-Y', strtotime($data['album']['date']));
         }
 
         $data['settings'] = $this->cfg;
@@ -75,9 +75,9 @@ class Gallery extends BaseController
         $data['siteDesc'] = 'Portfolio';
         $data['year'] = date('Y');
 
-        if($this->request->getGet('albumid'))
+        if($this->request->getGet('id'))
         {
-            $data['album'] = $model->find($this->request->getGet('albumid'));
+            $data['album'] = $model->find($this->request->getGet('id'));
 
             echo view('templates/header', $data);
             echo view('pages/portfolio-details', $data);
@@ -163,9 +163,9 @@ class Gallery extends BaseController
         {
             $data = $this->request->getPost();
 
-            $data['date'] = date('Y-m-d', strtotime($data['date']));   
+            $data['date'] = date('Y-m-d', strtotime($data['date']));
 
-            if(!$model->update($data['albumid'], $data))
+            if(!$model->update($data['id'], $data))
             {
                 $this->response->setStatusCode(400);
 
@@ -192,7 +192,7 @@ class Gallery extends BaseController
 
 
 
-                if(!$model->updatePictures($images, $data['albumid']))
+                if(!$model->updatePictures($images, $data['id']))
                 {
                     $this->response->setStatusCode(400);
 
@@ -231,7 +231,7 @@ class Gallery extends BaseController
 
             $data = (array) $data;
 
-            if(!$model->deleteAlbum($data['albumid'], true))
+            if(!$model->deleteAlbum($data['id'], true))
             {
                 $message = 'Wystąpił błąd podczas usuwania albumu!';
 
@@ -283,7 +283,7 @@ class Gallery extends BaseController
                 }
             }
 
-            $galleryModel->removePicture($data['name'], $data['albumid']);
+            $galleryModel->removePicture($data['name'], $data['id']);
             
             if($this->request->isAjax())
             {

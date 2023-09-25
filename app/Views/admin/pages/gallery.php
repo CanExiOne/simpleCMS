@@ -133,7 +133,7 @@
                     <div class='gallery-item text-center'>
                       <img class='img-fluid' style='filter: blur(3px); padding:0.1rem;' src='/uploads/$pictures[0]' alt='An Image'>
                       <div class='gallery-item-overlay'>
-                        <a href='/admin/gallery/edit?albumid=$albumid'><button class='btn btn-warning'>Edytuj Album</button></a>
+                        <a href='/admin/gallery/edit?albumid=$id'><button class='btn btn-warning'>Edytuj Album</button></a>
                       </div>
                     </div>
                   </div>

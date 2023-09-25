@@ -19,34 +19,28 @@ class ContentSecurityPolicy extends BaseConfig
 	// Broadbrush CSP management
 	//-------------------------------------------------------------------------
 
-	/**
-	 * Default CSP report context
-	 *
-	 * @var boolean
-	 */
-	public $reportOnly = false;
+    /**
+     * Default CSP report context
+     */
+    public bool $reportOnly = false;
 
-	/**
-	 * Specifies a URL where a browser will send reports
-	 * when a content security policy is violated.
-	 *
-	 * @var string|null
-	 */
-	public $reportURI = null;
+    /**
+     * Specifies a URL where a browser will send reports
+     * when a content security policy is violated.
+     */
+    public ?string $reportURI = null;
 
-	/**
-	 * Instructs user agents to rewrite URL schemes, changing
-	 * HTTP to HTTPS. This directive is for websites with
-	 * large numbers of old URLs that need to be rewritten.
-	 *
-	 * @var boolean
-	 */
-	public $upgradeInsecureRequests = false;
+    /**
+     * Instructs user agents to rewrite URL schemes, changing
+     * HTTP to HTTPS. This directive is for websites with
+     * large numbers of old URLs that need to be rewritten.
+     */
+    public bool $upgradeInsecureRequests = false;
 
-	//-------------------------------------------------------------------------
-	// Sources allowed
-	// Note: once you set a policy to 'none', it cannot be further restricted
-	//-------------------------------------------------------------------------
+    // -------------------------------------------------------------------------
+    // Sources allowed
+    // NOTE: once you set a policy to 'none', it cannot be further restricted
+    // -------------------------------------------------------------------------
 
 	/**
 	 * Will default to self if not overridden
@@ -158,10 +152,25 @@ class ContentSecurityPolicy extends BaseConfig
 	 */
 	public $pluginTypes = null;
 
-	/**
-	 * List of actions allowed.
-	 *
-	 * @var string|string[]|null
-	 */
-	public $sandbox = null;
+    /**
+     * List of actions allowed.
+     *
+     * @var string|string[]|null
+     */
+    public $sandbox;
+
+    /**
+     * Nonce tag for style
+     */
+    public string $styleNonceTag = '{csp-style-nonce}';
+
+    /**
+     * Nonce tag for script
+     */
+    public string $scriptNonceTag = '{csp-script-nonce}';
+
+    /**
+     * Replace nonce tag automatically
+     */
+    public bool $autoNonce = true;
 }

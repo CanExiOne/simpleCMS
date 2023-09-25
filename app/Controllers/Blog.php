@@ -37,7 +37,7 @@ class Blog extends BaseController
 			return redirect()->to('/blog');
 		}
 
-		$authorData = array_search($news['authorID'], array_column($users, 'id'));
+		$authorData = array_search($news['authorId'], array_column($users, 'id'));
 
 		if($authorData !== FALSE)
 		{

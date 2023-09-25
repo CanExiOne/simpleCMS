@@ -32,7 +32,7 @@
                     <h3><?=esc($album_item['title'])?></h3>
                     <div>
                       <a href="/uploads/<?=esc($pictures[0])?>" data-gallery="portfolioGallery" class="portfolio-lightbox" title="<?=esc($album_item['title'])?>"><i class="bx bx-plus"></i></a>
-                      <a href="/portfolio?albumid=<?=esc($album_item['albumid'])?>" title="Sprawdź Cały Album"><i class="bx bx-link"></i></a>
+                      <a href="/portfolio?albumid=<?=esc($album_item['id'])?>" title="Sprawdź Cały Album"><i class="bx bx-link"></i></a>
                     </div>
                   </div>
                 </div>

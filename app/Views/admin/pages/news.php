@@ -183,7 +183,7 @@
                               extract($news);
 
                               //Get the name of the author
-                              $authorData = array_search($authorID, array_column($users, 'id'));
+                              $authorData = array_search($authorId, array_column($users, 'id'));
 
                               if($authorData !== FALSE)
                               {
@@ -207,7 +207,7 @@
                                   data-slug='$slug' 
                                   data-postContent='$content' 
                                   data-postDelta='$delta' 
-                                  data-authorID='$authorID'
+                                  data-authorID='$authorId'
                                   data-published='$created_at'>Edytuj</button>
 
                                   <button type='button' class='deleteNews m-1 btn btn-sm btn-danger' 
@@ -372,7 +372,6 @@ $('#cancelEdit').click(function() {
   //Disable edit button and enable create button
   $('#createNews').attr('disabled', false);
 
-  $('#editNews').attr('disabled', true);
   $('#editNews').attr('disabled', true);
 
   $('#newsForm').attr('action', "<?=env('app.baseURL')?>/admin/news/createNews");

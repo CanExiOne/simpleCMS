@@ -7,7 +7,7 @@ use CodeIgniter\Model;
 class GalleryModel extends Model
 {
     protected $table = 'gallery';
-    protected $primaryKey = 'albumid';
+    protected $primaryKey = 'id';
 
     protected $allowedFields = ['category', 'title', 'client', 'date', 'description', 'pictures', 'show', 'author'];
 
@@ -18,7 +18,7 @@ class GalleryModel extends Model
 
     public function removePicture($file, $id)
     {
-        $pictures = $this->where('albumid', $id)->findColumn('pictures');
+        $pictures = $this->where('id', $id)->findColumn('pictures');
 
         $pictures = unserialize($pictures[0]);
 
@@ -28,16 +28,16 @@ class GalleryModel extends Model
 
         $pictures = array_values($pictures);
 
-        $this->where('albumid', $id)->set(['pictures' => serialize($pictures)])->update();
+        $this->where('id', $id)->set(['pictures' => serialize($pictures)])->update();
     }
 
     public function updatePictures($images, $id)
     {
-        $srcPictures = $this->where('albumid', $id)->findColumn('pictures');
+        $srcPictures = $this->where('id', $id)->findColumn('pictures');
 
         $pictures = array_merge(unserialize($srcPictures[0]), $images);
 
-        if($this->where('albumid', $id)->set(['pictures' => serialize($pictures)])->update())
+        if($this->where('id', $id)->set(['pictures' => serialize($pictures)])->update())
         {
             return true;
         }
@@ -45,7 +45,7 @@ class GalleryModel extends Model
 
     public function deleteAlbum($id)
     {
-        $pictures = $this->where('albumid', $id)->findColumn('pictures');
+        $pictures = $this->where('id', $id)->findColumn('pictures');
 
         $pictures = unserialize($pictures[0]);
 
