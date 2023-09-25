@@ -1498,6 +1498,9 @@ section {
   display: inline-block;
   line-height: 1;
 }
+.blog .entry {
+  word-break: break-word;
+}
 .blog .entry .entry-content p {
   line-height: 24px;
   max-width: 100%;

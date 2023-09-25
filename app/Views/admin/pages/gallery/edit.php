@@ -148,7 +148,7 @@
                     <div class="form-group col-md-2">
                       <label for="date"><span style="color:red">*</span> Data Projektu</label>
                       <div class="input-group date">
-                        <input id="date" type="text" name="date" class="form-control" value="<?php echo($album['date']) ?>" aria-describedby="dateHelp" autocomplete="off">
+                        <input id="date" type="text" name="date" value="<?=esc($album['date'])?>" class="form-control"  aria-describedby="dateHelp" autocomplete="off">
                         <div class="input-group-append">
                             <div class="input-group-text"><i class="fa fa-calendar"></i></div>
                         </div>
@@ -209,7 +209,7 @@ var text_max = 1000;
     $('#count_message').html(text_length + ' / ' + text_max);
   });
 
-document.addEventListener("DOMContentLoaded", async function() {
+document.addEventListener("DOMContentLoaded", async function() {  
 
   <?php $images = unserialize($album['pictures']); ?>
   
@@ -252,7 +252,7 @@ document.addEventListener("DOMContentLoaded", async function() {
           data = {
             name : name,
             csrf_token : $('input[name=csrf_token]').val(),
-            albumid : <?php echo($album['albumid'])?>,
+            albumid : <?php echo($album['id'])?>,
           }
           $.ajax({
             type: 'POST',
@@ -291,7 +291,7 @@ document.addEventListener("DOMContentLoaded", async function() {
 
       this.on("sendingmultiple", async function(data, xhr, formData) {
 
-        formData.set('albumid', <?php echo($album['albumid'])?>)
+        formData.set('id', <?php echo($album['id'])?>)
 
         //Remove error messages from form
         $('.form-text').each(async function() {
@@ -365,7 +365,7 @@ document.addEventListener("DOMContentLoaded", async function() {
         $('#otherErrors').text('');
 
         data = {
-          albumid : <?php echo($album['albumid'])?>,
+          id : <?php echo($album['id'])?>,
           csrf_token: $('input[name=csrf_token]').val(),
         }
 

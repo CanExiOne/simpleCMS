@@ -22,7 +22,7 @@ class SettingsModel extends Model
 
     public function getSettings($restricted = false)
     {
-        $data = $this->where('restricted', $restricted)->findAll();
+        $data = $this::where('restricted', $restricted)->findAll();
 
         foreach($data as $data_item)
         {

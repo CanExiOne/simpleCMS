@@ -45,7 +45,7 @@
                   extract($news);
   
                   //Get the name of the author
-                  $authorData = array_search($authorID, array_column($users, 'id'));
+                  $authorData = array_search($authorId, array_column($users, 'id'));
   
                   if($authorData !== FALSE)
                   {

@@ -9,8 +9,6 @@ use CodeIgniter\HTTP\RequestInterface;
 use CodeIgniter\HTTP\ResponseInterface;
 use Psr\Log\LoggerInterface;
 
-use App\Models\SettingsModel;
-
 /**
  * Class BaseController
  *
@@ -45,28 +43,29 @@ class BaseController extends Controller
 		
 	}
 
-	/**
-	 * Constructor.
-	 *
-	 * @param RequestInterface  $request
-	 * @param ResponseInterface $response
-	 * @param LoggerInterface   $logger
-	 */
-	
-	public function initController(RequestInterface $request, ResponseInterface $response, LoggerInterface $logger)
-	{
-		// Do Not Edit This Line
-		parent::initController($request, $response, $logger);
+    /**
+     * Be sure to declare properties for any property fetch you initialized.
+     * The creation of dynamic property is deprecated in PHP 8.2.
+     */
+    public $session;
+	public $cfg;
+	public $serverCfg;
+    /**
+     * @return void
+     */
+    public function initController(RequestInterface $request, ResponseInterface $response, LoggerInterface $logger)
+    {
+        // Do Not Edit This Line
+        parent::initController($request, $response, $logger);
 
 		//--------------------------------------------------------------------
 		// Preload any models, libraries, etc, here.
 		//--------------------------------------------------------------------
 		// E.g.: $this->session = \Config\Services::session();
 
+		$settingsModel = model('SettingsModel');
+
 		$this->session = \Config\Services::session();
-
-		$settingsModel = new SettingsModel();
-
 		$this->cfg = $settingsModel->getSettings();
 		$this->serverCfg = $settingsModel->getSettings(true);
 	}

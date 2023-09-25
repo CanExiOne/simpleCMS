@@ -181,8 +181,18 @@ class Profile extends BaseController
             {
                 $message = "Profil został pomyślnie zaktualizowany!";
 
+                $newSessionData = [
+                    'username' => $data['firstName'] . ' ' . $data['lastName'],
+                    'email' => $data['email']
+                ];
+    
+                $this->session->remove('username');
+                $this->session->remove('email');
+                $this->session->set($newSessionData);
+
                 return $this->response->setJSON(json_encode(['status' => 'success', 'csrf' => csrf_hash(), 'message' => $message]));
             }
+            
         } else if($validation->getErrors())
         {
             $errors = $validation->getErrors();

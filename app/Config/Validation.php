@@ -2,10 +2,11 @@
 
 namespace Config;
 
-use CodeIgniter\Validation\CreditCardRules;
-use CodeIgniter\Validation\FileRules;
-use CodeIgniter\Validation\FormatRules;
-use CodeIgniter\Validation\Rules;
+use CodeIgniter\Config\BaseConfig;
+use CodeIgniter\Validation\StrictRules\CreditCardRules;
+use CodeIgniter\Validation\StrictRules\FileRules;
+use CodeIgniter\Validation\StrictRules\FormatRules;
+use CodeIgniter\Validation\StrictRules\Rules;
 
 class Validation
 {
@@ -13,29 +14,29 @@ class Validation
 	// Setup
 	//--------------------------------------------------------------------
 
-	/**
-	 * Stores the classes that contain the
-	 * rules that are available.
-	 *
-	 * @var string[]
-	 */
-	public $ruleSets = [
-		Rules::class,
-		FormatRules::class,
-		FileRules::class,
-		CreditCardRules::class,
-	];
+    /**
+     * Stores the classes that contain the
+     * rules that are available.
+     *
+     * @var string[]
+     */
+    public array $ruleSets = [
+        Rules::class,
+        FormatRules::class,
+        FileRules::class,
+        CreditCardRules::class,
+    ];
 
-	/**
-	 * Specifies the views that are used to display the
-	 * errors.
-	 *
-	 * @var array<string, string>
-	 */
-	public $templates = [
-		'list'   => 'CodeIgniter\Validation\Views\list',
-		'single' => 'CodeIgniter\Validation\Views\single',
-	];
+    /**
+     * Specifies the views that are used to display the
+     * errors.
+     *
+     * @var array<string, string>
+     */
+    public array $templates = [
+        'list'   => 'CodeIgniter\Validation\Views\list',
+        'single' => 'CodeIgniter\Validation\Views\single',
+    ];
 
 	//--------------------------------------------------------------------
 	// Rules
@@ -77,6 +78,13 @@ class Validation
 	];
 
 	public $updateUser = [
+		'userId'	=> [
+			'rules' => 'required|integer',
+			'errors' => [
+				'required' => 'Wystąpił bład podczas edytowania profilu!',
+				'integer' => 'Wystąpił bład podczas edytowania profilu!',
+			],
+		],
 		'userFirstName' => [
 			'rules' => 'required|alpha_numeric_space|min_length[3]|max_length[60]',
 			'errors' => [
@@ -206,6 +214,13 @@ class Validation
 	];
 
 	public $editNews = [
+		'postId' => [
+			'rules' => 'required|integer',
+			'errors' => [
+				'required' => 'Nie znaleziono ID ogłoszenia, skontaktuj się z Administratorem.',
+				'integer' => 'Nieprawidłowe ID ogłoszenia, skontaktuj się z Administratorem.',
+			]
+		],
 		'title' => [
 			'rules' => 'required|min_length[5]|max_length[196]|is_unique[news.title,id,{postId}]',
 			'errors' => [
@@ -348,6 +363,13 @@ class Validation
 	];
 
 	public $updateProfile = [
+		'userId'	=> [
+			'rules' => 'required|integer',
+			'errors' => [
+				'required' => 'Wystąpił bład podczas edytowania profilu!',
+				'integer' => 'Wystąpił bład podczas edytowania profilu!',
+			],
+		],
 		'firstName' => [
 			'rules' => 'required|alpha_numeric_space|min_length[3]|max_length[60]',
 			'errors' => [

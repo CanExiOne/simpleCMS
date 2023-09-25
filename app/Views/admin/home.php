@@ -47,13 +47,13 @@
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="/admin/gallery" class="nav-link">
+                <a href="<?=base_url('/admin/gallery')?>" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Albumy</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="/admin/gallery/new" class="nav-link">
+                <a href="<?=base_url('/admin/gallery/new')?>" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Nowy Album</p>
                 </a>
@@ -148,7 +148,7 @@
                 <div class="icon">
                     <i class="fas fa-images"></i>
                 </div>
-                <a href="#" class="small-box-footer">
+                <a href="<?=base_url('/admin/gallery')?>" class="small-box-footer">
                     Sprawdź <i class="fas fa-arrow-circle-right"></i>
                 </a>
             </div>
@@ -163,7 +163,7 @@
                 <div class="icon">
                     <i class="fas fa-image"></i>
                 </div>
-                <a href="#" class="small-box-footer">
+                <a href="<?=base_url('/admin/gallery')?>" class="small-box-footer">
                     Sprawdź <i class="fas fa-arrow-circle-right"></i>
                 </a>
             </div>
