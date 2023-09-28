@@ -37,7 +37,7 @@
   <link href="<?=env('app.baseURL')?>/assets/css/custom.css" rel="stylesheet">
 </head>
 
-<body>
+<body class="min-vh-100 d-flex flex-column">
 
   <!-- ======= Header ======= -->
   <header id="header" class="fixed-top d-flex align-items-center <?php if($_SERVER['REQUEST_URI'] === '/') {echo('header-transparent');}?>">

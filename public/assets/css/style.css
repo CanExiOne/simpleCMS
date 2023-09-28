@@ -95,6 +95,7 @@ h1, h2, h3, h4, h5, h6, .font-primary {
 
 #main {
   margin-top: 80px;
+  flex: 1 1 auto;
 }
 
 /*--------------------------------------------------------------
@@ -1124,6 +1125,7 @@ section {
 --------------------------------------------------------------*/
 .portfolio {
   padding-bottom: 60px;
+  margin-bottom: 60px;
 }
 .portfolio #portfolio-flters {
   padding: 0;
