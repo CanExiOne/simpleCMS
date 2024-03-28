@@ -1,3 +1,3 @@
 # SimpleCMS
 
-Very simple CMS for your website, can be easily integrated to your page template.
+This software is not actively maintained as is not intended for general use.
